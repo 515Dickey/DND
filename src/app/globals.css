@@ -1,0 +1,506 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Parchment theme
+   Two palettes: "day" (aged paper under good light) and "candle" (a dimmed,
+   warm variant for playing at night without blinding the table).
+   ========================================================================== */
+
+:root {
+  --paper-hi: #f6ecd4;
+  --paper: #ebdcba;
+  --paper-lo: #dcc79c;
+  --paper-edge: #c9ae7c;
+
+  --ink: #241c14;
+  --ink-soft: #57452f;
+  --ink-faint: #8b7551;
+
+  --accent: #7b2d26;
+  --accent-soft: #9a4238;
+  --accent-deep: #521c17;
+
+  --rule: #b09468;
+  --rule-strong: #8a7048;
+
+  --good: #3f6136;
+  --warn: #96601a;
+  --bad: #8e2b20;
+
+  --shadow: rgba(70, 50, 25, 0.28);
+  --noise-opacity: 0.78;
+  --blotch-opacity: 1;
+
+  --font-display: var(--font-cinzel), "Palatino Linotype", Georgia, serif;
+  --font-body: var(--font-garamond), "Palatino Linotype", Georgia, serif;
+}
+
+[data-theme="candle"] {
+  --paper-hi: #3a2f21;
+  --paper: #2e251a;
+  --paper-lo: #241d14;
+  --paper-edge: #4a3c28;
+
+  --ink: #e6d6b0;
+  --ink-soft: #bda878;
+  --ink-faint: #8f7d55;
+
+  --accent: #c9705c;
+  --accent-soft: #d98a72;
+  --accent-deep: #a4523f;
+
+  --rule: #5c4a30;
+  --rule-strong: #7a6440;
+
+  --good: #86b073;
+  --warn: #d6a44f;
+  --bad: #d97b6b;
+
+  --shadow: rgba(0, 0, 0, 0.5);
+  --noise-opacity: 0.3;
+  --blotch-opacity: 0.45;
+}
+
+@theme inline {
+  --color-paper-hi: var(--paper-hi);
+  --color-paper: var(--paper);
+  --color-paper-lo: var(--paper-lo);
+  --color-paper-edge: var(--paper-edge);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-deep: var(--accent-deep);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-good: var(--good);
+  --color-warn: var(--warn);
+  --color-bad: var(--bad);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  background: var(--paper-lo);
+  /* Keep the sheet from bouncing around on iPad when a field is focused. */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  position: relative;
+  min-height: 100dvh;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.45;
+  background-color: var(--paper);
+  /* Soft irregular stains, deliberately off-grid so no tiling is obvious. */
+  background-image:
+    radial-gradient(ellipse 38% 26% at 14% 9%, rgba(151, 108, 47, 0.3), transparent 68%),
+    radial-gradient(ellipse 30% 20% at 86% 18%, rgba(133, 92, 38, 0.26), transparent 70%),
+    radial-gradient(ellipse 45% 30% at 31% 84%, rgba(143, 101, 44, 0.24), transparent 72%),
+    radial-gradient(ellipse 26% 18% at 71% 58%, rgba(120, 82, 34, 0.2), transparent 70%),
+    radial-gradient(ellipse 20% 14% at 54% 33%, rgba(128, 90, 40, 0.16), transparent 72%),
+    radial-gradient(ellipse 22% 30% at 95% 72%, rgba(126, 88, 38, 0.22), transparent 70%),
+    radial-gradient(ellipse 18% 22% at 4% 52%, rgba(126, 88, 38, 0.2), transparent 72%),
+    linear-gradient(163deg, var(--paper-hi) 0%, var(--paper) 42%, var(--paper-lo) 100%);
+  background-attachment: fixed;
+}
+
+/*
+ * Two turbulence layers do the heavy lifting: a low-frequency one for the
+ * cloudy thickness variation you see when parchment is held to the light, and
+ * a high-frequency one for fibre grain.
+ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: multiply;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='0.3'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.55'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23c)'/%3E%3C/svg%3E");
+  background-size:
+    180px 180px,
+    700px 700px;
+}
+
+/* Darkened, worn edges. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--blotch-opacity);
+  background: radial-gradient(
+    ellipse 120% 120% at 50% 50%,
+    transparent 55%,
+    rgba(90, 65, 30, 0.16) 85%,
+    rgba(70, 48, 20, 0.3) 100%
+  );
+}
+
+[data-theme="candle"] body::after {
+  background: radial-gradient(
+    ellipse 110% 110% at 50% 45%,
+    rgba(255, 200, 120, 0.06) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+#app-root {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Type ---------------------------------------------------------------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.formula {
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* --- Panels -------------------------------------------------------------- */
+
+.panel {
+  position: relative;
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  /* Lighter than the page so boxes lift off it like a printed form. */
+  background: linear-gradient(
+    168deg,
+    rgba(255, 251, 238, 0.62),
+    rgba(255, 248, 230, 0.34) 55%,
+    rgba(196, 165, 113, 0.14)
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 252, 240, 0.7) inset,
+    0 3px 10px var(--shadow);
+}
+
+[data-theme="candle"] .panel {
+  background: linear-gradient(
+    168deg,
+    rgba(255, 225, 175, 0.09),
+    rgba(0, 0, 0, 0.16)
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 225, 175, 0.08) inset,
+    0 3px 10px var(--shadow);
+}
+
+/* The thin inner rule that gives 3e boxes their double-lined look. */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.panel-body {
+  position: relative;
+  padding: 0.85rem 0.9rem 0.95rem;
+}
+
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.panel-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--rule), transparent);
+}
+
+/* --- Inputs -------------------------------------------------------------- */
+
+.ink-field {
+  width: 100%;
+  background: rgba(255, 250, 235, 0.3);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 0.45rem 0.55rem;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  min-height: 42px;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+[data-theme="candle"] .ink-field {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.ink-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 252, 240, 0.55);
+  box-shadow: 0 0 0 2px rgba(123, 45, 38, 0.15);
+}
+
+[data-theme="candle"] .ink-field:focus {
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(201, 112, 92, 0.25);
+}
+
+.ink-field::placeholder {
+  color: var(--ink-faint);
+  opacity: 0.6;
+}
+
+textarea.ink-field {
+  min-height: 90px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+/* Numeric fields read better centred and in the display face. */
+.num-field {
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Strip the spinner arrows -- they're unusable on touch. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* --- Buttons ------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 42px;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 250, 235, 0.5),
+    rgba(190, 160, 110, 0.16)
+  );
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 80ms ease, box-shadow 120ms ease, background 120ms ease;
+  box-shadow: 0 1px 2px var(--shadow);
+}
+
+[data-theme="candle"] .btn {
+  background: linear-gradient(180deg, rgba(255, 220, 170, 0.12), rgba(0, 0, 0, 0.2));
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+  border-color: var(--accent-deep);
+  color: #f8efd8;
+}
+
+[data-theme="candle"] .btn-primary {
+  color: #241c14;
+}
+
+.btn-danger {
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+.btn-sm {
+  min-height: 34px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.62rem;
+}
+
+.btn-icon {
+  min-height: 38px;
+  min-width: 38px;
+  padding: 0.25rem;
+}
+
+/* --- Toggles / checkboxes ------------------------------------------------ */
+
+/* The little proficiency dot from the printed sheet. */
+.prof-dot {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 999px;
+  border: 1.5px solid var(--rule-strong);
+  background: rgba(255, 250, 235, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  /* overridden per-theme below */
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: transparent;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+[data-theme="candle"] .prof-dot {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.prof-dot[data-level="prof"] {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.prof-dot[data-level="expertise"] {
+  background: var(--accent);
+  border-color: var(--accent-deep);
+  color: #f8efd8;
+}
+
+.prof-dot[data-level="half"] {
+  background: linear-gradient(
+    90deg,
+    var(--ink) 0 50%,
+    transparent 50% 100%
+  );
+  border-color: var(--ink-soft);
+}
+
+/* --- Stat boxes ---------------------------------------------------------- */
+
+.stat-box {
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  background: linear-gradient(
+    170deg,
+    rgba(255, 250, 235, 0.42),
+    rgba(190, 160, 110, 0.1)
+  );
+  box-shadow: 0 1px 3px var(--shadow);
+  text-align: center;
+  padding: 0.5rem 0.35rem;
+}
+
+[data-theme="candle"] .stat-box {
+  background: linear-gradient(170deg, rgba(255, 225, 175, 0.07), rgba(0, 0, 0, 0.22));
+}
+
+/* --- Sheet header -------------------------------------------------------- */
+
+.sheet-header {
+  border-color: var(--rule-strong);
+  background: linear-gradient(
+    180deg,
+    rgba(240, 228, 200, 0.95),
+    rgba(230, 215, 182, 0.9)
+  );
+}
+
+[data-theme="candle"] .sheet-header {
+  background: linear-gradient(180deg, rgba(38, 30, 21, 0.96), rgba(30, 24, 16, 0.92));
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  line-height: 1;
+}
+
+/* --- Misc ---------------------------------------------------------------- */
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rule), transparent);
+  border: 0;
+}
+
+.overridden-mark {
+  color: var(--accent);
+}
+
+/* Respect users who've asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hide scrollbars on the tab strip while keeping it scrollable. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Keep content clear of the iPad home indicator and notch. */
+.safe-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
