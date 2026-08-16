@@ -29,6 +29,16 @@ export const metadata: Metadata = {
     title: "D&D&D",
     statusBarStyle: "default",
   },
+  // iPadOS ignores the web manifest's icons for "Add to Home Screen" and looks
+  // for apple-touch-icon; without it the home screen gets a screenshot.
+  icons: {
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/icon-192.png"],
+  },
 };
 
 export const viewport: Viewport = {
