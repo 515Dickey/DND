@@ -62,6 +62,8 @@ function StatRow({
 }) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState(derived.value);
+  // Flags the row when something beyond the plain formula is in play.
+  const adjusted = misc !== 0 || derived.overridden;
 
   return (
     <div className="border-b last:border-0" style={{ borderColor: "var(--rule)" }}>
@@ -88,13 +90,30 @@ function StatRow({
             setDraft(derived.value);
             setOpen((o) => !o);
           }}
-          className={`stat-value min-w-11 rounded px-1.5 py-0.5 text-lg ${
-            derived.overridden ? "overridden-mark" : ""
-          }`}
+          className="flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5"
           style={{ background: open ? "rgba(123,45,38,0.1)" : "transparent" }}
           aria-expanded={open}
+          aria-label={`${name} bonus ${signed(derived.value)}. Tap to add a modifier.`}
+          title="Tap to add a misc modifier or pin a total"
         >
-          {signed(derived.value)}
+          <span
+            className={`stat-value min-w-9 text-right text-lg ${
+              derived.overridden ? "overridden-mark" : ""
+            }`}
+          >
+            {signed(derived.value)}
+          </span>
+          {/* A visible affordance -- the modifier field is otherwise invisible. */}
+          <span
+            className="text-[0.6rem] leading-none"
+            style={{
+              color: adjusted ? "var(--accent)" : "var(--ink-faint)",
+              opacity: adjusted ? 1 : 0.55,
+            }}
+            aria-hidden="true"
+          >
+            {open ? "▲" : "▼"}
+          </span>
         </button>
       </div>
 
@@ -279,6 +298,9 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
               />
             ))}
           </div>
+          <p className="formula mt-2">
+            Tap any bonus ▼ to add a modifier, such as a cloak of protection.
+          </p>
         </Panel>
       </div>
 
@@ -306,6 +328,9 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
           </div>
           <p className="formula mt-2">
             ● proficient · ★ expertise · half-filled means half proficiency.
+          </p>
+          <p className="formula">
+            Tap any bonus ▼ to add a modifier from gear, a spell, or a feat.
           </p>
         </Panel>
 
@@ -336,37 +361,46 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
             </button>
           }
         >
+          {/*
+            Sizing lives on the wrapper divs, not the inputs: .ink-field sets
+            width:100% from an unlayered rule, which outranks Tailwind's layered
+            width utilities and would otherwise collapse the value field.
+          */}
           <div className="space-y-2">
             {c.proficiencies.map((group) => (
-              <div key={group.id} className="flex items-center gap-2">
-                <input
-                  className="ink-field w-28 shrink-0"
-                  value={group.label}
-                  placeholder="Category"
-                  aria-label="Proficiency category"
-                  onChange={(e) =>
-                    mut((d) => ({
-                      ...d,
-                      proficiencies: d.proficiencies.map((x) =>
-                        x.id === group.id ? { ...x, label: e.target.value } : x,
-                      ),
-                    }))
-                  }
-                />
-                <input
-                  className="ink-field min-w-0 flex-1"
-                  value={group.value}
-                  placeholder={PROFICIENCY_HINTS[group.label] ?? "…"}
-                  aria-label={`${group.label || "Category"} proficiencies`}
-                  onChange={(e) =>
-                    mut((d) => ({
-                      ...d,
-                      proficiencies: d.proficiencies.map((x) =>
-                        x.id === group.id ? { ...x, value: e.target.value } : x,
-                      ),
-                    }))
-                  }
-                />
+              <div key={group.id} className="flex flex-wrap items-center gap-2">
+                <div className="w-28 shrink-0">
+                  <input
+                    className="ink-field"
+                    value={group.label}
+                    placeholder="Category"
+                    aria-label="Proficiency category"
+                    onChange={(e) =>
+                      mut((d) => ({
+                        ...d,
+                        proficiencies: d.proficiencies.map((x) =>
+                          x.id === group.id ? { ...x, label: e.target.value } : x,
+                        ),
+                      }))
+                    }
+                  />
+                </div>
+                <div className="min-w-[8rem] flex-1">
+                  <input
+                    className="ink-field"
+                    value={group.value}
+                    placeholder={PROFICIENCY_HINTS[group.label] ?? "…"}
+                    aria-label={`${group.label || "Category"} proficiencies`}
+                    onChange={(e) =>
+                      mut((d) => ({
+                        ...d,
+                        proficiencies: d.proficiencies.map((x) =>
+                          x.id === group.id ? { ...x, value: e.target.value } : x,
+                        ),
+                      }))
+                    }
+                  />
+                </div>
                 <ConfirmButton
                   className="btn btn-sm btn-danger shrink-0"
                   confirmLabel="✓"
