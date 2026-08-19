@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useStore } from "@/lib/store";
 import { characterSummary, abilityLine, maxHp } from "@/lib/rules";
-import { exportAll, exportCharacter, parseImport } from "@/lib/storage";
+import {
+  exportAll,
+  exportCharacter,
+  getLastFullBackup,
+  parseImport,
+} from "@/lib/storage";
+import { StorageNotice, StorageStatusLine } from "@/components/StorageNotice";
 import { ConfirmButton, Empty, Panel } from "@/components/ui";
 import { ThemeToggle } from "@/components/Theme";
 
@@ -14,6 +20,7 @@ export default function RosterPage() {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [lastBackup, setLastBackup] = useState<Date | null>(null);
 
   // Drop straight into the new sheet -- nobody makes a character to admire the list.
   const handleCreate = () => {
@@ -34,6 +41,11 @@ export default function RosterPage() {
     );
   };
 
+  const effectiveBackup = lastBackup ?? getLastFullBackup();
+  const backupLabel = effectiveBackup
+    ? "Last full backup " + describeAge(effectiveBackup) + "."
+    : "No full backup taken on this device yet.";
+
   return (
     <main className="mx-auto max-w-5xl px-4 pb-16 pt-8">
       <header className="mb-8 flex items-start justify-between gap-4">
@@ -48,6 +60,8 @@ export default function RosterPage() {
         </div>
         <ThemeToggle />
       </header>
+
+      <StorageNotice hasCharacters={characters.length > 0} />
 
       {saveError && (
         <div
@@ -77,7 +91,10 @@ export default function RosterPage() {
         <button
           className="btn"
           disabled={characters.length === 0}
-          onClick={() => exportAll(characters)}
+          onClick={() => {
+            exportAll(characters);
+            setLastBackup(new Date());
+          }}
         >
           Back up all
         </button>
@@ -143,6 +160,22 @@ export default function RosterPage() {
         Clearing site data will erase your characters, so export a backup now and
         then.
       </p>
+      <p className="formula mt-1 text-center">
+        <StorageStatusLine />
+        {characters.length > 0 && (
+          <>{" · " + backupLabel}</>
+        )}
+      </p>
     </main>
   );
+}
+
+/** Plain-language age, so a stale backup is obvious at a glance. */
+function describeAge(d: Date): string {
+  const days = Math.floor((Date.now() - d.getTime()) / 86400000);
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 30) return days + " days ago";
+  const months = Math.floor(days / 30);
+  return months === 1 ? "about a month ago" : "about " + months + " months ago";
 }

@@ -61,6 +61,7 @@ export function exportAll(characters: Character[]) {
   };
   const stamp = new Date().toISOString().slice(0, 10);
   download(`character-backup-${stamp}.json`, JSON.stringify(payload, null, 2));
+  markFullBackup();
 }
 
 function download(filename: string, text: string) {
@@ -96,5 +97,31 @@ export function parseImport(text: string): ImportResult {
     return { characters: [], error: "That file doesn't look like a character export." };
   } catch {
     return { characters: [], error: "That file isn't valid JSON." };
+  }
+}
+
+// --- Backup reminders ----------------------------------------------------
+
+const BACKUP_KEY = "parchment.lastFullBackup";
+
+/** Records that the player took a full backup, for the reminder on the roster. */
+export function markFullBackup() {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(BACKUP_KEY, new Date().toISOString());
+  } catch {
+    // A failed note is not worth interrupting the download for.
+  }
+}
+
+export function getLastFullBackup(): Date | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(BACKUP_KEY);
+    if (!raw) return null;
+    const d = new Date(raw);
+    return Number.isNaN(d.getTime()) ? null : d;
+  } catch {
+    return null;
   }
 }

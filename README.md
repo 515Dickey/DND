@@ -54,6 +54,22 @@ The moon/sun button switches between **daylight** and **candlelight**. Candlelig
 is a dimmed, warm version of the same parchment — much easier on everyone at a
 night session.
 
+### Add it to the home screen — this one matters
+
+On iPad and iPhone, Safari deletes a site's localStorage after **seven days of
+Safari use without visiting that site**. For a group that plays every other
+weekend, that is inside the danger window, and it would take every character
+with it.
+
+Web apps launched from the **home screen are exempt** from that deletion, so
+"Add to Home Screen" is not a nicety here — it is the thing that protects the
+data. The app also calls `navigator.storage.persist()` on load, and warns you on
+the character list if the browser declined to mark the data permanent.
+
+Windows, Android, and desktop Chrome have no such timer. There, data is only
+evicted when the disk is genuinely under pressure, least-recently-used origin
+first, and origins granted persistence are skipped entirely.
+
 ### Backups matter
 
 Characters live in this browser's local storage. That means:
