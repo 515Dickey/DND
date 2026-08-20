@@ -10,6 +10,8 @@ import type { Character } from "@/lib/types";
 import {
   applyClass,
   applySpecies,
+  backfillDescriptions,
+  countMissingText,
   loadSrd,
   skillChoicesFromTrait,
   SRD_ATTRIBUTION,
@@ -101,6 +103,7 @@ export function SrdPicker({
   const shownClass =
     className || (data && data.classes[firstWordOfClass] ? firstWordOfClass : "");
   const shownSpecies = speciesName || (data && data.species[c.race] ? c.race : "");
+  const missingText = countMissingText(c);
 
   // The skills this class may choose from, so the sheet can point them out.
   const chosen = data && shownClass ? data.classes[shownClass]?.traits : null;
@@ -191,6 +194,41 @@ export function SrdPicker({
             <p className="text-sm" style={{ color: "var(--good)" }}>
               Added — {note}
             </p>
+          )}
+
+          {/*
+            Characters built before the rules text shipped have entries with no
+            description. Offer to fill just that in, rather than making them
+            re-apply the whole class and lose any uses they'd spent.
+          */}
+          {missingText > 0 && (
+            <div
+              className="rounded border px-2.5 py-2"
+              style={{ borderColor: "var(--warn)" }}
+            >
+              <p className="text-sm">
+                {missingText} entr{missingText === 1 ? "y has" : "ies have"} no rules
+                text — they were added before the sheet carried it.
+              </p>
+              <button
+                className="btn btn-sm mt-2"
+                onClick={() => {
+                  let filled = 0;
+                  mut((draft) => {
+                    const result = backfillDescriptions(draft, data);
+                    filled = result.filled;
+                    return { ...draft, features: result.features };
+                  });
+                  setNote(
+                    filled
+                      ? `filled in ${filled} description${filled === 1 ? "" : "s"}`
+                      : "nothing left to fill in",
+                  );
+                }}
+              >
+                Fill in the missing text
+              </button>
+            </div>
           )}
 
           <p className="formula">

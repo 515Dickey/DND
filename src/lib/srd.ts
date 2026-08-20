@@ -73,9 +73,9 @@ export function toFeatEntry(feat: SrdFeat): FeatureEntry {
       ? `${feat.category} feat · ${feat.prerequisite}`
       : `${feat.category} feat`,
     detail: feat.text,
-    usesMax: 0,
+    usesMax: inferUses(feat.text)?.uses ?? 0,
     usesSpent: 0,
-    recharge: "none",
+    recharge: inferUses(feat.text)?.recharge ?? "none",
     group: "Feats",
     source: featSource(feat.name),
   };
@@ -188,6 +188,52 @@ export function toSpellEntry(spell: SrdSpell): SpellEntry {
   };
 }
 
+/**
+ * Counts entries that came from the rules but have no rules text. This happens
+ * to characters built before descriptions shipped: the entry is real, its text
+ * simply never existed. Nothing else about them is wrong.
+ */
+export function countMissingText(c: Character): number {
+  return c.features.filter(
+    (f) => f.source.startsWith("srd:") && !f.detail.trim(),
+  ).length;
+}
+
+/**
+ * Fills in only the missing rules text, leaving names, uses, sections and
+ * anything hand-edited exactly as they are. Deliberately surgical: a full
+ * re-apply would reset spent uses, which mid-session would be rude.
+ */
+export function backfillDescriptions(
+  c: Character,
+  data: SrdData,
+): { features: FeatureEntry[]; filled: number } {
+  let filled = 0;
+  const features = c.features.map((f) => {
+    if (!f.source.startsWith("srd:") || f.detail.trim()) return f;
+
+    let text = "";
+    if (f.source.startsWith("srd:class:")) {
+      const cls = data.classes[f.source.slice("srd:class:".length)];
+      if (cls) text = describeFeature(cls, f.name);
+    } else if (f.source.startsWith("srd:species:")) {
+      const sp = data.species[f.source.slice("srd:species:".length)];
+      text = sp?.traits.find((t) => t.name === f.name)?.text ?? "";
+    } else if (f.source.startsWith("srd:feat:")) {
+      text = data.feats?.find((x) => x.name === f.name)?.text ?? "";
+    }
+
+    if (!text) return f;
+    filled += 1;
+    // Filling the text can also settle the uses, for anything once-per-rest.
+    const inferred = f.usesMax === 0 ? inferUses(text) : null;
+    return inferred
+      ? { ...f, detail: text, usesMax: inferred.uses, recharge: inferred.recharge }
+      : { ...f, detail: text };
+  });
+  return { features, filled };
+}
+
 export function classSource(className: string) {
   return `srd:class:${className}`;
 }
@@ -282,6 +328,24 @@ const RECHARGE_BY_FEATURE: Record<string, Recharge> = {
 
 /** Names that describe a choice rather than a feature worth its own row. */
 const SKIP_FEATURES = [/^Ability Score Improvement$/i, /^Subclass feature$/i];
+
+/**
+ * Some features are once-per-rest and say so only in their prose, never in a
+ * table column -- Arcane Recovery, Indomitable, Relentless Endurance. Without
+ * this they arrive with a recharge but no uses, so the recharge does nothing
+ * and there is no box to tick when you spend them.
+ *
+ * Both standard phrasings are matched: "can't use it again until you finish a
+ * Long Rest" and "can't do so again until...".
+ */
+const SINGLE_USE =
+  /can.?t (?:use (?:it|this [a-z]+)|do so) again until you finish a (Short|Long) Rest/i;
+
+function inferUses(text: string): { uses: number; recharge: Recharge } | null {
+  const m = text.match(SINGLE_USE);
+  if (!m) return null;
+  return { uses: 1, recharge: m[1].toLowerCase() === "short" ? "short" : "long" };
+}
 
 /**
  * Some features count their uses in a numbered column of the class table
@@ -410,6 +474,15 @@ export function applyClass(
     }
   }
 
+  // Anything still showing no uses may say "once per rest" in its own text.
+  for (const entry of added) {
+    if (entry.usesMax > 0) continue;
+    const inferred = inferUses(entry.detail);
+    if (!inferred) continue;
+    entry.usesMax = inferred.uses;
+    entry.recharge = inferred.recharge;
+  }
+
   patch.features = [...kept, ...added];
   if (added.length) summary.push(`${added.length} class features`);
 
@@ -477,9 +550,10 @@ export function applySpecies(
     name: t.name,
     note: name,
     detail: t.text,
-    usesMax: 0,
+    usesMax: inferUses(t.text)?.uses ?? 0,
     usesSpent: 0,
-    recharge: RECHARGE_BY_FEATURE[t.name] ?? "none",
+    recharge:
+      inferUses(t.text)?.recharge ?? RECHARGE_BY_FEATURE[t.name] ?? "none",
     group: "Species",
     source: src,
   }));
