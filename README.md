@@ -74,6 +74,10 @@ committing, then Add — the spell arrives with its casting time, range,
 components, duration, and full rules text, already flagged for concentration
 and ritual. Cantrips arrive prepared, since they always are.
 
+On the Notes tab, **Feats** lists the SRD's seventeen feats by category with
+their prerequisites and full text. Added feats land in a Feats section of your
+features list.
+
 The sheet won't pick your skills for you. It tells you how many to choose and
 from which list, and leaves the ticking to you.
 

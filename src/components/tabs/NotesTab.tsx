@@ -19,6 +19,7 @@ import {
   Select,
   TextArea,
 } from "@/components/ui";
+import { FeatBrowser } from "@/components/FeatBrowser";
 import type { SheetProps } from "./shared";
 
 function todayISO(): string {
@@ -151,6 +152,7 @@ function FeatureRow({
 export function NotesTab({ c, set, mut }: SheetProps) {
   const journal = [...c.journal].sort((a, b) => b.date.localeCompare(a.date));
   const [openFeature, setOpenFeature] = useState<string | null>(null);
+  const [browsingFeats, setBrowsingFeats] = useState(false);
   const active = c.features.find((f) => f.id === openFeature) ?? null;
 
   const patchFeature = (id: string, patch: Partial<FeatureEntry>) =>
@@ -165,6 +167,10 @@ export function NotesTab({ c, set, mut }: SheetProps) {
         <Panel
           title="Features & Traits"
           action={
+            <span className="flex gap-1.5">
+            <button className="btn btn-sm" onClick={() => setBrowsingFeats(true)}>
+              Feats
+            </button>
             <button
               className="btn btn-sm"
               onClick={() => {
@@ -186,6 +192,7 @@ export function NotesTab({ c, set, mut }: SheetProps) {
             >
               + Add
             </button>
+            </span>
           }
         >
           {c.features.length === 0 ? (
@@ -389,6 +396,10 @@ export function NotesTab({ c, set, mut }: SheetProps) {
           </p>
         </Panel>
       </div>
+
+      {browsingFeats && (
+        <FeatBrowser c={c} mut={mut} onClose={() => setBrowsingFeats(false)} />
+      )}
 
       {active && (
         <Modal

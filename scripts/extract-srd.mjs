@@ -289,6 +289,72 @@ function isPageFurniture(line) {
 }
 
 /**
+ * Feats read:
+ *   <Name>
+ *   Origin Feat                              (category only)
+ *   General Feat (Prerequisite: Level 4+)    (category and prerequisite)
+ *   <benefit text>
+ *
+ * The prerequisite wraps often enough that the category line has to be joined
+ * until its bracket closes.
+ */
+function parseFeats() {
+  const descAt = findLine(/^Feat Descriptions$/);
+  if (descAt < 0) return [];
+  const startRaw = findLine(/^Origin Feats$/, descAt);
+  if (startRaw < 0) return [];
+  const endRaw = findLine(/^Equipment$/, startRaw);
+
+  const text = lines
+    .slice(startRaw, endRaw > startRaw ? endRaw : lines.length)
+    .filter((l) => !isPageFurniture(l));
+
+  const ANCHOR = /^(Origin|General|Fighting Style|Epic Boon) Feat\b/;
+  const HEADING = /^(Origin|General|Fighting Style|Epic Boon) Feats$/;
+
+  const marks = [];
+  for (let i = 1; i < text.length; i++) {
+    if (HEADING.test(text[i]) || !ANCHOR.test(text[i])) continue;
+    marks.push({ nameAt: i - 1, anchorAt: i });
+  }
+
+  const feats = [];
+  marks.forEach((mark, idx) => {
+    const stop = idx + 1 < marks.length ? marks[idx + 1].nameAt : text.length;
+
+    let anchor = text[mark.anchorAt];
+    let cursor = mark.anchorAt;
+    // Join a wrapped prerequisite until the bracket closes.
+    while (anchor.includes("(") && !anchor.includes(")") && cursor + 1 < stop) {
+      cursor += 1;
+      anchor += " " + text[cursor].trim();
+    }
+
+    const m = anchor.match(
+      /^(Origin|General|Fighting Style|Epic Boon) Feat(?:\s*\(Prerequisite:\s*([^)]*)\))?/,
+    );
+    if (!m) return;
+
+    const name = dehyphenate(text[mark.nameAt]);
+    if (!name || HEADING.test(name)) return;
+
+    const body = [];
+    for (let i = cursor + 1; i < stop; i++) {
+      if (text[i].trim()) body.push(text[i].trim());
+    }
+
+    feats.push({
+      name,
+      category: m[1],
+      prerequisite: m[2] ? dehyphenate(m[2]) : "",
+      text: dehyphenate(body.join(" ")),
+    });
+  });
+
+  return feats;
+}
+
+/**
  * Spell entries run:
  *   <Name>
  *   Level 3 Evocation (Sorcerer, Wizard)   |   Evocation Cantrip (Wizard)
@@ -404,6 +470,7 @@ const out = {
   license: "CC-BY-4.0",
   classes: {},
   species: parseSpecies(),
+  feats: parseFeats(),
 };
 
 const spellData = {

@@ -45,11 +45,40 @@ export interface SrdSpecies {
   traits: SrdSpeciesTrait[];
 }
 
+export interface SrdFeat {
+  name: string;
+  category: string;
+  prerequisite: string;
+  text: string;
+}
+
 export interface SrdData {
   source: string;
   license: string;
   classes: Record<string, SrdClass>;
   species: Record<string, SrdSpecies>;
+  feats: SrdFeat[];
+}
+
+export function featSource(name: string) {
+  return `srd:feat:${name}`;
+}
+
+/** Turns a feat into a sheet entry, filed under the Feats section. */
+export function toFeatEntry(feat: SrdFeat): FeatureEntry {
+  return {
+    id: newId(),
+    name: feat.name,
+    note: feat.prerequisite
+      ? `${feat.category} feat · ${feat.prerequisite}`
+      : `${feat.category} feat`,
+    detail: feat.text,
+    usesMax: 0,
+    usesSpent: 0,
+    recharge: "none",
+    group: "Feats",
+    source: featSource(feat.name),
+  };
 }
 
 /** The attribution CC-BY-4.0 requires us to show. */
