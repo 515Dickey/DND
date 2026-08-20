@@ -158,11 +158,12 @@ Fonts are Cinzel and EB Garamond, self-hosted through `next/font`. The parchment
 texture is generated in CSS with layered gradients and SVG turbulence, so there
 are no image assets to load.
 
-## Adding SRD content later
+## SRD content
 
-This version is a *smart sheet*: it does all the math but you type in your own
-class names, features, and spells, which means it works with homebrew and any
-sourcebook. A future version could add dropdowns backed by the 5e SRD 5.1
-(available under CC-BY-4.0) to auto-fill hit dice, skill lists, and spell
-descriptions. The data model in `src/lib/types.ts` was written with that in
-mind — nothing would need to be thrown away.
+Classes, species, and spells come from the **SRD 5.2**, which covers the 2024
+rules and is published under CC-BY-4.0. See [NOTICE.md](NOTICE.md) for the
+attribution and for how to regenerate the data from the source PDF.
+
+Feats and equipment aren't in yet. Everything remains free text underneath, so
+homebrew and anything outside the SRD works exactly as it always did — the rules
+data fills fields in, it never restricts them.
