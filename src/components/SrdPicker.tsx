@@ -10,6 +10,7 @@ import type { Character } from "@/lib/types";
 import {
   applyClass,
   applySpecies,
+  applySubclass,
   backfillDescriptions,
   countMissingText,
   loadSrd,
@@ -82,6 +83,18 @@ export function SrdPicker({
     setNote(`${shownClass} ${classLevel}: ${summary.join(" · ")}`);
   };
 
+  const doApplySubclass = async () => {
+    const d = await ensureData();
+    if (!d || !shownClass) return;
+    let summary: string[] = [];
+    mut((draft) => {
+      const result = applySubclass(draft, d, shownClass, classLevel);
+      summary = result.summary;
+      return { ...draft, ...result.patch };
+    });
+    setNote(summary.join(" · "));
+  };
+
   const doApplySpecies = async () => {
     const d = await ensureData();
     if (!d || !shownSpecies) return;
@@ -104,6 +117,7 @@ export function SrdPicker({
     className || (data && data.classes[firstWordOfClass] ? firstWordOfClass : "");
   const shownSpecies = speciesName || (data && data.species[c.race] ? c.race : "");
   const missingText = countMissingText(c);
+  const subclass = data && shownClass ? data.classes[shownClass]?.subclass : null;
 
   // The skills this class may choose from, so the sheet can point them out.
   const chosen = data && shownClass ? data.classes[shownClass]?.traits : null;
@@ -168,6 +182,28 @@ export function SrdPicker({
                     .join(", ")}
               . Tick them yourself — the sheet won&apos;t guess which you picked.
             </p>
+          )}
+
+          {/*
+            The subclass is a separate choice made at level 3, and the SRD
+            publishes only one per class -- so it's offered rather than assumed.
+          */}
+          {subclass && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="min-w-0 flex-1 text-sm">
+                {shownClass} subclass: <strong>{subclass.name}</strong>
+                {classLevel < 3 && (
+                  <span className="formula"> — chosen at level 3</span>
+                )}
+              </span>
+              <button
+                className="btn"
+                disabled={classLevel < 3}
+                onClick={doApplySubclass}
+              >
+                Apply
+              </button>
+            </div>
           )}
 
           <div className="flex flex-wrap items-end gap-2">

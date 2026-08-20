@@ -209,6 +209,72 @@ function parseFeatureDescriptions(className) {
 }
 
 /**
+ * The one subclass each class gets in the SRD, and the features it grants.
+ *
+ * The heading is "<Class> Subclass: <Name>", but the name wraps three different
+ * ways: entirely on the heading line (Champion), entirely on the next line
+ * (Path of the Berserker), or split across both (Warrior of the / Open Hand).
+ * A tagline follows the name, so the join has to stop before it.
+ */
+function parseSubclass(className) {
+  // Start inside the class's own chapter. Searching from the top finds the
+  // table of contents instead, whose entries carry dot leaders and page
+  // numbers and no features at all.
+  const chapter = findLine(new RegExp("^Core " + className + " Traits$"));
+  if (chapter < 0) return null;
+  const at = findLine(new RegExp("^" + className + " Subclass:"), chapter);
+  if (at < 0) return null;
+
+  const first = lines[at].replace(new RegExp("^" + className + " Subclass:"), "").trim();
+  const next = (lines[at + 1] || "").trim();
+  const words = (s) => s.split(/\s+/).filter(Boolean).length;
+
+  let name = first;
+  let after = at + 1;
+  if (!first) {
+    // Name sits entirely on the following line.
+    name = next;
+    after = at + 2;
+  } else if (/\b(of|the|and|a|in)$/i.test(first)) {
+    // Obviously unfinished phrase, so the tail is on the next line.
+    name = first + " " + next;
+    after = at + 2;
+  } else if (words(first) === 1 && words(next) <= 2) {
+    // "Draconic" + "Sorcery". A tagline would be longer than two words.
+    name = first + " " + next;
+    after = at + 2;
+  }
+
+  // Bound the region. Most classes are followed by the next class's Core
+  // Traits, but Wizard is last -- without the chapter headings as fallbacks its
+  // final feature swallows everything that follows.
+  const end = findLine(
+    /^(Core [A-Z][a-z]+ Traits|Character Species|Character Origins|Feats|Equipment)$/,
+    at + 1,
+  );
+  const stop = end > at ? end : Math.min(at + 300, lines.length);
+
+  const features = [];
+  let current = null;
+  for (let i = after; i < stop; i++) {
+    const line = lines[i];
+    if (isPageFurniture(line)) continue;
+    const head = line.match(/^Level (\d+): (.+)$/);
+    if (head) {
+      current = { level: Number(head[1]), name: head[2].trim(), text: "" };
+      features.push(current);
+      continue;
+    }
+    if (current && line.trim()) current.text += " " + line.trim();
+  }
+
+  return {
+    name: dehyphenate(name),
+    features: features.map((f) => ({ ...f, text: dehyphenate(f.text) })),
+  };
+}
+
+/**
  * Species entries are laid out as a bare name line, then Creature Type / Size /
  * Speed, then one paragraph per special trait beginning "Trait Name. ".
  */
@@ -484,6 +550,7 @@ for (const name of CLASSES) {
     traits: parseCoreTraits(name),
     levels: parseFeatureTable(name),
     descriptions: parseFeatureDescriptions(name),
+    subclass: parseSubclass(name),
   };
 }
 
@@ -505,7 +572,20 @@ for (const name of CLASSES) {
   const strayDice = (c.levels || []).filter((l) =>
     l.features.some((f) => /(\d+d\d+|[Dd]\d+|\+\d+|\s\d+|ft\.)$/.test(f)),
   ).length;
-  const okay = levels === 20 && traits >= 6 && strayDice === 0;
+  // The SRD gives every class exactly one subclass, with features that all
+  // carry text. A name with a dot leader means the table of contents was
+  // parsed instead of the chapter.
+  const sub = c.subclass;
+  const subBad =
+    !sub ||
+    !sub.name ||
+    /\.{3}|\d$/.test(sub.name) ||
+    !sub.features.length ||
+    sub.features.some((f) => !f.text) ||
+    // A feature far longer than any real one means the parse ran past the end
+    // of the subclass and started eating the next chapter.
+    sub.features.some((f) => f.text.length > 4000);
+  const okay = levels === 20 && traits >= 6 && strayDice === 0 && !subBad;
   if (!okay) problems++;
   console.log(
     (okay ? "ok    " : "CHECK ") +
@@ -513,7 +593,8 @@ for (const name of CLASSES) {
       " traits:" + traits +
       " levels:" + levels +
       (emptyFeatures ? " (" + emptyFeatures + " levels grant no feature)" : "") +
-      (strayDice ? " strayDice:" + strayDice : ""),
+      (strayDice ? " strayDice:" + strayDice : "") +
+      (subBad ? " SUBCLASS BAD" : " sub:" + sub.name),
   );
 }
 console.log(problems === 0 ? "\nall classes parsed cleanly" : "\n" + problems + " need checking");

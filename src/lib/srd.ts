@@ -26,11 +26,24 @@ export interface SrdClassLevel {
   columns: string[];
 }
 
+export interface SrdSubclassFeature {
+  level: number;
+  name: string;
+  text: string;
+}
+
+export interface SrdSubclass {
+  name: string;
+  features: SrdSubclassFeature[];
+}
+
 export interface SrdClass {
   traits: Record<string, string> | null;
   levels: SrdClassLevel[] | null;
   /** The rules text for each feature, keyed by name. */
   descriptions?: Record<string, string>;
+  /** The single subclass the SRD publishes for this class. */
+  subclass?: SrdSubclass | null;
 }
 
 export interface SrdSpeciesTrait {
@@ -505,6 +518,55 @@ export function applyClass(
   }
 
   return { patch, summary };
+}
+
+export function subclassSource(name: string) {
+  return `srd:subclass:${name}`;
+}
+
+/**
+ * Adds the subclass features earned by this level. Kept separate from
+ * applyClass because the choice is separate: you pick a subclass at level 3,
+ * and the SRD only publishes one per class, so this is opt-in rather than
+ * something a class application should assume.
+ */
+export function applySubclass(
+  c: Character,
+  data: SrdData,
+  className: string,
+  level: number,
+): ApplyResult {
+  const sub = data.classes[className]?.subclass;
+  if (!sub) return { patch: {}, summary: [] };
+
+  const src = subclassSource(sub.name);
+  const kept = c.features.filter((f) => f.source !== src);
+  const earned = sub.features.filter((f) => f.level <= level);
+
+  const added: FeatureEntry[] = earned.map((f) => {
+    const inferred = inferUses(f.text);
+    return {
+      id: newId(),
+      name: f.name,
+      note: `${sub.name} ${f.level}`,
+      detail: f.text,
+      usesMax: inferred?.uses ?? 0,
+      usesSpent: 0,
+      recharge: inferred?.recharge ?? RECHARGE_BY_FEATURE[f.name] ?? "none",
+      group: "Subclass",
+      source: src,
+    };
+  });
+
+  const summary = [
+    `${added.length} of ${sub.features.length} ${sub.name} features`,
+  ];
+  if (earned.length < sub.features.length) {
+    const next = sub.features.find((f) => f.level > level);
+    if (next) summary.push(`next at level ${next.level}`);
+  }
+
+  return { patch: { features: [...kept, ...added], subclass: sub.name }, summary };
 }
 
 /** "30 feet" -> 30 */

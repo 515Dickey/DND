@@ -74,6 +74,11 @@ committing, then Add — the spell arrives with its casting time, range,
 components, duration, and full rules text, already flagged for concentration
 and ritual. Cantrips arrive prepared, since they always are.
 
+Each class also offers the one **subclass** the SRD publishes — Champion,
+Evoker, Life Domain, Thief and so on. It only becomes available at level 3, and
+applying it adds the features earned by your level, telling you when the next
+one arrives.
+
 On the Notes tab, **Feats** lists the SRD's seventeen feats by category with
 their prerequisites and full text. Added feats land in a Feats section of your
 features list.

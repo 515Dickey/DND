@@ -284,6 +284,31 @@
         "Mindless Rage": "You have Immunity to the Charmed and Frightened conditions while your Rage is active. If you’re Charmed or Frightened when you enter your Rage, the condition ends on you.",
         "Retaliation": "When you take damage from a creature that is within 5 feet of you, you can take a Reaction to make one melee attack against that creature, using a weapon or an Unarmed Strike.",
         "Intimidating Presence": "As a Bonus Action, you can strike terror into others with your menacing presence and primal power. When you do so, each creature of your choice in a 30-foot Emanation originating from you must make a Wisdom saving throw (DC 8 plus your Strength modifier and Proficiency Bonus). On a failed save, a creature has the Frightened condition for 1 minute. At the end of each of the Frightened creature’s turns, the creature repeats the save, ending the effect on itself on a success. Once you use this feature, you can’t use it again until you finish a Long Rest unless you expend a use of your Rage (no action required) to restore your use of it. System Reference Document 5.2 Bard"
+      },
+      "subclass": {
+        "name": "Path of the Berserker",
+        "features": [
+          {
+            "level": 3,
+            "name": "Frenzy",
+            "text": "If you use Reckless Attack while your Rage is active, you deal extra damage to the first target you hit on your turn with a Strength-based attack. To determine the extra damage, roll a number of d6s equal to your Rage Damage bonus, and add them together. The damage has the same type as the weapon or Unarmed Strike used for the attack."
+          },
+          {
+            "level": 6,
+            "name": "Mindless Rage",
+            "text": "You have Immunity to the Charmed and Frightened conditions while your Rage is active. If you’re Charmed or Frightened when you enter your Rage, the condition ends on you."
+          },
+          {
+            "level": 10,
+            "name": "Retaliation",
+            "text": "When you take damage from a creature that is within 5 feet of you, you can take a Reaction to make one melee attack against that creature, using a weapon or an Unarmed Strike."
+          },
+          {
+            "level": 14,
+            "name": "Intimidating Presence",
+            "text": "As a Bonus Action, you can strike terror into others with your menacing presence and primal power. When you do so, each creature of your choice in a 30-foot Emanation originating from you must make a Wisdom saving throw (DC 8 plus your Strength modifier and Proficiency Bonus). On a failed save, a creature has the Frightened condition for 1 minute. At the end of each of the Frightened creature’s turns, the creature repeats the save, ending the effect on itself on a success. Once you use this feature, you can’t use it again until you finish a Long Rest unless you expend a use of your Rage (no action required) to restore your use of it. Bard"
+          }
+        ]
       }
     },
     "Bard": {
@@ -734,6 +759,31 @@
         "Cutting Words": "You learn to use your wit to supernaturally distract, confuse, and otherwise sap the confidence and competence of others. When a creature that you can see within 60 feet of yourself makes a damage roll or succeeds on an ability check or attack roll, you can take a Reaction to expend one use of your Bardic Inspiration; roll your Bardic Inspiration die, and subtract the number rolled from the creature’s roll, reducing the damage or potentially turning the success into a failure.",
         "Magical Discoveries": "You learn two spells of your choice. These spells can come from the Cleric, Druid, or Wizard spell list or any combination thereof (see a class’s section for its spell list). A spell you choose must be a cantrip or a spell for which you have spell slots, as shown in the Bard Features table. You always have the chosen spells prepared, and whenever you gain a Bard level, you can replace one of the spells with another spell that meets these requirements.",
         "Peerless Skill": "When you make an ability check or attack roll and fail, you can expend one use of Bardic Inspiration; roll the Bardic Inspiration die, and add the number rolled to the d20, potentially turning a failure into a success. On a failure, the Bardic Inspiration isn’t expended. System Reference Document 5.2 Cleric"
+      },
+      "subclass": {
+        "name": "College of Lore",
+        "features": [
+          {
+            "level": 3,
+            "name": "Bonus Proficiencies",
+            "text": "You gain proficiency with three skills of your choice."
+          },
+          {
+            "level": 3,
+            "name": "Cutting Words",
+            "text": "You learn to use your wit to supernaturally distract, confuse, and otherwise sap the confidence and competence of others. When a creature that you can see within 60 feet of yourself makes a damage roll or succeeds on an ability check or attack roll, you can take a Reaction to expend one use of your Bardic Inspiration; roll your Bardic Inspiration die, and subtract the number rolled from the creature’s roll, reducing the damage or potentially turning the success into a failure."
+          },
+          {
+            "level": 6,
+            "name": "Magical Discoveries",
+            "text": "You learn two spells of your choice. These spells can come from the Cleric, Druid, or Wizard spell list or any combination thereof (see a class’s section for its spell list). A spell you choose must be a cantrip or a spell for which you have spell slots, as shown in the Bard Features table. You always have the chosen spells prepared, and whenever you gain a Bard level, you can replace one of the spells with another spell that meets these requirements."
+          },
+          {
+            "level": 14,
+            "name": "Peerless Skill",
+            "text": "When you make an ability check or attack roll and fail, you can expend one use of Bardic Inspiration; roll the Bardic Inspiration die, and add the number rolled to the d20, potentially turning a failure into a success. On a failure, the Bardic Inspiration isn’t expended. Cleric"
+          }
+        ]
       }
     },
     "Cleric": {
@@ -1176,6 +1226,36 @@
         "Improved Blessed Strikes": "The option you chose for Blessed Strikes grows more powerful. Divine Strike. The extra damage of your Divine Strike increases to 2d8. Potent Spellcasting. When you cast a Cleric cantrip and deal damage to a creature with it, you can give vitality to yourself or another creature within 60 feet of yourself, granting a number of Temporary Hit Points equal to twice your Wisdom modifier.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Fate is recommended.",
         "Greater Divine Intervention": "You can call on even more powerful divine intervention. When you use your Divine Intervention feature, you can choose Wish when you select a spell. If you do so, you can’t use Divine Intervention again until you finish 2d4 Long Rests. Cleric Spell List This section presents the Cleric spell list. The spells are organized by spell level and then alphabetized, and each spell’s school of magic is listed. In the Special column, C means the spell requires Concentration, R means it’s a Ritual, and M means it requires a specific Material component. Cantrips (Level 0 Cleric Spells) Spell School Special Guidance Divination C Light Evocation — Mending Transmutation — Resistance Abjuration C Sacred Flame Evocation — Spare the Dying Necromancy — Thaumaturgy Transmutation — Level 1 Cleric Spells Spell School Special Bane Enchantment C Bless Enchantment C, M Command Enchantment — Create or Destroy Water Transmutation — Cure Wounds Abjuration — Detect Evil and Good Divination C Detect Magic Divination C, R Detect Poison and Disease Divination C, R Guiding Bolt Evocation — Healing Word Abjuration — Inflict Wounds Necromancy — Protection from Evil and Good Abjuration C, M Purify Food and Drink Transmutation R Sanctuary Abjuration — Shield of Faith Abjuration C Level 2 Cleric Spells Spell School Special Aid Abjuration — Augury Divination R, M Blindness/Deafness Transmutation — Calm Emotions Enchantment C Continual Flame Evocation M Enhance Ability Transmutation C Find Traps Divination — Gentle Repose Necromancy R, M Hold Person Enchantment C Lesser Restoration Abjuration — Locate Object Divination C Prayer of Healing Abjuration — System Reference Document 5.2 Spell School Special Protection from Poison Abjuration — Silence Illusion C, R Spiritual Weapon Evocation C Warding Bond Abjuration M Zone of Truth Enchantment — Level 3 Cleric Spells Spell School Special Animate Dead Necromancy — Beacon of Hope Abjuration C Bestow Curse Necromancy C Clairvoyance Divination C, M Create Food and Water Conjuration — Daylight Evocation — Dispel Magic Abjuration — Glyph of Warding Abjuration M Magic Circle Abjuration M Mass Healing Word Abjuration — Meld into Stone Transmutation R Protection from Energy Abjuration C Remove Curse Abjuration — Revivify Necromancy M Sending Divination — Speak with Dead Necromancy — Spirit Guardians Conjuration C Tongues Divination — Water Walk Transmutation R Level 4 Cleric Spells Spell School Special Aura of Life Abjuration C Banishment Abjuration C Control Water Transmutation C Death Ward Abjuration — Divination Divination R, M Freedom of Movement Abjuration — Guardian of Faith Conjuration — Locate Creature Divination C Stone Shape Transmutation — Level 5 Cleric Spells Spell School Special Commune Divination R Contagion Necromancy — Dispel Evil and Good Abjuration C Flame Strike Evocation — Geas Enchantment — Greater Restoration Abjuration M Hallow Abjuration M Insect Plague Conjuration C Legend Lore Divination M Mass Cure Wounds Abjuration — Planar Binding Abjuration M Raise Dead Necromancy M Scrying Divination C, M Level 6 Cleric Spells Spell School Special Blade Barrier Evocation C Create Undead Necromancy M Find the Path Divination C, M Forbiddance Abjuration R, M Harm Necromancy — Heal Abjuration — Heroes’ Feast Conjuration M Planar Ally Conjuration — Sunbeam Evocation C True Seeing Divination M Word of Recall Conjuration — Level 7 Cleric Spells Spell School Special Conjure Celestial Conjuration C Divine Word Evocation — Etherealness Conjuration — Fire Storm Evocation — Plane Shift Conjuration M Regenerate Transmutation — Resurrection Necromancy M Symbol Abjuration M System Reference Document 5.2 Level 8 Cleric Spells Spell School Special Antimagic Field Abjuration C Control Weather Transmutation C Earthquake Transmutation C Holy Aura Abjuration C, M Sunburst Evocation — Level 9 Cleric Spells Spell School Special Astral Projection Necromancy M Gate Conjuration C, M Mass Heal Abjuration — Power Word Heal Enchantment — True Resurrection Necromancy M"
+      },
+      "subclass": {
+        "name": "Life Domain",
+        "features": [
+          {
+            "level": 3,
+            "name": "Disciple of Life",
+            "text": "When a spell you cast with a spell slot restores Hit Points to a creature, that creature regains additional Hit Points on the turn you cast the spell. The additional Hit Points equal 2 plus the spell slot’s level."
+          },
+          {
+            "level": 3,
+            "name": "Life Domain Spells",
+            "text": "Your connection to this divine domain ensures you always have certain spells ready. When you reach a Cleric level specified in the Life Domain Spells table, you thereafter always have the listed spells prepared. Life Domain Spells Cleric Level Prepared Spells 3 Aid, Bless, Cure Wounds, Lesser Restoration 5 Mass Healing Word, Revivify 7 Aura of Life, Death Ward 9 Greater Restoration, Mass Cure Wounds"
+          },
+          {
+            "level": 3,
+            "name": "Preserve Life",
+            "text": "As a Magic action, you present your Holy Symbol and expend a use of your Channel Divinity to evoke healing energy that can restore a number of Hit Points equal to five times your Cleric level. Choose Bloodied creatures within 30 feet of yourself (which can include you), and divide those Hit Points among them. This feature can restore a creature to no more than half its Hit Point maximum."
+          },
+          {
+            "level": 6,
+            "name": "Blessed Healer",
+            "text": "The healing spells you cast on others heal you as well. Immediately after you cast a spell with a spell slot that restores Hit Points to one or more creatures other than yourself, you regain Hit Points equal to 2 plus the spell slot’s level."
+          },
+          {
+            "level": 17,
+            "name": "Supreme Healing",
+            "text": "When you would normally roll one or more dice to restore Hit Points to a creature with a spell or Channel Divinity, don’t roll those dice for the healing; instead use the highest number possible for each die. For example, instead of restoring 2d6 Hit Points to a creature with a spell, you restore 12. Druid"
+          }
+        ]
       }
     },
     "Druid": {
@@ -1629,6 +1709,36 @@
         "Natural Recovery": "You can cast one of the level 1+ spells that you have prepared from your Circle Spells feature without expending a spell slot, and you must finish a Long Rest before you do so again. In addition, when you finish a Short Rest, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your Druid level (round up), and none of them can be level 6+. For example, if you’re a level 6 Druid, you can recover up to three levels’ worth of spell slots. You can recover a level 3 spell slot, a level 2 and a level 1 spell slot, or three level 1 spell slots. Once you recover spell slots with this feature, you can’t do so again until you finish a Long Rest.",
         "Nature’s Ward": "You are immune to the Poisoned condition, and you have Resistance to a damage type associated with your current land choice in the Circle Spells feature, as shown in the Nature’s Ward table. Nature’s Ward Land Type Resistance Arid Fire Polar Cold Land Type Resistance Temperate Lightning Tropical Poison",
         "Nature’s Sanctuary": "As a Magic action, you can expend a use of your Wild Shape and cause spectral trees and vines to appear in a 15-foot Cube on the ground within 120 feet of yourself. They last there for 1 minute or until you have the Incapacitated condition or die. You and your allies have Half Cover while in that area, and your allies gain the current Resistance of your Nature’s Ward while there. As a Bonus Action, you can move the Cube up to 60 feet to ground within 120 feet of yourself. System Reference Document 5.2 Fighter"
+      },
+      "subclass": {
+        "name": "Circle of the Land",
+        "features": [
+          {
+            "level": 3,
+            "name": "Circle of the Land Spells",
+            "text": "Whenever you finish a Long Rest, choose one type of land: arid, polar, temperate, or tropical. Consult the table below that corresponds to the chosen type; you have the spells listed for your Druid level and lower prepared. Arid Land Druid Level Circle Spells 3 Blur, Burning Hands, Fire Bolt 5 Fireball 7 Blight 9 Wall of Stone Polar Land Druid Level Circle Spells 3 Fog Cloud, Hold Person, Ray of Frost 5 Sleet Storm 7 Ice Storm 9 Cone of Cold Temperate Land Druid Level Circle Spells 3 Misty Step, Shocking Grasp, Sleep 5 Lightning Bolt 7 Freedom of Movement 9 Tree Stride Tropical Land Druid Level Circle Spells 3 Acid Splash, Ray of Sickness, Web 5 Stinking Cloud 7 Polymorph 9 Insect Plague"
+          },
+          {
+            "level": 3,
+            "name": "Land’s Aid",
+            "text": "As a Magic action, you can expend a use of your Wild Shape and choose a point within 60 feet of yourself. Vitality-giving flowers and life-draining thorns appear for a moment in a 10-foot-radius Sphere centered on that point. Each creature of your choice in the Sphere must make a Constitution saving throw against your spell save DC, taking 2d6 Necrotic damage on a failed save or half as much damage on a successful one. One creature of your choice in that area regains 2d6 Hit Points. The damage and healing increase by 1d6 when you reach Druid levels 10 (3d6) and 14 (4d6)."
+          },
+          {
+            "level": 6,
+            "name": "Natural Recovery",
+            "text": "You can cast one of the level 1+ spells that you have prepared from your Circle Spells feature without expending a spell slot, and you must finish a Long Rest before you do so again. In addition, when you finish a Short Rest, you can choose expended spell slots to recover. The spell slots can have a combined level that is equal to or less than half your Druid level (round up), and none of them can be level 6+. For example, if you’re a level 6 Druid, you can recover up to three levels’ worth of spell slots. You can recover a level 3 spell slot, a level 2 and a level 1 spell slot, or three level 1 spell slots. Once you recover spell slots with this feature, you can’t do so again until you finish a Long Rest."
+          },
+          {
+            "level": 10,
+            "name": "Nature’s Ward",
+            "text": "You are immune to the Poisoned condition, and you have Resistance to a damage type associated with your current land choice in the Circle Spells feature, as shown in the Nature’s Ward table. Nature’s Ward Land Type Resistance Arid Fire Polar Cold Land Type Resistance Temperate Lightning Tropical Poison"
+          },
+          {
+            "level": 14,
+            "name": "Nature’s Sanctuary",
+            "text": "As a Magic action, you can expend a use of your Wild Shape and cause spectral trees and vines to appear in a 15-foot Cube on the ground within 120 feet of yourself. They last there for 1 minute or until you have the Incapacitated condition or die. You and your allies have Half Cover while in that area, and your allies gain the current Resistance of your Nature’s Ward while there. As a Bonus Action, you can move the Cube up to 60 feet to ground within 120 feet of yourself. Fighter"
+          }
+        ]
       }
     },
     "Fighter": {
@@ -1886,6 +1996,41 @@
         "Studied Attacks": "You study your opponents and learn from each attack you make. If you make an attack roll against a creature and miss, you have Advantage on your next attack roll against that creature before the end of your next turn.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Combat Prowess is recommended.",
         "Three Extra Attacks": "You can attack four times instead of once whenever you take the Attack action on your turn. System Reference Document 5.2"
+      },
+      "subclass": {
+        "name": "Champion",
+        "features": [
+          {
+            "level": 3,
+            "name": "Improved Critical",
+            "text": "Your attack rolls with weapons and Unarmed Strikes can score a Critical Hit on a roll of 19 or 20 on the d20."
+          },
+          {
+            "level": 3,
+            "name": "Remarkable Athlete",
+            "text": "Thanks to your athleticism, you have Advantage on Initiative rolls and Strength (Athletics) checks. In addition, immediately after you score a Critical Hit, you can move up to half your Speed without provoking Opportunity Attacks."
+          },
+          {
+            "level": 7,
+            "name": "Additional Fighting Style",
+            "text": "You gain another Fighting Style feat of your choice."
+          },
+          {
+            "level": 10,
+            "name": "Heroic Warrior",
+            "text": "The thrill of battle drives you toward victory. During combat, you can give yourself Heroic Inspiration whenever you start your turn without it."
+          },
+          {
+            "level": 15,
+            "name": "Superior Critical",
+            "text": "Your attack rolls with weapons and Unarmed Strikes can now score a Critical Hit on a roll of 18–20 on the d20."
+          },
+          {
+            "level": 18,
+            "name": "Survivor",
+            "text": "You attain the pinnacle of resilience in battle, giving you these benefits. Defy Death. You have Advantage on Death Saving Throws. Moreover, when you roll 18–20 on a Death Saving Throw, you gain the benefit of rolling a 20 on it. Heroic Rally. At the start of each of your turns, you regain Hit Points equal to 5 plus your Constitution modifier if you are Bloodied and have at least 1 Hit Point. Monk"
+          }
+        ]
       }
     },
     "Monk": {
@@ -2172,6 +2317,31 @@
         "Superior Defense": "At the start of your turn, you can expend 3 Focus Points to bolster yourself against harm for 1 minute or until you have the Incapacitated condition. During that time, you have Resistance to all damage except Force damage.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Irresistible Offense is recommended.",
         "Body and Mind": "You have developed your body and mind to new heights. Your Dexterity and Wisdom scores increase by 4, to a maximum of 25."
+      },
+      "subclass": {
+        "name": "Warrior of the Open Hand",
+        "features": [
+          {
+            "level": 3,
+            "name": "Open Hand Technique",
+            "text": "Whenever you hit a creature with an attack granted by your Flurry of Blows, you can impose one of the following effects on that target. Addle. The target can’t make Opportunity Attacks until the start of its next turn. Push. The target must succeed on a Strength saving throw or be pushed up to 15 feet away from you. Topple. The target must succeed on a Dexterity saving throw or have the Prone condition."
+          },
+          {
+            "level": 6,
+            "name": "Wholeness of Body",
+            "text": "You gain the ability to heal yourself. As a Bonus Action, you can roll your Martial Arts die. You regain a number of Hit Points equal to the number rolled plus your Wisdom modifier (minimum of 1 Hit Point regained). You can use this feature a number of times equal to your Wisdom modifier (minimum of once), and you regain all expended uses when you finish a Long Rest."
+          },
+          {
+            "level": 11,
+            "name": "Fleet Step",
+            "text": "When you take a Bonus Action other than Step of the Wind, you can also use Step of the Wind immediately after that Bonus Action."
+          },
+          {
+            "level": 17,
+            "name": "Quivering Palm",
+            "text": "You gain the ability to set up lethal vibrations in someone’s body. When you hit a creature with an Unarmed Strike, you can expend 4 Focus Points to start these imperceptible vibrations, which last for a number of days equal to your Monk level. The vibrations are harmless unless you take an action to end them. Alternatively, when you take the Attack action on your turn, you can forgo one of the attacks to end the vibrations. To end them, you and the target must be on the same plane of existence. When you end them, the target must make a Constitution saving throw, taking 10d12 Force damage on a failed save or half as much damage on a successful one. You can have only one creature under the effect of this feature at a time. You can end the vibrations harmlessly (no action required). Paladin"
+          }
+        ]
       }
     },
     "Paladin": {
@@ -2527,6 +2697,36 @@
         "Restoring Touch": "When you use Lay On Hands on a creature, you can also remove one or more of the following conditions from the creature: Blinded, Charmed, Deafened, Frightened, Paralyzed, or Stunned. You must expend 5 Hit Points from the healing pool of Lay On Hands for each of these conditions you remove; those points don’t also restore Hit Points to the creature.",
         "Aura Expansion": "Your Aura of Protection is now a 30-foot Emanation.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Truesight is recommended. Paladin Spell List This section presents the Paladin spell list. The spells are organized by spell level and then alphabetized, and each spell’s school of magic is listed. In the Special column, C means the spell requires Concentration, R means it’s a Ritual, and M means it requires a specific Material component. Level 1 Paladin Spells Spell School Special Bless Enchantment C, M Command Enchantment — Cure Wounds Abjuration — Detect Evil and Good Divination C Detect Magic Divination C, R Detect Poison and Disease Divination C, R System Reference Document 5.2 Spell School Special Divine Favor Transmutation — Divine Smite Evocation — Heroism Enchantment C Protection from Evil and Good Abjuration C, M Purify Food and Drink Transmutation R Searing Smite Evocation — Shield of Faith Abjuration C Level 2 Paladin Spells Spell School Special Aid Abjuration — Find Steed Conjuration — Gentle Repose Necromancy R, M Lesser Restoration Abjuration — Locate Object Divination C Magic Weapon Transmutation — Prayer of Healing Abjuration — Protection from Poison Abjuration — Shining Smite Transmutation C Warding Bond Abjuration M Zone of Truth Enchantment — Level 3 Paladin Spells Spell School Special Create Food and Water Conjuration — Daylight Evocation — Dispel Magic Abjuration — Magic Circle Abjuration M Remove Curse Abjuration — Revivify Necromancy M Level 4 Paladin Spells Spell School Special Aura of Life Abjuration C Banishment Abjuration C Death Ward Abjuration — Locate Creature Divination C Level 5 Paladin Spells Spell School Special Dispel Evil and Good Abjuration C Geas Enchantment — Greater Restoration Abjuration M Raise Dead Necromancy M"
+      },
+      "subclass": {
+        "name": "Oath of Devotion",
+        "features": [
+          {
+            "level": 3,
+            "name": "Oath of Devotion Spells",
+            "text": "The magic of your oath ensures you always have certain spells ready; when you reach a Paladin level specified in the Oath of Devotion Spells table, you thereafter always have the listed spells prepared. Oath of Devotion Spells Paladin Level Spells 3 Protection from Evil and Good, Shield of Faith 5 Aid, Zone of Truth 9 Beacon of Hope, Dispel Magic 13 Freedom of Movement, Guardian of Faith 17 Commune, Flame Strike"
+          },
+          {
+            "level": 3,
+            "name": "Sacred Weapon",
+            "text": "When you take the Attack action, you can expend one use of your Channel Divinity to imbue one Melee weapon that you are holding with positive energy. For 10 minutes or until you use this feature again, you add your Charisma modifier to attack rolls you make with that weapon (minimum bonus of +1), and each time you hit with it, you cause it to deal its normal damage type or Radiant damage. The weapon also emits Bright Light in a 20-foot radius and Dim Light 20 feet beyond that. You can end this effect early (no action required). This effect also ends if you aren’t carrying the weapon."
+          },
+          {
+            "level": 7,
+            "name": "Aura of Devotion",
+            "text": "You and your allies have Immunity to the Charmed condition while in your Aura of Protection. If a Charmed ally enters the aura, that condition has no effect on that ally while there."
+          },
+          {
+            "level": 15,
+            "name": "Smite of Protection",
+            "text": "Your magical smite now radiates protective energy. Whenever you cast Divine Smite, you and your allies have Half Cover while in your Aura of Protection. The aura has this benefit until the start of your next turn."
+          },
+          {
+            "level": 20,
+            "name": "Holy Nimbus",
+            "text": "As a Bonus Action, you can imbue your Aura of Protection with holy power, granting the benefits below for 10 minutes or until you end them (no action required). Once you use this feature, you can’t use it again until you finish a Long Rest. You can also restore your use of it by expending a level 5 spell slot (no action required). Holy Ward. You have Advantage on any saving throw you are forced to make by a Fiend or an Undead. Radiant Damage. Whenever an enemy starts its turn in the aura, that creature takes Radiant damage equal to your Charisma modifier plus your Proficiency Bonus. Sunlight. The aura is filled with Bright Light that is sunlight. Ranger"
+          }
+        ]
       }
     },
     "Ranger": {
@@ -2882,6 +3082,36 @@
         "Feral Senses": "Your connection to the forces of nature grants you Blindsight with a range of 30 feet.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Dimensional Travel is recommended.",
         "Foe Slayer": "The damage die of your Hunter’s Mark is a d10 rather than a d6. System Reference Document 5.2 Ranger Spell List This section presents the Ranger spell list. The spells are organized by spell level and then alphabetized, and each spell’s school of magic is listed. In the Special column, C means the spell requires Concentration, R means it’s a Ritual, and M means it requires a specific Material component. Level 1 Ranger Spells Spell School Special Alarm Abjuration R Animal Friendship Enchantment — Cure Wounds Abjuration — Detect Magic Divination C, R Detect Poison and Disease Divination C, R Ensnaring Strike Conjuration C Entangle Conjuration C Fog Cloud Conjuration C Goodberry Conjuration — Hunter’s Mark Divination C Jump Transmutation — Longstrider Transmutation — Speak with Animals Divination R Level 2 Ranger Spells Spell School Special Aid Abjuration — Animal Messenger Enchantment R Barkskin Transmutation — Darkvision Transmutation — Enhance Ability Transmutation C Find Traps Divination — Gust of Wind Evocation C Lesser Restoration Abjuration — Locate Animals or Plants Divination R Locate Object Divination C Magic Weapon Transmutation — Pass without Trace Abjuration C Protection from Poison Abjuration — Silence Illusion C, R Spike Growth Transmutation C Level 3 Ranger Spells Spell School Special Conjure Animals Conjuration C Daylight Evocation — Dispel Magic Abjuration — Meld into Stone Transmutation R Nondetection Abjuration M Plant Growth Transmutation — Protection from Energy Abjuration C Revivify Necromancy M Speak with Plants Transmutation — Water Breathing Transmutation R Water Walk Transmutation R Wind Wall Evocation C Level 4 Ranger Spells Spell School Special Conjure Woodland Beings Conjuration C Dominate Beast Enchantment C Freedom of Movement Abjuration — Locate Creature Divination C Stoneskin Transmutation C, M Level 5 Ranger Spells Spell School Special Commune with Nature Divination R Greater Restoration Abjuration M Tree Stride Conjuration C System Reference Document 5.2"
+      },
+      "subclass": {
+        "name": "Hunter",
+        "features": [
+          {
+            "level": 3,
+            "name": "Hunter’s Lore",
+            "text": "You can call on the forces of nature to reveal certain strengths and weaknesses of your prey. While a creature is marked by your Hunter’s Mark, you know whether that creature has any Immunities, Resistances, or Vulnerabilities, and if the creature has any, you know what they are."
+          },
+          {
+            "level": 3,
+            "name": "Hunter’s Prey",
+            "text": "You gain one of the following feature options of your choice. Whenever you finish a Short or Long Rest, you can replace the chosen option with the other one. Colossus Slayer. Your tenacity can wear down even the most resilient foes. When you hit a creature with a weapon, the weapon deals an extra 1d8 damage to the target if it’s missing any of its Hit Points. You can deal this extra damage only once per turn. Horde Breaker. Once on each of your turns when you make an attack with a weapon, you can make another attack with the same weapon against a different creature that is within 5 feet of the original target, that is within the weapon’s range, and that you haven’t attacked this turn."
+          },
+          {
+            "level": 7,
+            "name": "Defensive Tactics",
+            "text": "You gain one of the following feature options of your choice. Whenever you finish a Short or Long Rest, you can replace the chosen option with the other one. Escape the Horde. Opportunity Attacks have Disadvantage against you. Multiattack Defense. When a creature hits you with an attack roll, that creature has Disadvantage on all other attack rolls against you this turn."
+          },
+          {
+            "level": 11,
+            "name": "Superior Hunter’s Prey",
+            "text": "Once per turn when you deal damage to a creature marked by your Hunter’s Mark, you can also deal that spell’s extra damage to a different creature that you can see within 30 feet of the first creature."
+          },
+          {
+            "level": 15,
+            "name": "Superior Hunter’s Defense",
+            "text": "When you take damage, you can take a Reaction to give yourself Resistance to that damage and any other damage of the same type until the end of the current turn. Rogue"
+          }
+        ]
       }
     },
     "Rogue": {
@@ -3122,6 +3352,36 @@
         "Elusive": "You’re so evasive that attackers rarely gain the upper hand against you. No attack roll can have Advantage against you unless you have the Incapacitated condition.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of the Night Spirit is recommended.",
         "Stroke of Luck": "You have a marvelous knack for succeeding when you need to. If you fail a D20 Test, you can turn the roll into a 20. Once you use this feature, you can’t use it again until you finish a Short or Long Rest. System Reference Document 5.2"
+      },
+      "subclass": {
+        "name": "Thief",
+        "features": [
+          {
+            "level": 3,
+            "name": "Fast Hands",
+            "text": "As a Bonus Action, you can do one of the following. Sleight of Hand. Make a Dexterity (Sleight of Hand) check to pick a lock or disarm a trap with Thieves’ Tools or to pick a pocket. Use an Object. Take the Utilize action, or take the Magic action to use a magic item that requires that action."
+          },
+          {
+            "level": 3,
+            "name": "Second-Story Work",
+            "text": "You’ve trained to get into especially hard-to-reach places, granting you these benefits. Climber. You gain a Climb Speed equal to your Speed. Jumper. You can determine your jump distance using your Dexterity rather than your Strength."
+          },
+          {
+            "level": 9,
+            "name": "Supreme Sneak",
+            "text": "You gain the following Cunning Strike option. Stealth Attack (Cost: 1d6). If you have the Hide action’s Invisible condition, this attack doesn’t end that condition on you if you end the turn behind Three-Quarters Cover or Total Cover."
+          },
+          {
+            "level": 13,
+            "name": "Use Magic Device",
+            "text": "You’ve learned how to maximize use of magic items, granting you the following benefits. Attunement. You can attune to up to four magic items at once. Charges. Whenever you use a magic item property that expends charges, roll 1d6. On a roll of 6, you use the property without expending the charges. Scrolls. You can use any Spell Scroll, using Intelligence as your spellcasting ability for the spell. If the spell is a cantrip or a level 1 spell, you can cast it reliably. If the scroll contains a higher-level spell, you must first succeed on an Intelligence (Arcana) check (DC 10 plus the spell’s level). On a successful check, you cast the spell from the scroll. On a failed check, the scroll disintegrates."
+          },
+          {
+            "level": 17,
+            "name": "Thief’s Reflexes",
+            "text": "You are adept at laying ambushes and quickly escaping danger. You can take two turns during the first round of any combat. You take your first turn at your normal Initiative and your second turn at your Initiative minus 10. Sorcerer"
+          }
+        ]
       }
     },
     "Sorcerer": {
@@ -3565,6 +3825,36 @@
         "Sorcery Incarnate": "If you have no uses of Innate Sorcery left, you can use it if you spend 2 Sorcery Points when you take the Bonus Action to activate it. In addition, while your Innate Sorcery feature is active, you can use up to two of your Metamagic options on each spell you cast.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Dimensional Travel is recommended.",
         "Arcane Apotheosis": "While your Innate Sorcery feature is active, you can use one Metamagic option on each of your turns without spending Sorcery Points on it. Metamagic Options The following options are available to your Meta­ magic feature. The options are presented in alphabetical order. Careful Spell Cost: 1 Sorcery Point When you cast a spell that forces other creatures to make a saving throw, you can protect some of those creatures from the spell’s full force. To do so, spend 1 Sorcery Point and choose a number of those creatures up to your Charisma modifier (minimum of one creature). A chosen creature automatically succeeds on its saving throw against the spell, and System Reference Document 5.2 it takes no damage if it would normally take half damage on a successful save. Distant Spell Cost: 1 Sorcery Point When you cast a spell that has a range of at least 5 feet, you can spend 1 Sorcery Point to double the spell’s range. Or when you cast a spell that has a range of Touch, you can spend 1 Sorcery Point to make the spell’s range 30 feet. Empowered Spell Cost: 1 Sorcery Point When you roll damage for a spell, you can spend 1 Sorcery Point to reroll a number of the damage dice up to your Charisma modifier (minimum of one), and you must use the new rolls. You can use Empowered Spell even if you’ve already used a different Metamagic option during the casting of the spell. Extended Spell Cost: 1 Sorcery Point When you cast a spell that has a duration of 1 minute or longer, you can spend 1 Sorcery Point to double its duration to a maximum duration of 24 hours. If the affected spell requires Concentration, you have Advantage on any saving throw you make to maintain that Concentration. Heightened Spell Cost: 2 Sorcery Points When you cast a spell that forces a creature to make a saving throw, you can spend 2 Sorcery Points to give one target of the spell Disadvantage on saves against the spell. Quickened Spell Cost: 2 Sorcery Points When you cast a spell that has a casting time of an action, you can spend 2 Sorcery Points to change the casting time to a Bonus Action for this casting. You can’t modify a spell in this way if you’ve already cast a level 1+ spell on the current turn, nor can you cast a level 1+ spell on this turn after modifying a spell in this way. Seeking Spell Cost: 1 Sorcery Point If you make an attack roll for a spell and miss, you can spend 1 Sorcery Point to reroll the d20, and you must use the new roll. You can use Seeking Spell even if you’ve already used a different Metamagic option during the casting of the spell. Subtle Spell Cost: 1 Sorcery Point When you cast a spell, you can spend 1 Sorcery Point to cast it without any Verbal, Somatic, or Material components, except Material components that are consumed by the spell or that have a cost specified in the spell. Transmuted Spell Cost: 1 Sorcery Point When you cast a spell that deals a type of damage from the following list, you can spend 1 Sorcery Point to change that damage type to one of the other listed types: Acid, Cold, Fire, Lightning, Poison, Thunder. Twinned Spell Cost: 1 Sorcery Point When you cast a spell, such as Charm Person, that can be cast with a higher-level spell slot to target an additional creature, you can spend 1 Sorcery Point to increase the spell’s effective level by 1. Sorcerer Spell List This section presents the Sorcerer spell list. The spells are organized by spell level and then alphabetized, and each spell’s school of magic is listed. In the Special column, C means the spell requires Concentration, R means it’s a Ritual, and M means it requires a specific Material component. Cantrips (Level 0 Sorcerer Spells) Spell School Special Acid Splash Evocation — Chill Touch Necromancy — Dancing Lights Illusion C Elementalism Transmutation — Fire Bolt Evocation — Light Evocation — Mage Hand Conjuration — Mending Transmutation — Message Transmutation — Minor Illusion Illusion — Poison Spray Necromancy — Prestidigitation Transmutation — Ray of Frost Evocation — Shocking Grasp Evocation — Sorcerous Burst Evocation — True Strike Divination — System Reference Document 5.2 Level 1 Sorcerer Spells Spell School Special Burning Hands Evocation — Charm Person Enchantment — Chromatic Orb Evocation M Color Spray Illusion — Comprehend Languages Divination R Detect Magic Divination C, R Disguise Self Illusion — Expeditious Retreat Transmutation C False Life Necromancy – Feather Fall Transmutation — Fog Cloud Conjuration C Grease Conjuration — Ice Knife Conjuration — Jump Transmutation — Mage Armor Abjuration — Magic Missile Evocation — Ray of Sickness Necromancy — Shield Abjuration — Silent Image Illusion C Sleep Enchantment C Thunderwave Evocation — Level 2 Sorcerer Spells Spell School Special Alter Self Transmutation C Blindness/Deafness Transmutation — Blur Illusion C Darkness Evocation C Darkvision Transmutation — Detect Thoughts Divination C Dragon’s Breath Transmutation C Enhance Ability Transmutation C Enlarge/Reduce Transmutation C Flame Blade Evocation C Flaming Sphere Evocation C Gust of Wind Evocation C Spell School Special Hold Person Enchantment C Invisibility Illusion C Knock Transmutation — Levitate Transmutation C Magic Weapon Transmutation — Mirror Image Illusion — Misty Step Conjuration — Scorching Ray Evocation — See Invisibility Divination — Shatter Evocation — Spider Climb Transmutation C Suggestion Enchantment C Web Conjuration C Level 3 Sorcerer Spells Spell School Special Blink Transmutation — Clairvoyance Divination C, M Counterspell Abjuration — Daylight Evocation — Dispel Magic Abjuration — Fear Illusion C Fireball Evocation — Fly Transmutation C Gaseous Form Transmutation C Haste Transmutation C Hypnotic Pattern Illusion C Lightning Bolt Evocation — Major Image Illusion C Protection from Energy Abjuration C Sleet Storm Conjuration C Slow Transmutation C Stinking Cloud Conjuration C Tongues Divination — Vampiric Touch Necromancy C Water Breathing Transmutation R Water Walk Transmutation R System Reference Document 5.2 Level 4 Sorcerer Spells Spell School Special Banishment Abjuration C Blight Necromancy — Charm Monster Enchantment — Confusion Enchantment C Dimension Door Conjuration — Dominate Beast Enchantment C Fire Shield Evocation — Greater Invisibility Illusion C Ice Storm Evocation — Polymorph Transmutation C Stoneskin Transmutation C, M Vitriolic Sphere Evocation — Wall of Fire Evocation C Level 5 Sorcerer Spells Spell School Special Animate Objects Transmutation C Arcane Hand Evocation C Cloudkill Conjuration C Cone of Cold Evocation — Creation Illusion — Dominate Person Enchantment C Hold Monster Enchantment C Insect Plague Conjuration C Seeming Illusion — Telekinesis Transmutation C Teleportation Circle Conjuration M Wall of Stone Evocation C Level 6 Sorcerer Spells Spell School Special Chain Lightning Evocation — Circle of Death Necromancy M Disintegrate Transmutation — Eyebite Necromancy C Flesh to Stone Transmutation C Freezing Sphere Evocation — Globe of Invulnerability Abjuration C Mass Suggestion Enchantment — Move Earth Transmutation C Sunbeam Evocation C True Seeing Divination M Level 7 Sorcerer Spells Spell School Special Delayed Blast Fireball Evocation C Etherealness Conjuration — Finger of Death Necromancy — Fire Storm Evocation — Plane Shift Conjuration M Prismatic Spray Evocation — Reverse Gravity Transmutation C Teleport Conjuration — Level 8 Sorcerer Spells Spell School Special Demiplane Conjuration — Dominate Monster Enchantment C Earthquake Transmutation C Incendiary Cloud Conjuration C Power Word Stun Enchantment — Sunburst Evocation — Level 9 Sorcerer Spells Spell School Special Gate Conjuration C, M Meteor Swarm Evocation — Power Word Kill Enchantment — Time Stop Transmutation — Wish Conjuration —"
+      },
+      "subclass": {
+        "name": "Draconic Sorcery",
+        "features": [
+          {
+            "level": 3,
+            "name": "Draconic Resilience",
+            "text": "The magic in your body manifests physical traits of your draconic gift. Your Hit Point maximum increases by 3, and it increases by 1 whenever you gain another Sorcerer level. Parts of you are also covered by dragon-like scales. While you aren’t wearing armor, your base Armor Class equals 10 plus your Dexterity and Charisma modifiers."
+          },
+          {
+            "level": 3,
+            "name": "Draconic Spells",
+            "text": "When you reach a Sorcerer level specified in the Draconic Spells table, you thereafter always have the listed spells prepared. Draconic Spells Sorcerer Level Spells 3 Alter Self, Chromatic Orb, Command, Dragon’s Breath 5 Fear, Fly 7 Arcane Eye, Charm Monster 9 Legend Lore, Summon Dragon"
+          },
+          {
+            "level": 6,
+            "name": "Elemental Affinity",
+            "text": "Your draconic magic has an affinity with a damage type associated with dragons. Choose one of those types: Acid, Cold, Fire, Lightning, or Poison. You have Resistance to that damage type, and when you cast a spell that deals damage of that type, you can add your Charisma modifier to one damage roll of that spell."
+          },
+          {
+            "level": 14,
+            "name": "Dragon Wings",
+            "text": "As a Bonus Action, you can cause draconic wings to appear on your back. The wings last for 1 hour or until you dismiss them (no action required). For the duration, you have a Fly Speed of 60 feet. Once you use this feature, you can’t use it again until you finish a Long Rest unless you spend 3 Sorcery Points (no action required) to restore your use of it."
+          },
+          {
+            "level": 18,
+            "name": "Dragon Companion",
+            "text": "You can cast Summon Dragon without a Material component. You can also cast it once without a spell slot, and you regain the ability to cast it in this way when you finish a Long Rest. Whenever you start casting the spell, you can modify it so that it doesn’t require Concentration. If you do so, the spell’s duration becomes 1 minute for that casting. Warlock"
+          }
+        ]
       }
     },
     "Warlock": {
@@ -3867,6 +4157,36 @@
         "Mystic Arcanum": "Your patron grants you a magical secret called an arcanum. Choose one level 6 Warlock spell as this arcanum. You can cast your arcanum spell once without expending a spell slot, and you must finish a Long Rest before you can cast it in this way again. As shown in the Warlock Features table, you gain another Warlock spell of your choice that can be cast in this way when you reach Warlock levels 13 (level 7 spell), 15 (level 8 spell), and 17 (level 9 spell). You regain all uses of your Mystic Arcanum when you finish a Long Rest. Whenever you gain a Warlock level, you can replace one of your arcanum spells with another Warlock spell of the same level.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Fate is recommended.",
         "Eldritch Master": "When you use your Magical Cunning feature, you regain all your expended Pact Magic spell slots. Eldritch Invocation Options Eldritch Invocation options appear in alphabetical order. Agonizing Blast Prerequisite: Level 2+ Warlock, a Warlock Cantrip That Deals Damage Choose one of your known Warlock cantrips that deals damage. You can add your Charisma modifier to that spell’s damage rolls. Repeatable. You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip. Armor of Shadows You can cast Mage Armor on yourself without expending a spell slot. Ascendant Step Prerequisite: Level 5+ Warlock You can cast Levitate on yourself without expending a spell slot. Devil’s Sight Prerequisite: Level 2+ Warlock You can see normally in Dim Light and Darkness— both magical and nonmagical—within 120 feet of yourself. Devouring Blade Prerequisite: Level 12+ Warlock, Thirsting Blade Invocation The Extra Attack of your Thirsting Blade invocation confers two extra attacks rather than one. Eldritch Mind You have Advantage on Constitution saving throws that you make to maintain Concentration. Eldritch Smite Prerequisite: Level 5+ Warlock, Pact of the Blade Invocation Once per turn when you hit a creature with your pact weapon, you can expend a Pact Magic spell slot to deal an extra 1d8 Force damage to the target, System Reference Document 5.2 plus another 1d8 per level of the spell slot, and you can give the target the Prone condition if it is Huge or smaller. Eldritch Spear Prerequisite: Level 2+ Warlock, a Warlock Cantrip That Deals Damage Choose one of your known Warlock cantrips that deals damage and has a range of 10+ feet. When you cast that spell, its range increases by a number of feet equal to 30 times your Warlock level. Repeatable. You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip. Fiendish Vigor Prerequisite: Level 2+ Warlock You can cast False Life on yourself without expending a spell slot. When you cast the spell with this feature, you don’t roll the die for the Temporary Hit Points; you automatically get the highest number on the die. Gaze of Two Minds Prerequisite: Level 5+ Warlock You can use a Bonus Action to touch a willing creature and perceive through its senses until the end of your next turn. As long as the creature is on the same plane of existence as you, you can take a Bonus Action on subsequent turns to maintain this connection, extending the duration until the end of your next turn. The connection ends if you don’t maintain it in this way. While perceiving through the other creature’s senses, you benefit from any special senses possessed by that creature, and you can cast spells as if you were in your space or the other creature’s space if the two of you are within 60 feet of each other. Gift of the Depths Prerequisite: Level 5+ Warlock You can breathe underwater, and you gain a Swim Speed equal to your Speed. You can also cast Water Breathing once without expending a spell slot. You regain the ability to cast it in this way again when you finish a Long Rest. Gift of the Protectors Prerequisite: Level 9+ Warlock, Pact of the Tome Invocation A new page appears in your Book of Shadows when you conjure it. With your permission, a creature can take an action to write its name on that page, which can contain a number of names equal to your Charisma modifier (minimum of one name). When any creature whose name is on the page is reduced to 0 Hit Points but not killed outright, the creature magically drops to 1 Hit Point instead. Once this magic is triggered, no creature can benefit from it until you finish a Long Rest. As a Magic action, you can erase a name on the page by touching it. Investment of the Chain Master Prerequisite: Level 5+ Warlock, Pact of the Chain Invocation When you cast Find Familiar, you infuse the summoned familiar with a measure of your eldritch power, granting the creature the following benefits. Aerial or Aquatic. The familiar gains either a Fly Speed or a Swim Speed (your choice) of 40 feet. Quick Attack. As a Bonus Action, you can command the familiar to take the Attack action. Necrotic or Radiant Damage. Whenever the familiar deals Bludgeoning, Piercing, or Slashing damage, you can make it deal Necrotic or Radiant damage instead. Your Save DC. If the familiar forces a creature to make a saving throw, it uses your spell save DC. Resistance. When the familiar takes damage, you can take a Reaction to grant it Resistance against that damage. Lessons of the First Ones Prerequisite: Level 2+ Warlock You have received knowledge from an elder entity of the multiverse, allowing you to gain one Origin feat of your choice (see “Feats”). Repeatable. You can gain this invocation more than once. Each time you do so, choose a different Origin feat. Lifedrinker Prerequisite: Level 9+ Warlock, Pact of the Blade Invocation Once per turn when you hit a creature with your pact weapon, you can deal an extra 1d6 Necrotic, Psychic, or Radiant damage (your choice) to the creature, and you can expend one of your Hit Point Dice to roll it and regain a number of Hit Points equal to the roll plus your Constitution modifier (minimum of 1 Hit Point). Mask of Many Faces Prerequisite: Level 2+ Warlock You can cast Disguise Self without expending a spell slot. Master of Myriad Forms Prerequisite: Level 5+ Warlock You can cast Alter Self without expending a spell slot. System Reference Document 5.2 Misty Visions Prerequisite: Level 2+ Warlock You can cast Silent Image without expending a spell slot. One with Shadows Prerequisite: Level 5+ Warlock While you’re in an area of Dim Light or Darkness, you can cast Invisibility on yourself without expending a spell slot. Otherworldly Leap Prerequisite: Level 2+ Warlock You can cast Jump on yourself without expending a spell slot. Pact of the Blade As a Bonus Action, you can conjure a pact weapon in your hand—a Simple or Martial Melee weapon of your choice with which you bond—or create a bond with a magic weapon you touch; you can’t bond with a magic weapon if someone else is attuned to it or another Warlock is bonded with it. Until the bond ends, you have proficiency with the weapon, and you can use it as a Spellcasting Focus. Whenever you attack with the bonded weapon, you can use your Charisma modifier for the attack and damage rolls instead of using Strength or Dexterity; and you can cause the weapon to deal Necrotic, Psychic, or Radiant damage or its normal damage type. Your bond with the weapon ends if you use this feature’s Bonus Action again, if the weapon is more than 5 feet away from you for 1 minute or more, or if you die. A conjured weapon disappears when the bond ends. Pact of the Chain You learn the Find Familiar spell and can cast it as a Magic action without expending a spell slot. When you cast the spell, you choose one of the normal forms for your familiar or one of the following special forms: Imp, Pseudodragon, Quasit, Skeleton, Sphinx of Wonder, Sprite, or Venomous Snake (see “Monsters” for the familiar’s stat block). Additionally, when you take the Attack action, you can forgo one of your own attacks to allow your familiar to make one attack of its own with its Reaction. Pact of the Tome Stitching together strands of shadow, you conjure forth a book in your hand at the end of a Short or Long Rest. This Book of Shadows (you determine its appearance) contains eldritch magic that only you can access, granting you the benefits below. The book disappears if you conjure another book with this feature or if you die. Cantrips and Rituals. When the book appears, choose three cantrips, and choose two level 1 spells that have the Ritual tag. The spells can be from any class’s spell list, and they must be spells you don’t already have prepared. While the book is on your person, you have the chosen spells prepared, and they function as Warlock spells for you. Spellcasting Focus. You can use the book as a Spellcasting Focus. Repelling Blast Prerequisite: Level 2+ Warlock, a Warlock Cantrip That Deals Damage via an Attack Roll Choose one of your known Warlock cantrips that requires an attack roll. When you hit a Large or smaller creature with that cantrip, you can push the creature up to 10 feet straight away from you. Repeatable. You can gain this invocation more than once. Each time you do so, choose a different eligible cantrip. Thirsting Blade Prerequisite: Level 5+ Warlock, Pact of the Blade Invocation You gain the Extra Attack feature for your pact weapon only. With that feature, you can attack twice with the weapon instead of once when you take the Attack action on your turn. Visions of Distant Realms Prerequisite: Level 9+ Warlock You can cast Arcane Eye without expending a spell slot. Whispers of the Grave Prerequisite: Level 7+ Warlock You can cast Speak with Dead without expending a spell slot. Witch Sight Prerequisite: Level 15+ Warlock You have Truesight with a range of 30 feet. Warlock Spell List This section presents the Warlock spell list. The spells are organized by spell level and then alphabetized, and each spell’s school of magic is listed. In the Special column, C means the spell requires Concentration, R means it’s a Ritual, and M means it requires a specific Material component. System Reference Document 5.2 Cantrips (Level 0 Warlock Spells) Spell School Special Chill Touch Necromancy — Eldritch Blast Evocation — Mage Hand Conjuration — Minor Illusion Illusion — Poison Spray Necromancy — Prestidigitation Transmutation — True Strike Divination — Level 1 Warlock Spells Spell School Special Bane Enchantment C Charm Person Enchantment — Comprehend Languages Divination R Detect Magic Divination C, R Expeditious Retreat Transmutation C Hellish Rebuke Evocation — Hex Enchantment C Hideous Laughter Enchantment C Illusory Script Illusion R, M Protection from Evil and Good Abjuration C, M Speak with Animals Divination R Unseen Servant Conjuration R Level 2 Warlock Spells Spell School Special Darkness Evocation C Enthrall Enchantment C Hold Person Enchantment C Invisibility Illusion C Mind Spike Divination C Mirror Image Illusion — Misty Step Conjuration — Ray of Enfeeblement Necromancy C Spider Climb Transmutation C Suggestion Enchantment C Level 3 Warlock Spells Spell School Special Counterspell Abjuration — Dispel Magic Abjuration — Fear Illusion C Fly Transmutation C Spell School Special Gaseous Form Transmutation C Hypnotic Pattern Illusion C Magic Circle Abjuration M Major Image Illusion C Remove Curse Abjuration — Tongues Divination — Vampiric Touch Necromancy C Level 4 Warlock Spells Spell School Special Banishment Abjuration C Blight Necromancy — Charm Monster Enchantment — Dimension Door Conjuration — Hallucinatory Terrain Illusion — Level 5 Warlock Spells Spell School Special Contact Other Plane Divination R Dream Illusion — Hold Monster Enchantment C Mislead Illusion C Planar Binding Abjuration M Scrying Divination C, M Teleportation Circle Conjuration M Level 6 Warlock Spells Spell School Special Circle of Death Necromancy M Create Undead Necromancy M Eyebite Necromancy C True Seeing Divination M Level 7 Warlock Spells Spell School Special Etherealness Conjuration — Finger of Death Necromancy — Forcecage Evocation C, M Plane Shift Conjuration M System Reference Document 5.2 Level 8 Warlock Spells Spell School Special Befuddlement Enchantment — Demiplane Conjuration — Dominate Monster Enchantment C Glibness Enchantment — Power Word Stun Enchantment — Level 9 Warlock Spells Spell School Special Astral Projection Necromancy M Foresight Divination — Gate Conjuration C, M Imprisonment Abjuration M Power Word Kill Enchantment — True Polymorph Transmutation C Weird Illusion C"
+      },
+      "subclass": {
+        "name": "Fiend Patron",
+        "features": [
+          {
+            "level": 3,
+            "name": "Dark One’s Blessing",
+            "text": "When you reduce an enemy to 0 Hit Points, you gain Temporary Hit Points equal to your Charisma modifier plus your Warlock level (minimum of 1 Temporary Hit Point). You also gain this benefit if someone else reduces an enemy within 10 feet of you to 0 Hit Points."
+          },
+          {
+            "level": 3,
+            "name": "Fiend Spells",
+            "text": "The magic of your patron ensures you always have certain spells ready; when you reach a Warlock level specified in the Fiend Spells table, you thereafter always have the listed spells prepared. Fiend Spells Warlock Level Spells 3 Burning Hands, Command, Scorching Ray, Suggestion 5 Fireball, Stinking Cloud 7 Fire Shield, Wall of Fire 9 Geas, Insect Plague"
+          },
+          {
+            "level": 6,
+            "name": "Dark One’s Own Luck",
+            "text": "You can call on your fiendish patron to alter fate in your favor. When you make an ability check or a saving throw, you can use this feature to add 1d10 to your roll. You can do so after seeing the roll but before any of the roll’s effects occur. You can use this feature a number of times equal to your Charisma modifier (minimum of once), but you can use it no more than once per roll. You regain all expended uses when you finish a Long Rest."
+          },
+          {
+            "level": 10,
+            "name": "Fiendish Resilience",
+            "text": "Choose one damage type, other than Force, whenever you finish a Short or Long Rest. You have Resistance to that damage type until you choose a different one with this feature."
+          },
+          {
+            "level": 14,
+            "name": "Hurl Through Hell",
+            "text": "Once per turn when you hit a creature with an attack roll, you can try to instantly transport the target through the Lower Planes. The target must succeed on a Charisma saving throw against your spell save DC, or the target disappears and hurtles through a nightmare landscape. The target takes 8d10 Psychic damage if it isn’t a Fiend, and it has the Incapacitated condition until the end of your next turn, when it returns to the space it previously occupied or the nearest unoccupied space. Once you use this feature, you can’t use it again until you finish a Long Rest unless you expend a Pact Magic spell slot (no action required) to restore your use of it. Wizard"
+          }
+        ]
       }
     },
     "Wizard": {
@@ -4288,6 +4608,36 @@
         "Spell Mastery": "You have achieved such mastery over certain spells that you can cast them at will. Choose a level 1 and a level 2 spell in your spellbook that have a casting time of an action. You always have those spells prepared, and you can cast them at their lowest level without expending a spell slot. To cast either spell at a higher level, you must expend a spell slot. Whenever you finish a Long Rest, you can study your spellbook and replace one of those spells with an eligible spell of the same level from the book.",
         "Epic Boon": "You gain an Epic Boon feat (see “Feats”) or another feat of your choice for which you qualify. Boon of Spell Recall is recommended.",
         "Signature Spells": "Choose two level 3 spells in your spellbook as your signature spells. You always have these spells prepared, and you can cast each of them once at level 3 without expending a spell slot. When you do so, you can’t cast them in this way again until you finish a Short or Long Rest. To cast either spell at a higher level, you must expend a spell slot. Wizard Spell List This section presents the Wizard spell list. The spells are organized by spell level and then alphabetized, and each spell’s school of magic is listed. In the Special column, C means the spell requires Concentration, R means it’s a Ritual, and M means it requires a specific Material component. Cantrips (Level 0 Wizard Spells) Spell School Special Acid Splash Evocation — Chill Touch Necromancy — Dancing Lights Illusion C Elementalism Transmutation — Fire Bolt Evocation — Light Evocation — Spell School Special Mage Hand Conjuration — Mending Transmutation — Message Transmutation — Minor Illusion Illusion — Poison Spray Necromancy — Prestidigitation Transmutation — Ray of Frost Evocation — Shocking Grasp Evocation — True Strike Divination — Level 1 Wizard Spells Spell School Special Alarm Abjuration R Burning Hands Evocation — Charm Person Enchantment — Chromatic Orb Evocation M Color Spray Illusion — Comprehend Languages Divination R Detect Magic Divination C, R Disguise Self Illusion — Expeditious Retreat Transmutation C False Life Necromancy – Feather Fall Transmutation — Find Familiar Conjuration R, M Floating Disk Conjuration R Fog Cloud Conjuration C Grease Conjuration — Hideous Laughter Enchantment C Ice Knife Conjuration — Identify Divination R, M Illusory Script Illusion R, M Jump Transmutation — Longstrider Transmutation — Mage Armor Abjuration — Magic Missile Evocation — Protection from Evil and Good Abjuration C, M Ray of Sickness Necromancy — Shield Abjuration — Silent Image Illusion C Sleep Enchantment C Thunderwave Evocation — Unseen Servant Conjuration R System Reference Document 5.2 Level 2 Wizard Spells Spell School Special Acid Arrow Evocation — Alter Self Transmutation C Arcane Lock Abjuration M Arcanist’s Magic Aura Illusion — Augury Divination R, M Blindness/Deafness Transmutation — Blur Illusion C Continual Flame Evocation M Darkness Evocation C Darkvision Transmutation — Detect Thoughts Divination C Dragon’s Breath Transmutation C Enhance Ability Transmutation C Enlarge/Reduce Transmutation C Flaming Sphere Evocation C Gentle Repose Necromancy R, M Gust of Wind Evocation C Hold Person Enchantment C Invisibility Illusion C Knock Transmutation — Levitate Transmutation C Locate Object Divination C Magic Mouth Illusion R, M Magic Weapon Transmutation — Mind Spike Divination C Mirror Image Illusion — Misty Step Conjuration — Ray of Enfeeblement Necromancy C Rope Trick Transmutation — Scorching Ray Evocation — See Invisibility Divination — Shatter Evocation — Spider Climb Transmutation C Suggestion Enchantment C Web Conjuration C Level 3 Wizard Spells Spell School Special Animate Dead Necromancy — Bestow Curse Necromancy C Blink Transmutation — Clairvoyance Divination C, M Counterspell Abjuration — Dispel Magic Abjuration — Spell School Special Fear Illusion C Fireball Evocation — Fly Transmutation C Gaseous Form Transmutation C Glyph of Warding Abjuration M Haste Transmutation C Hypnotic Pattern Illusion C Lightning Bolt Evocation — Magic Circle Abjuration M Major Image Illusion C Nondetection Abjuration M Phantom Steed Illusion R Protection from Energy Abjuration C Remove Curse Abjuration — Sending Divination — Sleet Storm Conjuration C Slow Transmutation C Speak with Dead Necromancy — Stinking Cloud Conjuration C Tiny Hut Evocation R Tongues Divination — Vampiric Touch Necromancy C Water Breathing Transmutation R Level 4 Wizard Spells Spell School Special Arcane Eye Divination C Banishment Abjuration C Black Tentacles Conjuration C Blight Necromancy — Charm Monster Enchantment — Confusion Enchantment C Conjure Minor Elementals Conjuration C Control Water Transmutation C Dimension Door Conjuration — Divination Divination R, M Fabricate Transmutation — Faithful Hound Conjuration — Fire Shield Evocation — Greater Invisibility Illusion C Hallucinatory Terrain Illusion — Ice Storm Evocation — Locate Creature Divination C Phantasmal Killer Illusion C System Reference Document 5.2 Spell School Special Polymorph Transmutation C Private Sanctum Abjuration — Resilient Sphere Abjuration C Secret Chest Conjuration M Stone Shape Transmutation — Stoneskin Transmutation C, M Vitriolic Sphere Evocation — Wall of Fire Evocation C Level 5 Wizard Spells Spell School Special Animate Objects Transmutation C Arcane Hand Evocation C Cloudkill Conjuration C Cone of Cold Evocation — Conjure Elemental Conjuration C Contact Other Plane Divination R Creation Illusion — Dominate Person Enchantment C Dream Illusion — Geas Enchantment — Hold Monster Enchantment C Legend Lore Divination M Mislead Illusion C Modify Memory Enchantment C Passwall Transmutation — Planar Binding Abjuration M Scrying Divination C, M Seeming Illusion — Summon Dragon Conjuration C, M Telekinesis Transmutation C Telepathic Bond Divination R Teleportation Circle Conjuration M Wall of Force Evocation C Wall of Stone Evocation C Level 6 Wizard Spells Spell School Special Chain Lightning Evocation — Circle of Death Necromancy M Contingency Abjuration M Create Undead Necromancy M Disintegrate Transmutation — Eyebite Necromancy C Flesh to Stone Transmutation C Freezing Sphere Evocation — Globe of Invulnerability Abjuration C Guards and Wards Abjuration M Instant Summons Conjuration R, M Irresistible Dance Enchantment C Magic Jar Necromancy M Mass Suggestion Enchantment — Move Earth Transmutation C Programmed Illusion Illusion M Sunbeam Evocation C True Seeing Divination M Wall of Ice Evocation C Level 7 Wizard Spells Spell School Special Arcane Sword Evocation C, M Delayed Blast Fireball Evocation C Etherealness Conjuration — Finger of Death Necromancy — Forcecage Evocation C, M Magnificent Mansion Conjuration M Mirage Arcane Illusion — Plane Shift Conjuration M Prismatic Spray Evocation — Project Image Illusion C, M Reverse Gravity Transmutation C Sequester Transmutation M Simulacrum Illusion M Symbol Abjuration M Teleport Conjuration — System Reference Document 5.2 Level 8 Wizard Spells Spell School Special Antimagic Field Abjuration C Antipathy/Sympathy Enchantment — Befuddlement Enchantment — Clone Necromancy M Control Weather Transmutation C Demiplane Conjuration — Dominate Monster Enchantment C Incendiary Cloud Conjuration C Maze Conjuration C Mind Blank Abjuration — Power Word Stun Enchantment — Sunburst Evocation — Level 9 Wizard Spells Spell School Special Astral Projection Necromancy M Foresight Divination — Gate Conjuration C, M Imprisonment Abjuration M Meteor Swarm Evocation — Power Word Kill Enchantment — Prismatic Wall Abjuration — Shapechange Transmutation C, M Time Stop Transmutation — True Polymorph Transmutation C Weird Illusion C Wish Conjuration —"
+      },
+      "subclass": {
+        "name": "Evoker",
+        "features": [
+          {
+            "level": 3,
+            "name": "Evocation Savant",
+            "text": "Choose two Wizard spells from the Evocation school, each of which must be no higher than level 2, and add them to your spellbook for free. In addition, whenever you gain access to a new level of spell slots in this class, you can add one Wizard spell from the Evocation school to your spellbook for free. The chosen spell must be of a level for which you have spell slots."
+          },
+          {
+            "level": 3,
+            "name": "Potent Cantrip",
+            "text": "Your damaging cantrips affect even creatures that avoid the brunt of the effect. When you cast a cantrip at a creature and you miss with the attack roll or the target succeeds on a saving throw against the cantrip, the target takes half the cantrip’s damage (if any) but suffers no additional effect from the cantrip."
+          },
+          {
+            "level": 6,
+            "name": "Sculpt Spells",
+            "text": "You can create pockets of relative safety within the effects of your evocations. When you cast an Evocation spell that affects other creatures that you can see, you can choose a number of them equal to 1 plus the spell’s level. The chosen creatures automatically succeed on their saving throws against the spell, and they take no damage if they would normally take half damage on a successful save."
+          },
+          {
+            "level": 10,
+            "name": "Empowered Evocation",
+            "text": "Whenever you cast a Wizard spell from the Evocation school, you can add your Intelligence modifier to one damage roll of that spell."
+          },
+          {
+            "level": 14,
+            "name": "Overchannel",
+            "text": "You can increase the power of your spells. When you cast a Wizard spell with a spell slot of levels 1–5 that deals damage, you can deal maximum damage with that spell on the turn you cast it. The first time you do so, you suffer no adverse effect. If you use this feature again before you finish a Long Rest, you take 2d12 Necrotic damage for each level of the spell slot immediately after you cast it. This damage ignores Resistance and Immunity. Each time you use this feature again before finishing a Long Rest, the Necrotic damage per spell level increases by 1d12."
+          }
+        ]
       }
     }
   },
