@@ -254,17 +254,6 @@ export function CombatTab({ c, set, mut, setOverride }: SheetProps) {
           <button className="btn btn-primary" onClick={longRest}>
             Long rest
           </button>
-          <button
-            className="btn btn-sm"
-            onClick={() =>
-              mut((d) => ({
-                ...d,
-                hitDice: [...d.hitDice, { id: newId(), die: 8, total: 1, used: 0 }],
-              }))
-            }
-          >
-            + Hit die pool
-          </button>
         </div>
         {restNote && (
           <p className="formula mt-2" style={{ color: "var(--accent)" }}>
@@ -273,6 +262,10 @@ export function CombatTab({ c, set, mut, setOverride }: SheetProps) {
         )}
 
         <div className="mt-3 space-y-2">
+          <span className="label block">Hit dice</span>
+          {c.hitDice.length === 0 && (
+            <Empty>No hit dice set up. Add a pool below.</Empty>
+          )}
           {c.hitDice.map((g) => {
             const left = Math.max(0, g.total - g.used);
             return (
@@ -335,17 +328,43 @@ export function CombatTab({ c, set, mut, setOverride }: SheetProps) {
                 </button>
                 <ConfirmButton
                   onConfirm={() =>
-                    mut((d) => ({
-                      ...d,
-                      hitDice: d.hitDice.filter((x) => x.id !== g.id),
-                    }))
+                    mut((d) => {
+                      // Removing the only pool would leave no way back into the
+                      // section, so the last one resets instead of vanishing.
+                      if (d.hitDice.length <= 1) {
+                        return {
+                          ...d,
+                          hitDice: [{ id: newId(), die: 8, total: 0, used: 0 }],
+                        };
+                      }
+                      return {
+                        ...d,
+                        hitDice: d.hitDice.filter((x) => x.id !== g.id),
+                      };
+                    })
                   }
                 >
-                  ✕
+                  {c.hitDice.length <= 1 ? "Clear" : "✕"}
                 </ConfirmButton>
               </div>
             );
           })}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              className="btn btn-sm"
+              onClick={() =>
+                mut((d) => ({
+                  ...d,
+                  hitDice: [...d.hitDice, { id: newId(), die: 8, total: 1, used: 0 }],
+                }))
+              }
+            >
+              + Add a die pool
+            </button>
+            <span className="formula">
+              One pool per hit die size — multiclass characters need more than one.
+            </span>
+          </div>
           <p className="formula">
             Roll the die at the table, then type the healing into the box above and tap
             Heal.
