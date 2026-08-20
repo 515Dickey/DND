@@ -47,6 +47,11 @@ saved before this change are converted automatically, one entry per line.
 - **Short rest** restores pact slots
 - Exhaustion and encumbrance both reduce your speed
 - Carrying capacity `STR × 15`, push/drag/lift `STR × 30`, optional variant encumbrance
+- Gear marked stowed stays listed but stops counting against capacity
+- **Magic containers**: tick "contents weightless" on an item and anything whose
+  location names it stops counting. Typing a Bag of Holding, Handy Haversack,
+  Portable Hole, or Efficient Quiver ticks it and fills in the container's own
+  weight for you — which still counts, as the rules intend
 - Spell save DC and spell attack bonus from your casting ability
 
 There's deliberately **no dice roller** — you're rolling real dice at the table.

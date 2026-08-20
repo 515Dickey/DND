@@ -304,14 +304,69 @@ export function damageString(c: Character, attackId: string): string {
 
 export const COINS_PER_POUND = 50;
 
-/** Weight of everything actually on the character. Stowed gear is excluded. */
+/**
+ * Magic containers whose contents weigh nothing, with the container's own
+ * weight in pounds. Matched on name so the sheet can tick the flag for you.
+ */
+export const MAGIC_CONTAINERS: { match: string; weight: number }[] = [
+  { match: "bag of holding", weight: 15 },
+  { match: "handy haversack", weight: 5 },
+  { match: "heward's handy haversack", weight: 5 },
+  { match: "portable hole", weight: 0 },
+  { match: "efficient quiver", weight: 2 },
+];
+
+/** Finds the known container an item's name refers to, if any. */
+export function matchMagicContainer(name: string) {
+  const n = name.trim().toLowerCase();
+  if (!n) return undefined;
+  return MAGIC_CONTAINERS.find((cont) => n.includes(cont.match));
+}
+
+function itemWeight(i: InventoryItem): number {
+  return (i.weight || 0) * (i.qty || 0);
+}
+
+/** Lowercased names of containers that make their contents weightless. */
+function weightlessContainers(c: Character): Set<string> {
+  const names = new Set<string>();
+  for (const i of c.inventory) {
+    const n = i.name?.trim().toLowerCase();
+    if (i.weightless && n) names.add(n);
+  }
+  return names;
+}
+
+/**
+ * Why an item does or doesn't count against carrying capacity. The three
+ * outcomes are mutually exclusive so the reported totals always add up.
+ */
+export type WeightStatus = "counted" | "stowed" | "inContainer";
+
+export function weightStatus(
+  item: InventoryItem,
+  containers: Set<string>,
+): WeightStatus {
+  if (item.carried === false) return "stowed";
+  const loc = item.location?.trim().toLowerCase();
+  // A container can't be inside itself, however it was typed.
+  if (loc && loc !== item.name?.trim().toLowerCase() && containers.has(loc)) {
+    return "inContainer";
+  }
+  return "counted";
+}
+
+/** Convenience for the gear list, which needs this per row. */
+export function itemWeightStatus(c: Character, item: InventoryItem): WeightStatus {
+  return weightStatus(item, weightlessContainers(c));
+}
+
+/** Weight of everything actually bearing on the character. */
 export function inventoryWeight(c: Character): number {
+  const containers = weightlessContainers(c);
   const gear = c.inventory
-    .filter((i: InventoryItem) => i.carried !== false)
-    .reduce(
-      (sum: number, i: InventoryItem) => sum + (i.weight || 0) * (i.qty || 0),
-      0,
-    );
+    .filter((i: InventoryItem) => weightStatus(i, containers) === "counted")
+    .reduce((sum: number, i: InventoryItem) => sum + itemWeight(i), 0);
   if (!c.countCoinWeight) return round2(gear);
   const coins =
     c.currency.cp + c.currency.sp + c.currency.ep + c.currency.gp + c.currency.pp;
@@ -324,10 +379,21 @@ export function round2(n: number): number {
 
 /** Total weight of gear left behind, shown so the number isn't a mystery. */
 export function stowedWeight(c: Character): number {
+  const containers = weightlessContainers(c);
   return round2(
     c.inventory
-      .filter((i: InventoryItem) => i.carried === false)
-      .reduce((sum, i) => sum + (i.weight || 0) * (i.qty || 0), 0),
+      .filter((i) => weightStatus(i, containers) === "stowed")
+      .reduce((sum, i) => sum + itemWeight(i), 0),
+  );
+}
+
+/** Weight swallowed by magic containers, reported so the maths is visible. */
+export function containedWeight(c: Character): number {
+  const containers = weightlessContainers(c);
+  return round2(
+    c.inventory
+      .filter((i) => weightStatus(i, containers) === "inContainer")
+      .reduce((sum, i) => sum + itemWeight(i), 0),
   );
 }
 

@@ -5,7 +5,11 @@ import { newId } from "@/lib/types";
 import {
   attunedCount,
   carryInfo,
+  containedWeight,
   inventoryLocations,
+  itemWeightStatus,
+  MAGIC_CONTAINERS,
+  matchMagicContainer,
   round2,
   stowedWeight,
   totalGp,
@@ -72,6 +76,7 @@ export function GearTab({ c, set, mut }: SheetProps) {
   const [filter, setFilter] = useState("");
   const carry = carryInfo(c);
   const stowed = stowedWeight(c);
+  const contained = containedWeight(c);
   const attuned = attunedCount(c);
 
   const barColor =
@@ -102,6 +107,7 @@ export function GearTab({ c, set, mut }: SheetProps) {
           location: "",
           carried: true,
           attuned: false,
+          weightless: false,
         },
       ],
     }));
@@ -156,6 +162,13 @@ export function GearTab({ c, set, mut }: SheetProps) {
           <p className="formula mt-2">
             A further {stowed} lb is marked stowed — on a mount or back at camp —
             so it isn&apos;t counted against you.
+          </p>
+        )}
+
+        {contained > 0 && (
+          <p className="formula mt-1" style={{ color: "var(--good)" }}>
+            {contained} lb sits inside magic containers and weighs nothing. The
+            container&apos;s own weight still counts, as it should.
           </p>
         )}
 
@@ -272,14 +285,30 @@ export function GearTab({ c, set, mut }: SheetProps) {
                   <span className="label mb-1 block">Item</span>
                   <input
                     className="ink-field"
+                    list="gear-known-items"
                     value={item.name}
                     placeholder="Item name"
                     onChange={(e) =>
                       mut((d) => ({
                         ...d,
-                        inventory: d.inventory.map((x) =>
-                          x.id === item.id ? { ...x, name: e.target.value } : x,
-                        ),
+                        inventory: d.inventory.map((x) => {
+                          if (x.id !== item.id) return x;
+                          const name = e.target.value;
+                          const wasKnown = matchMagicContainer(x.name);
+                          const known = matchMagicContainer(name);
+                          // Recognise the name and tick the flag for them, but
+                          // only on the edit that newly matches, so unticking
+                          // it by hand isn't undone on the next keystroke.
+                          if (known && !wasKnown) {
+                            return {
+                              ...x,
+                              name,
+                              weightless: true,
+                              weight: x.weight === 0 ? known.weight : x.weight,
+                            };
+                          }
+                          return { ...x, name };
+                        }),
                       }))
                     }
                   />
@@ -341,7 +370,10 @@ export function GearTab({ c, set, mut }: SheetProps) {
                     <span
                       className="stat-value text-sm"
                       style={{
-                        color: item.carried ? "var(--ink)" : "var(--ink-faint)",
+                        color:
+                          itemWeightStatus(c, item) === "counted"
+                            ? "var(--ink)"
+                            : "var(--ink-faint)",
                       }}
                     >
                       {round2(item.qty * item.weight)}
@@ -404,13 +436,50 @@ export function GearTab({ c, set, mut }: SheetProps) {
                       }))
                     }
                   />
+                  <StateChip
+                    label="Contents weightless"
+                    active={item.weightless}
+                    hint="Anything whose Where names this item stops counting against capacity"
+                    onToggle={() =>
+                      mut((d) => ({
+                        ...d,
+                        inventory: d.inventory.map((x) =>
+                          x.id === item.id ? { ...x, weightless: !x.weightless } : x,
+                        ),
+                      }))
+                    }
+                  />
+                  {itemWeightStatus(c, item) === "inContainer" && (
+                    // Not .label here: that uppercases, which shouts and mangles
+                    // the container's own capitalisation.
+                    <span
+                      className="self-center text-xs"
+                      style={{ color: "var(--good)" }}
+                    >
+                      weighs nothing — inside {item.location}
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
           </div>
         )}
+        <datalist id="gear-known-items">
+          {MAGIC_CONTAINERS.map((cont) => (
+            <option
+              key={cont.match}
+              value={cont.match.replace(/w/g, (ch) => ch.toUpperCase())}
+            />
+          ))}
+        </datalist>
         <datalist id="gear-locations">
-          {[...new Set([...DEFAULT_LOCATIONS, ...inventoryLocations(c)])].map((loc) => (
+          {[
+            ...new Set([
+              ...DEFAULT_LOCATIONS,
+              ...c.inventory.filter((i) => i.weightless && i.name.trim()).map((i) => i.name.trim()),
+              ...inventoryLocations(c),
+            ]),
+          ].map((loc) => (
             <option key={loc} value={loc} />
           ))}
         </datalist>

@@ -98,6 +98,11 @@ export interface InventoryItem {
   carried: boolean;
   /** Magic items you've attuned to; 5e allows three at a time. */
   attuned: boolean;
+  /**
+   * True for a Bag of Holding and friends: the container's own weight counts,
+   * but anything whose location names it stops counting against capacity.
+   */
+  weightless: boolean;
 }
 
 export interface SpellEntry {
@@ -434,6 +439,7 @@ const BLANK_ITEM_FIELDS = {
   location: "",
   carried: true,
   attuned: false,
+  weightless: false,
 };
 
 /**
