@@ -4,7 +4,7 @@
 // stat block and full rules text. Nothing is locked afterwards: an added spell
 // is an ordinary entry you can rename, re-level, or rewrite.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Character, SpellEntry } from "@/lib/types";
 import {
   loadSpells,
@@ -57,6 +57,7 @@ export function SpellBrowser({
   const [forClass, setForClass] = useState<string>("any");
   const [added, setAdded] = useState<string[]>([]);
   const [preview, setPreview] = useState<SrdSpell | null>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   // The browser is only mounted when asked for, so fetch on mount.
   useEffect(() => {
@@ -91,6 +92,11 @@ export function SpellBrowser({
     const entry: SpellEntry = toSpellEntry(spell);
     mut((d) => ({ ...d, spells: [...d.spells, entry] }));
     setAdded((prev) => [...prev, spell.name]);
+    // Clear the search and hand the cursor back, so adding several spells in a
+    // row is type, add, type, add -- no reaching for the box between each.
+    setQuery("");
+    setPreview(null);
+    searchRef.current?.focus();
   };
 
   return (
@@ -104,10 +110,12 @@ export function SpellBrowser({
       ) : (
         <div className="space-y-2.5">
           <input
+            ref={searchRef}
             className="ink-field"
             value={query}
             placeholder="Search by name, school, or class…"
             aria-label="Search spells"
+            autoFocus
             onChange={(e) => setQuery(e.target.value)}
           />
           <div className="flex gap-2">
@@ -133,9 +141,18 @@ export function SpellBrowser({
             />
           </div>
 
+          {/*
+            Clearing the search removes the added spell from view, so name it
+            here -- otherwise the only sign anything happened is a counter.
+          */}
+          {added.length > 0 && (
+            <p className="text-sm" style={{ color: "var(--good)" }}>
+              Added {added[added.length - 1]}
+              {added.length > 1 && ` · ${added.length} this session`}
+            </p>
+          )}
           <p className="formula">
             {results.length} spell{results.length === 1 ? "" : "s"} match
-            {added.length > 0 && ` · ${added.length} added`}
           </p>
 
           <div className="space-y-1.5">
