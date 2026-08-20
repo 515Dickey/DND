@@ -50,12 +50,13 @@ export default function RosterPage() {
     <main className="mx-auto max-w-5xl px-4 pb-16 pt-8">
       <header className="mb-8 flex items-start justify-between gap-4">
         <div>
-          <h1 className="display text-3xl text-accent sm:text-4xl">D&amp;D&amp;D</h1>
-          <p className="display mt-1 text-xs text-ink-soft sm:text-sm">
-            Derrick and Dungeons and Dragons
-          </p>
-          <p className="mt-1.5 text-sm italic text-ink-soft">
-            Character sheets are stored on this device.
+          <h1 className="display text-3xl text-accent sm:text-4xl">Vellum</h1>
+          {/* A dictionary gloss, with the turn at the end doing the work. */}
+          <p className="mt-1.5 max-w-md text-sm italic leading-snug text-ink-soft">
+            <span className="label not-italic">vellum</span>
+            <span className="not-italic">, n. — </span>
+            fine parchment, made to outlast its scribe. Yours only has to outlast
+            the campaign.
           </p>
         </div>
         <ThemeToggle />

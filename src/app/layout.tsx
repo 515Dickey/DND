@@ -21,12 +21,12 @@ const garamond = EB_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "D&D&D — Character Sheets",
+  title: "Vellum — Character Sheets",
   description: "A tablet-friendly 5e character sheet that saves to your device.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "D&D&D",
+    title: "Vellum",
     statusBarStyle: "default",
   },
   // iPadOS ignores the web manifest's icons for "Add to Home Screen" and looks

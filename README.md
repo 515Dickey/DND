@@ -1,4 +1,7 @@
-# D&D&D — Derrick and Dungeons and Dragons
+# Vellum
+
+*vellum, n. — fine parchment, made to outlast its scribe. Yours only has to
+outlast the campaign.*
 
 A D&D 5e character sheet for playing in person. Built for tablets and phones,
 styled after the 3rd-edition books, and stored entirely on the device that's
