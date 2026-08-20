@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { newId } from "@/lib/types";
-import { carryInfo, round2, totalGp } from "@/lib/rules";
+import {
+  attunedCount,
+  carryInfo,
+  inventoryLocations,
+  round2,
+  stowedWeight,
+  totalGp,
+} from "@/lib/rules";
 import {
   ConfirmButton,
   Empty,
@@ -22,9 +29,50 @@ const COINS = [
   { key: "cp", label: "Copper" },
 ] as const;
 
+const DEFAULT_LOCATIONS = [
+  "Worn",
+  "Belt",
+  "Backpack",
+  "Pouch",
+  "Mount",
+  "Camp",
+];
+
+/** A small on/off badge, for the equipped / stowed / attuned states. */
+function StateChip({
+  label,
+  active,
+  onToggle,
+  hint,
+}: {
+  label: string;
+  active: boolean;
+  onToggle: () => void;
+  hint?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={active}
+      title={hint}
+      className="label rounded-full border px-2 py-1"
+      style={{
+        borderColor: active ? "var(--accent)" : "var(--rule)",
+        background: active ? "var(--accent)" : "transparent",
+        color: active ? "var(--paper-hi)" : "var(--ink-faint)",
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
 export function GearTab({ c, set, mut }: SheetProps) {
   const [filter, setFilter] = useState("");
   const carry = carryInfo(c);
+  const stowed = stowedWeight(c);
+  const attuned = attunedCount(c);
 
   const barColor =
     carry.status === "overloaded" || carry.status === "heavy"
@@ -44,7 +92,17 @@ export function GearTab({ c, set, mut }: SheetProps) {
       ...d,
       inventory: [
         ...d.inventory,
-        { id: newId(), name: "", qty: 1, weight: 0, equipped: false, notes: "" },
+        {
+          id: newId(),
+          name: "",
+          qty: 1,
+          weight: 0,
+          equipped: false,
+          notes: "",
+          location: "",
+          carried: true,
+          attuned: false,
+        },
       ],
     }));
 
@@ -93,6 +151,39 @@ export function GearTab({ c, set, mut }: SheetProps) {
             {carry.effect}
           </p>
         )}
+
+        {stowed > 0 && (
+          <p className="formula mt-2">
+            A further {stowed} lb is marked stowed — on a mount or back at camp —
+            so it isn&apos;t counted against you.
+          </p>
+        )}
+
+        <div className="mt-3 flex flex-wrap items-end gap-3">
+          <div className="stat-box min-w-28">
+            <div className="label">Attuned items</div>
+            <div
+              className="stat-value text-2xl"
+              style={{
+                color: attuned > c.attunementMax ? "var(--bad)" : "var(--ink)",
+              }}
+            >
+              {attuned}
+              <span className="text-sm font-normal">/{c.attunementMax}</span>
+            </div>
+            <div className="formula mt-0.5">
+              {attuned > c.attunementMax ? "over the limit" : "magic items"}
+            </div>
+          </div>
+          <NumField
+            label="Attunement limit"
+            className="w-28"
+            value={c.attunementMax}
+            min={0}
+            max={10}
+            onChange={(v) => set({ attunementMax: v })}
+          />
+        </div>
 
         <hr className="divider my-3" />
 
@@ -226,10 +317,33 @@ export function GearTab({ c, set, mut }: SheetProps) {
                     }
                   />
                 </label>
+                <label className="min-w-[7rem] flex-1">
+                  <span className="label mb-1 block">Where</span>
+                  <input
+                    className="ink-field"
+                    list="gear-locations"
+                    value={item.location}
+                    placeholder="Backpack"
+                    aria-label={`${item.name || "item"} location`}
+                    onChange={(e) =>
+                      mut((d) => ({
+                        ...d,
+                        inventory: d.inventory.map((x) =>
+                          x.id === item.id ? { ...x, location: e.target.value } : x,
+                        ),
+                      }))
+                    }
+                  />
+                </label>
                 <div className="w-20">
                   <span className="label mb-1 block">Total</span>
                   <div className="stat-box py-2">
-                    <span className="stat-value text-sm">
+                    <span
+                      className="stat-value text-sm"
+                      style={{
+                        color: item.carried ? "var(--ink)" : "var(--ink-faint)",
+                      }}
+                    >
                       {round2(item.qty * item.weight)}
                     </span>
                   </div>
@@ -246,10 +360,60 @@ export function GearTab({ c, set, mut }: SheetProps) {
                 >
                   ✕
                 </ConfirmButton>
+
+                {/* State badges. Each is a toggle, so no menus to hunt through. */}
+                <div className="flex w-full flex-wrap gap-1.5">
+                  <StateChip
+                    label="Equipped"
+                    active={item.equipped}
+                    onToggle={() =>
+                      mut((d) => ({
+                        ...d,
+                        inventory: d.inventory.map((x) =>
+                          x.id === item.id ? { ...x, equipped: !x.equipped } : x,
+                        ),
+                      }))
+                    }
+                  />
+                  <StateChip
+                    label={item.carried ? "On me" : "Stowed"}
+                    active={item.carried}
+                    onToggle={() =>
+                      mut((d) => ({
+                        ...d,
+                        inventory: d.inventory.map((x) =>
+                          x.id === item.id ? { ...x, carried: !x.carried } : x,
+                        ),
+                      }))
+                    }
+                    hint={
+                      item.carried
+                        ? "Counts against your carrying capacity"
+                        : "Left behind — not counted"
+                    }
+                  />
+                  <StateChip
+                    label="Attuned"
+                    active={item.attuned}
+                    onToggle={() =>
+                      mut((d) => ({
+                        ...d,
+                        inventory: d.inventory.map((x) =>
+                          x.id === item.id ? { ...x, attuned: !x.attuned } : x,
+                        ),
+                      }))
+                    }
+                  />
+                </div>
               </div>
             ))}
           </div>
         )}
+        <datalist id="gear-locations">
+          {[...new Set([...DEFAULT_LOCATIONS, ...inventoryLocations(c)])].map((loc) => (
+            <option key={loc} value={loc} />
+          ))}
+        </datalist>
       </Panel>
 
       <Panel title="Treasure & Notes">

@@ -304,11 +304,14 @@ export function damageString(c: Character, attackId: string): string {
 
 export const COINS_PER_POUND = 50;
 
+/** Weight of everything actually on the character. Stowed gear is excluded. */
 export function inventoryWeight(c: Character): number {
-  const gear = c.inventory.reduce(
-    (sum: number, i: InventoryItem) => sum + (i.weight || 0) * (i.qty || 0),
-    0,
-  );
+  const gear = c.inventory
+    .filter((i: InventoryItem) => i.carried !== false)
+    .reduce(
+      (sum: number, i: InventoryItem) => sum + (i.weight || 0) * (i.qty || 0),
+      0,
+    );
   if (!c.countCoinWeight) return round2(gear);
   const coins =
     c.currency.cp + c.currency.sp + c.currency.ep + c.currency.gp + c.currency.pp;
@@ -317,6 +320,29 @@ export function inventoryWeight(c: Character): number {
 
 export function round2(n: number): number {
   return Math.round(n * 100) / 100;
+}
+
+/** Total weight of gear left behind, shown so the number isn't a mystery. */
+export function stowedWeight(c: Character): number {
+  return round2(
+    c.inventory
+      .filter((i: InventoryItem) => i.carried === false)
+      .reduce((sum, i) => sum + (i.weight || 0) * (i.qty || 0), 0),
+  );
+}
+
+export function attunedCount(c: Character): number {
+  return c.inventory.filter((i) => i.attuned).length;
+}
+
+/** Distinct locations in use, so the gear list can offer them as suggestions. */
+export function inventoryLocations(c: Character): string[] {
+  const seen = new Set<string>();
+  for (const item of c.inventory) {
+    const loc = item.location?.trim();
+    if (loc) seen.add(loc);
+  }
+  return [...seen].sort((a, b) => a.localeCompare(b));
 }
 
 export interface CarryInfo {

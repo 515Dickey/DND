@@ -30,6 +30,7 @@ import {
   Panel,
   Select,
   Stepper,
+  TextArea,
 } from "@/components/ui";
 import type { SheetProps } from "./shared";
 
@@ -108,17 +109,27 @@ export function CombatTab({ c, set, mut, setOverride }: SheetProps) {
         slots,
         pactSlots: { ...d.pactSlots, used: 0 },
         hitDice: recoverHitDice(d.hitDice),
+        // A long rest also returns anything that recharges on a short one.
+        features: d.features.map((f) =>
+          f.recharge === "none" ? f : { ...f, usesSpent: 0 },
+        ),
       };
     });
     setRestNote(
-      "Long rest: HP full, spell slots back, half your hit dice recovered, one level of exhaustion gone.",
+      "Long rest: HP full, spell slots and feature uses back, half your hit dice recovered, one level of exhaustion gone.",
     );
   };
 
   const shortRest = () => {
-    mut((d) => ({ ...d, pactSlots: { ...d.pactSlots, used: 0 } }));
+    mut((d) => ({
+      ...d,
+      pactSlots: { ...d.pactSlots, used: 0 },
+      features: d.features.map((f) =>
+        f.recharge === "short" ? { ...f, usesSpent: 0 } : f,
+      ),
+    }));
     setRestNote(
-      "Short rest: pact slots restored. Spend hit dice below as you roll them.",
+      "Short rest: pact slots and short-rest features restored. Spend hit dice below as you roll them.",
     );
   };
 
@@ -193,6 +204,13 @@ export function CombatTab({ c, set, mut, setOverride }: SheetProps) {
                 min={0}
               />
             </div>
+            <TextArea
+              label="Hit points rolled per level"
+              value={c.hpByLevel}
+              rows={2}
+              placeholder={"lvl 1 - 10, lvl 2 - 7, lvl 3 - 7, lvl 4 - 8"}
+              onChange={(v) => set({ hpByLevel: v })}
+            />
           </div>
         </div>
 
@@ -421,6 +439,29 @@ export function CombatTab({ c, set, mut, setOverride }: SheetProps) {
             label="Initiative bonus"
             value={c.initiativeMisc}
             onChange={(v) => set({ initiativeMisc: v })}
+          />
+        </div>
+
+        <hr className="divider my-3" />
+
+        <div className="space-y-2.5">
+          <Field
+            label="Senses"
+            value={c.senses}
+            onChange={(v) => set({ senses: v })}
+            placeholder="Darkvision 60 ft"
+          />
+          <Field
+            label="Special movement"
+            value={c.specialMove}
+            onChange={(v) => set({ specialMove: v })}
+            placeholder="Climb 30 ft, swim 30 ft"
+          />
+          <Field
+            label="Special defenses"
+            value={c.specialDefenses}
+            onChange={(v) => set({ specialDefenses: v })}
+            placeholder="Resistance to fire, advantage on saves vs poison"
           />
         </div>
       </Panel>

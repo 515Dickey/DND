@@ -89,6 +89,15 @@ export interface InventoryItem {
   weight: number;
   equipped: boolean;
   notes: string;
+  /** Where it is: "Backpack", "Belt", "Worn", "Stormrunner"… Free text. */
+  location: string;
+  /**
+   * False for gear stowed elsewhere — on a mount, back at the inn. It still
+   * shows in the list but stops counting against carrying capacity.
+   */
+  carried: boolean;
+  /** Magic items you've attuned to; 5e allows three at a time. */
+  attuned: boolean;
 }
 
 export interface SpellEntry {
@@ -109,6 +118,15 @@ export interface JournalEntry {
   body: string;
 }
 
+/** When a limited-use feature gets its uses back. */
+export type Recharge = "none" | "short" | "long";
+
+export const RECHARGE_LABEL: Record<Recharge, string> = {
+  none: "Doesn't reset",
+  short: "Short rest",
+  long: "Long rest",
+};
+
 /**
  * One class feature, racial trait, or feat. The name and a short note show on
  * the collapsed row; the long rules text lives in `detail` behind a tap.
@@ -118,7 +136,15 @@ export interface FeatureEntry {
   name: string;
   note: string;
   detail: string;
+  /** 0 means the feature isn't limited-use, so no pips are drawn. */
+  usesMax: number;
+  usesSpent: number;
+  recharge: Recharge;
+  /** Section heading on the sheet, e.g. "Class", "Feats", "Traits". */
+  group: string;
 }
+
+export const DEFAULT_FEATURE_GROUPS = ["Class", "Subclass", "Feats", "Traits"];
 
 /** A "Armor: light, medium" style line in the proficiencies panel. */
 export interface ProficiencyGroup {
@@ -172,11 +198,23 @@ export interface Character {
   name: string;
   playerName: string;
   classText: string; // free text, e.g. "Fighter 3 / Rogue 2"
+  subclass: string;
   level: number;
+  /** Labelled "Species" in the UI, following the 2024 rules. */
   race: string;
   background: string;
   alignment: string;
+  deity: string;
   xp: number;
+
+  // Physical description
+  gender: string;
+  age: string;
+  height: string;
+  weight: string;
+  size: string;
+  /** A resized data URI, kept small so it doesn't blow the storage budget. */
+  portrait: string;
 
   // Abilities
   abilities: Record<AbilityKey, number>;
@@ -202,9 +240,15 @@ export interface Character {
   hpMaxMisc: number; // added on top of the entered max, e.g. Tough feat
   hpCurrent: number;
   hpTemp: number;
+  /** What you rolled at each level, e.g. "lvl 1 - 10". Free text on purpose. */
+  hpByLevel: string;
   hitDice: HitDiceGroup[];
   deathSuccesses: number;
   deathFailures: number;
+
+  senses: string;
+  specialMove: string;
+  specialDefenses: string;
 
   inspiration: boolean;
   exhaustion: number;
@@ -229,6 +273,7 @@ export interface Character {
   countCoinWeight: boolean;
   useVariantEncumbrance: boolean;
   treasure: string;
+  attunementMax: number;
   carryMisc: number; // e.g. Powerful Build doubles capacity -- add the difference
 
   // Text blocks
@@ -291,11 +336,20 @@ export function createCharacter(name = "New Character"): Character {
     name,
     playerName: "",
     classText: "",
+    subclass: "",
     level: 1,
     race: "",
     background: "",
     alignment: "",
+    deity: "",
     xp: 0,
+
+    gender: "",
+    age: "",
+    height: "",
+    weight: "",
+    size: "Medium",
+    portrait: "",
 
     abilities: { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 },
     saveProf: zeroAbilities(false),
@@ -318,9 +372,14 @@ export function createCharacter(name = "New Character"): Character {
     hpMaxMisc: 0,
     hpCurrent: 8,
     hpTemp: 0,
+    hpByLevel: "",
     hitDice: [{ id: newId(), die: 8, total: 1, used: 0 }],
     deathSuccesses: 0,
     deathFailures: 0,
+
+    senses: "",
+    specialMove: "",
+    specialDefenses: "",
 
     inspiration: false,
     exhaustion: 0,
@@ -343,6 +402,7 @@ export function createCharacter(name = "New Character"): Character {
     countCoinWeight: false,
     useVariantEncumbrance: false,
     treasure: "",
+    attunementMax: 3,
     carryMisc: 0,
 
     features: [],
@@ -363,6 +423,18 @@ export function createCharacter(name = "New Character"): Character {
     overrides: {},
   };
 }
+
+/**
+ * Defaults for item fields added after the first release. Spread *before* the
+ * saved item so real values win and only genuinely absent keys get filled.
+ * Items default to carried, so nobody's encumbrance silently drops after an
+ * update.
+ */
+const BLANK_ITEM_FIELDS = {
+  location: "",
+  carried: true,
+  attuned: false,
+};
 
 /**
  * Fills in anything missing from an imported or older-format character so a
@@ -392,7 +464,11 @@ export function migrateCharacter(raw: unknown): Character {
       : base.hitDice,
     attacks: Array.isArray(input.attacks) ? input.attacks : [],
     spells: Array.isArray(input.spells) ? input.spells : [],
-    inventory: Array.isArray(input.inventory) ? input.inventory : [],
+    // Items gained location/carried/attuned fields; older ones default to
+    // carried so nobody's encumbrance silently drops after an update.
+    inventory: Array.isArray(input.inventory)
+      ? input.inventory.map((item) => ({ ...BLANK_ITEM_FIELDS, ...item }))
+      : [],
     journal: Array.isArray(input.journal) ? input.journal : [],
     proficiencies: Array.isArray(input.proficiencies) && input.proficiencies.length
       ? input.proficiencies
@@ -402,13 +478,24 @@ export function migrateCharacter(raw: unknown): Character {
   // The features field used to be one textarea. Each non-empty line becomes its
   // own entry so nothing is lost and the text stays where the player put it.
   const legacyFeatures = (raw as { features?: unknown }).features;
+  const blankFeature = {
+    note: "",
+    detail: "",
+    usesMax: 0,
+    usesSpent: 0,
+    recharge: "none" as Recharge,
+    group: "",
+  };
   if (typeof legacyFeatures === "string") {
     merged.features = legacyFeatures
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean)
-      .map((line) => ({ id: newId(), name: line, note: "", detail: "" }));
-  } else if (!Array.isArray(input.features)) {
+      .map((line) => ({ ...blankFeature, id: newId(), name: line }));
+  } else if (Array.isArray(input.features)) {
+    // Entries saved before uses and grouping existed need those defaults.
+    merged.features = input.features.map((f) => ({ ...blankFeature, ...f }));
+  } else {
     merged.features = [];
   }
 

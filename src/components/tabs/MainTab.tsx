@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ABILITIES,
   type AbilityKey,
@@ -36,6 +36,7 @@ import {
   NumberInput,
   NumField,
   Panel,
+  Select,
   Toggle,
 } from "@/components/ui";
 import type { SheetProps } from "./shared";
@@ -191,11 +192,25 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
               min={1}
               max={20}
             />
-            <Field label="Race" value={c.race} onChange={(v) => set({ race: v })} />
+            <Field
+              label="Subclass"
+              value={c.subclass}
+              onChange={(v) => set({ subclass: v })}
+              placeholder="Battle Master"
+              className="col-span-2"
+            />
+            {/* "Species" rather than "Race", following the 2024 rules. */}
+            <Field
+              label="Species"
+              value={c.race}
+              onChange={(v) => set({ race: v })}
+              placeholder="Human"
+            />
             <Field
               label="Background"
               value={c.background}
               onChange={(v) => set({ background: v })}
+              placeholder="Noble"
             />
             <Field
               label="Alignment"
@@ -203,13 +218,53 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
               onChange={(v) => set({ alignment: v })}
               placeholder="NG"
             />
+            <Field
+              label="Deity"
+              value={c.deity}
+              onChange={(v) => set({ deity: v })}
+            />
             <NumField label="XP" value={c.xp} onChange={(v) => set({ xp: v })} min={0} />
             <Field
               label="Player"
               value={c.playerName}
               onChange={(v) => set({ playerName: v })}
-              className="col-span-2"
             />
+          </div>
+        </Panel>
+
+        <Panel title="Description">
+          <div className="flex gap-3">
+            <PortraitPicker
+              portrait={c.portrait}
+              onChange={(portrait) => set({ portrait })}
+            />
+            <div className="grid flex-1 grid-cols-2 gap-2.5">
+              <Field
+                label="Gender"
+                value={c.gender}
+                onChange={(v) => set({ gender: v })}
+              />
+              <Field label="Age" value={c.age} onChange={(v) => set({ age: v })} />
+              <Field
+                label="Height"
+                value={c.height}
+                onChange={(v) => set({ height: v })}
+                placeholder="5'10&quot;"
+              />
+              <Field
+                label="Weight"
+                value={c.weight}
+                onChange={(v) => set({ weight: v })}
+                placeholder="180 lbs"
+              />
+              <Select
+                label="Size"
+                className="col-span-2"
+                value={c.size}
+                options={SIZES.map((s) => ({ value: s, label: s }))}
+                onChange={(v) => set({ size: v })}
+              />
+            </div>
           </div>
         </Panel>
 
@@ -422,6 +477,116 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
           </p>
         </Panel>
       </div>
+    </div>
+  );
+}
+
+export const SIZES = [
+  "Tiny",
+  "Small",
+  "Medium",
+  "Large",
+  "Huge",
+  "Gargantuan",
+];
+
+/** Portraits are shrunk to this many pixels on the long edge before storing. */
+const PORTRAIT_MAX_PX = 256;
+
+/**
+ * Scales an image down and re-encodes it as a JPEG data URI. Storing the
+ * original would eat the whole localStorage budget in one character.
+ */
+function shrinkImage(file: File, max: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const scale = Math.min(1, max / Math.max(img.width, img.height));
+      const w = Math.max(1, Math.round(img.width * scale));
+      const h = Math.max(1, Math.round(img.height * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        reject(new Error("Canvas unavailable"));
+        return;
+      }
+      ctx.drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL("image/jpeg", 0.75));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Not a readable image"));
+    };
+    img.src = url;
+  });
+}
+
+function PortraitPicker({
+  portrait,
+  onChange,
+}: {
+  portrait: string;
+  onChange: (dataUri: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleFile = (file: File) => {
+    setError(null);
+    shrinkImage(file, PORTRAIT_MAX_PX)
+      .then(onChange)
+      .catch(() => setError("Couldn't read that image."));
+  };
+
+  return (
+    <div className="w-24 shrink-0">
+      <span className="label mb-1 block">Portrait</span>
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        className="block w-24 overflow-hidden rounded border"
+        style={{ borderColor: "var(--rule-strong)", aspectRatio: "1 / 1" }}
+        aria-label={portrait ? "Replace portrait" : "Add a portrait"}
+      >
+        {portrait ? (
+          // A user-supplied data URI; there's nothing for next/image to optimise.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={portrait}
+            alt="Character portrait"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <span className="label block px-1 py-8" style={{ color: "var(--ink-faint)" }}>
+            Tap to add
+          </span>
+        )}
+      </button>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) handleFile(f);
+          e.target.value = "";
+        }}
+      />
+      {portrait && (
+        <button className="btn btn-sm mt-1 w-full" onClick={() => onChange("")}>
+          Remove
+        </button>
+      )}
+      {error && (
+        <p className="formula mt-1" style={{ color: "var(--bad)" }}>
+          {error}
+        </p>
+      )}
     </div>
   );
 }
