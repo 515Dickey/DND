@@ -13,6 +13,7 @@ import {
   Select,
   TextArea,
 } from "@/components/ui";
+import { SpellBrowser } from "@/components/SpellBrowser";
 import type { SheetProps } from "./shared";
 
 const LEVEL_NAMES = [
@@ -68,6 +69,7 @@ function SlotPips({
 export function SpellsTab({ c, set, mut, setOverride }: SheetProps) {
   const [editSlots, setEditSlots] = useState(false);
   const [newSpellLevel, setNewSpellLevel] = useState(1);
+  const [browsing, setBrowsing] = useState(false);
 
   const preparedCount = c.spells.filter(
     (s) => s.level > 0 && (s.prepared || s.alwaysPrepared),
@@ -87,6 +89,13 @@ export function SpellsTab({ c, set, mut, setOverride }: SheetProps) {
           concentration: false,
           ritual: false,
           notes: "",
+          school: "",
+          castingTime: "",
+          range: "",
+          components: "",
+          duration: "",
+          detail: "",
+          source: "",
         },
       ],
     }));
@@ -319,6 +328,14 @@ export function SpellsTab({ c, set, mut, setOverride }: SheetProps) {
       })}
 
       <Panel title="Add a Spell">
+        <button className="btn btn-primary w-full" onClick={() => setBrowsing(true)}>
+          Search the rules for a spell
+        </button>
+        <p className="formula mb-3 mt-2">
+          Adds the spell with its casting time, range, components, duration, and
+          full text — all editable afterwards.
+        </p>
+        <hr className="divider mb-3" />
         <div className="flex flex-wrap items-end gap-2">
           <Select
             label="Level"
@@ -332,10 +349,14 @@ export function SpellsTab({ c, set, mut, setOverride }: SheetProps) {
           </button>
         </div>
         <p className="formula mt-2">
-          Write in whatever you know — the sheet tracks preparation and slots, you keep
-          the rulebook for the details.
+          Or add a blank entry and write it in yourself — for homebrew, or anything
+          outside the SRD.
         </p>
       </Panel>
+
+      {browsing && (
+        <SpellBrowser c={c} mut={mut} onClose={() => setBrowsing(false)} />
+      )}
 
       <Panel title="Spell Notes">
         <TextArea
@@ -418,11 +439,43 @@ function SpellRow({
               {spell.ritual ? "✓ Ritual" : "Ritual"}
             </button>
           </div>
+          {/* The stat block, for spells that came from the rules. */}
+          {(spell.castingTime || spell.range || spell.components || spell.duration) && (
+            <div className="grid grid-cols-2 gap-2">
+              <Field
+                label="Casting time"
+                value={spell.castingTime}
+                onChange={(v) => onPatch({ castingTime: v })}
+              />
+              <Field
+                label="Range"
+                value={spell.range}
+                onChange={(v) => onPatch({ range: v })}
+              />
+              <Field
+                label="Components"
+                value={spell.components}
+                onChange={(v) => onPatch({ components: v })}
+              />
+              <Field
+                label="Duration"
+                value={spell.duration}
+                onChange={(v) => onPatch({ duration: v })}
+              />
+            </div>
+          )}
           <Field
             label="Notes"
             value={spell.notes}
             onChange={(v) => onPatch({ notes: v })}
             placeholder="Range 60 ft, 3d6 fire, DEX save for half"
+          />
+          <TextArea
+            label="Rules text"
+            value={spell.detail}
+            rows={spell.detail ? 8 : 3}
+            placeholder="What the spell does — filled in for you when added from the rules."
+            onChange={(v) => onPatch({ detail: v })}
           />
           <ConfirmButton onConfirm={onDelete}>Delete spell</ConfirmButton>
         </div>

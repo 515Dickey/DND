@@ -68,6 +68,12 @@ again replaces only what a previous apply created and never touches anything you
 typed. Applying a second class multiclasses rather than overwriting — and when it
 can no longer describe you in one line, it says so instead of guessing.
 
+On the Spells tab, **Search the rules for a spell** browses all 339 SRD
+spells. Filter by level or by class list, tap a name to read it before
+committing, then Add — the spell arrives with its casting time, range,
+components, duration, and full rules text, already flagged for concentration
+and ritual. Cantrips arrive prepared, since they always are.
+
 The sheet won't pick your skills for you. It tells you how many to choose and
 from which list, and leaves the ticking to you.
 

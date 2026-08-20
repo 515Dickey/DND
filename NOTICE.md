@@ -9,8 +9,12 @@ Vellum is compatible with fifth edition.
 
 ## What is derived from the SRD
 
-- `src/srd/classes.json` — class core traits and the features gained at each
-  level, generated from the SRD PDF by `scripts/extract-srd.mjs`.
+- `src/srd/classes.json` — class core traits, the features gained at each
+  level, the rules text for each feature, and the nine species with their
+  traits.
+- `src/srd/spells.json` — all 339 spells with their stat blocks and full text.
+
+Both are generated from the SRD PDF by `scripts/extract-srd.mjs`.
 
 The generator is committed alongside the data so the extraction is auditable:
 anyone can re-run it against the published PDF and diff the result.

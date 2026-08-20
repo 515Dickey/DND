@@ -114,6 +114,16 @@ export interface SpellEntry {
   concentration: boolean;
   ritual: boolean;
   notes: string;
+  /** The stat block, filled in when a spell comes from the rules. */
+  school: string;
+  castingTime: string;
+  range: string;
+  components: string;
+  duration: string;
+  /** Full rules text, kept behind a tap so the list stays readable. */
+  detail: string;
+  /** "srd" when it came from the rules, empty when typed by hand. */
+  source: string;
 }
 
 export interface JournalEntry {
@@ -448,6 +458,17 @@ const BLANK_ITEM_FIELDS = {
   weightless: false,
 };
 
+/** Defaults for spell fields added after the first release. */
+const BLANK_SPELL_FIELDS = {
+  school: "",
+  castingTime: "",
+  range: "",
+  components: "",
+  duration: "",
+  detail: "",
+  source: "",
+};
+
 /**
  * Fills in anything missing from an imported or older-format character so a
  * file saved by a previous version never crashes the sheet.
@@ -475,7 +496,10 @@ export function migrateCharacter(raw: unknown): Character {
       ? input.hitDice
       : base.hitDice,
     attacks: Array.isArray(input.attacks) ? input.attacks : [],
-    spells: Array.isArray(input.spells) ? input.spells : [],
+    // Spells gained a stat block and rules text; older entries default to blank.
+    spells: Array.isArray(input.spells)
+      ? input.spells.map((s) => ({ ...BLANK_SPELL_FIELDS, ...s }))
+      : [],
     // Items gained location/carried/attuned fields; older ones default to
     // carried so nobody's encumbrance silently drops after an update.
     inventory: Array.isArray(input.inventory)

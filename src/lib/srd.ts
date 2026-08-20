@@ -16,6 +16,7 @@ import {
   type Recharge,
   type SkillKey,
   SKILLS,
+  type SpellEntry,
 } from "./types";
 
 export interface SrdClassLevel {
@@ -69,6 +70,93 @@ export async function loadSrd(): Promise<SrdData> {
   const mod = await import("@/srd/classes.json");
   cache = (mod.default ?? mod) as unknown as SrdData;
   return cache;
+}
+
+export interface SrdSpell {
+  name: string;
+  level: number;
+  school: string;
+  classes: string[];
+  castingTime: string;
+  range: string;
+  components: string;
+  duration: string;
+  ritual: boolean;
+  concentration: boolean;
+  text: string;
+}
+
+export interface SrdSpellData {
+  source: string;
+  license: string;
+  spells: SrdSpell[];
+}
+
+let spellCache: SrdSpellData | null = null;
+
+/**
+ * The spell list is the bulk of the data and most sessions never open it, so it
+ * lives in its own chunk and loads only when asked for.
+ */
+export async function loadSpells(): Promise<SrdSpellData> {
+  if (spellCache) return spellCache;
+  const mod = await import("@/srd/spells.json");
+  spellCache = (mod.default ?? mod) as unknown as SrdSpellData;
+  return spellCache;
+}
+
+/**
+ * Finds spells by name, school, or class, optionally narrowed to one level.
+ * Name matches sort first so typing "fire" reaches Fireball before every spell
+ * that merely mentions fire.
+ */
+export function searchSpells(
+  data: SrdSpellData,
+  query: string,
+  opts: { level?: number | null; forClass?: string } = {},
+): SrdSpell[] {
+  const q = query.trim().toLowerCase();
+  const { level = null, forClass } = opts;
+
+  const matches = data.spells.filter((s) => {
+    if (level !== null && s.level !== level) return false;
+    if (forClass && !s.classes.includes(forClass)) return false;
+    if (!q) return true;
+    return (
+      s.name.toLowerCase().includes(q) ||
+      s.school.toLowerCase().includes(q) ||
+      s.classes.some((c) => c.toLowerCase().includes(q))
+    );
+  });
+
+  if (!q) return matches.sort((a, b) => a.name.localeCompare(b.name));
+  return matches.sort((a, b) => {
+    const aName = a.name.toLowerCase().startsWith(q) ? 0 : a.name.toLowerCase().includes(q) ? 1 : 2;
+    const bName = b.name.toLowerCase().startsWith(q) ? 0 : b.name.toLowerCase().includes(q) ? 1 : 2;
+    return aName - bName || a.name.localeCompare(b.name);
+  });
+}
+
+/** Turns an SRD spell into a sheet entry, ready to drop into the list. */
+export function toSpellEntry(spell: SrdSpell): SpellEntry {
+  return {
+    id: newId(),
+    name: spell.name,
+    level: spell.level,
+    // Cantrips are always available; levelled spells start unprepared.
+    prepared: spell.level === 0,
+    alwaysPrepared: false,
+    concentration: spell.concentration,
+    ritual: spell.ritual,
+    notes: [spell.range, spell.duration].filter(Boolean).join(" · "),
+    school: spell.school,
+    castingTime: spell.castingTime,
+    range: spell.range,
+    components: spell.components,
+    duration: spell.duration,
+    detail: spell.text,
+    source: "srd",
+  };
 }
 
 export function classSource(className: string) {

@@ -278,11 +278,138 @@ function parseSpecies() {
   return species;
 }
 
+/**
+ * Page furniture that interrupts spell text and must never be read as content.
+ * The footer is often prefixed with a form feed, so trim that first -- missing
+ * it is what silently ate Hold Monster's components and duration.
+ */
+function isPageFurniture(line) {
+  const l = line.replace(/\f/g, "").trim();
+  return /^System Reference Document/.test(l) || /^\d{1,3}$/.test(l);
+}
+
+/**
+ * Spell entries run:
+ *   <Name>
+ *   Level 3 Evocation (Sorcerer, Wizard)   |   Evocation Cantrip (Wizard)
+ *   Casting Time: / Range: / Components: / Duration:
+ *   <description>
+ *
+ * The class list wraps onto a second line often enough that the header has to
+ * be joined until its bracket closes, and page footers land mid-description.
+ */
+function parseSpells() {
+  const startRaw = findLine(/^Spell Descriptions$/);
+  if (startRaw < 0) return [];
+
+  // Bound the chapter. Without this the final spell's description runs to the
+  // end of the document and swallows the glossary, traps and all -- the same
+  // way an unbounded table row swallowed the rest of a class chapter.
+  const endRaw = findLine(/^Rules Glossary$/, startRaw);
+
+  // Strip page furniture once, up front. Leaving it in place means every later
+  // step has to dodge it, and one missed check silently swallows a field --
+  // that is exactly how Hold Monster lost its Duration.
+  const text = lines
+    .slice(startRaw + 1, endRaw > startRaw ? endRaw : lines.length)
+    .filter((l) => !isPageFurniture(l));
+
+  const HEADER = /^(?:Level (\d) ([A-Za-z]+)|([A-Za-z]+) Cantrip)\s*\(/;
+  // "Component:" singular appears a dozen times in the document.
+  const FIELD = /^(Casting Time|Range|Components?|Duration):\s*(.*)$/;
+
+  const marks = [];
+  for (let i = 0; i < text.length; i++) {
+    if (!HEADER.test(text[i])) continue;
+    const n = i - 1;
+    if (n < 0) continue;
+    if (FIELD.test(text[n])) continue;
+    marks.push({ headerAt: i, nameAt: n });
+  }
+
+  const spells = [];
+  marks.forEach((mark, idx) => {
+    const stop = idx + 1 < marks.length ? marks[idx + 1].nameAt : text.length;
+
+    // Join the header until the bracket closes.
+    let header = text[mark.headerAt];
+    let cursor = mark.headerAt;
+    while (!header.includes(")") && cursor + 1 < stop) {
+      cursor += 1;
+      header += " " + text[cursor].trim();
+    }
+
+    const m = header.match(
+      /^(?:Level (\d) ([A-Za-z]+)|([A-Za-z]+) Cantrip)\s*\(([^)]*)\)/,
+    );
+    if (!m) return;
+    const level = m[1] !== undefined ? Number(m[1]) : 0;
+    const school = m[2] ?? m[3] ?? "";
+    const classes = m[4]
+      .split(/,\s*/)
+      .map((s) => dehyphenate(s))
+      .filter(Boolean);
+
+    const fields = {};
+    let i = cursor + 1;
+    for (; i < stop; i++) {
+      const f = text[i].match(FIELD);
+      if (!f) break;
+      // Normalise the singular label so consumers see one key.
+      const label = f[1] === "Component" ? "Components" : f[1];
+      let value = f[2];
+      // Every spell lists Casting Time, Range, Components and Duration in that
+      // order, and the description only begins after Duration. So for the first
+      // three, any line that isn't a field label must be a continuation --
+      // Counterspell's Casting Time runs to three lines, the last starting with
+      // a capital, which no cleverer heuristic would catch.
+      const joinFreely = label !== "Duration";
+      while (i + 1 < stop && !FIELD.test(text[i + 1]) && text[i + 1].trim()) {
+        const peek = text[i + 1].trim();
+        const bracketOpen =
+          (value.match(/\(/g) || []).length > (value.match(/\)/g) || []).length;
+        if (joinFreely || /^[a-z(]/.test(peek) || /,$/.test(value) || bracketOpen) {
+          value += " " + peek;
+          i++;
+        } else break;
+      }
+      fields[label] = dehyphenate(value);
+    }
+
+    const body = [];
+    for (; i < stop; i++) {
+      if (text[i].trim()) body.push(text[i].trim());
+    }
+
+    spells.push({
+      name: dehyphenate(text[mark.nameAt]),
+      level,
+      school,
+      classes,
+      castingTime: fields["Casting Time"] ?? "",
+      range: fields["Range"] ?? "",
+      components: fields["Components"] ?? "",
+      duration: fields["Duration"] ?? "",
+      ritual: /\bRitual\b/.test(fields["Casting Time"] ?? ""),
+      concentration: /^Concentration/i.test(fields["Duration"] ?? ""),
+      text: dehyphenate(body.join(" ")),
+    });
+  });
+
+  return spells;
+}
+
 const out = {
   source: "System Reference Document 5.2 (SRD 5.2), Wizards of the Coast LLC",
   license: "CC-BY-4.0",
   classes: {},
   species: parseSpecies(),
+};
+
+const spellData = {
+  source: out.source,
+  license: out.license,
+  spells: parseSpells(),
 };
 
 for (const name of CLASSES) {
@@ -294,6 +421,8 @@ for (const name of CLASSES) {
 }
 
 fs.writeFileSync(outFile, JSON.stringify(out, null, 2));
+
+
 
 // Report loudly, so a bad parse is visible instead of silently shipping.
 let problems = 0;
@@ -321,4 +450,32 @@ for (const name of CLASSES) {
   );
 }
 console.log(problems === 0 ? "\nall classes parsed cleanly" : "\n" + problems + " need checking");
-process.exit(problems === 0 ? 0 : 1);
+// Set the code rather than exiting: the spell checks below still have to run,
+// and a spell problem must be able to fail the script too.
+if (problems > 0) process.exitCode = 1;
+
+// Spells go in their own file: they're the bulk of the data and most sessions
+// never open them, so they load separately.
+const spellFile = outFile.replace(/classes\.json$/, "spells.json");
+fs.writeFileSync(spellFile, JSON.stringify(spellData, null, 2));
+
+const spellProblems = [];
+for (const s of spellData.spells) {
+  const missing = !s.name || !s.school || !s.classes.length || !s.castingTime ||
+    !s.range || !s.components || !s.duration || !s.text;
+  if (missing) spellProblems.push(s.name + ": missing a field");
+  // A description far longer than any real spell means the parse ran past the
+  // end of the entry and started eating the next section.
+  if (s.text.length > 8000) spellProblems.push(s.name + ": text ran away (" + s.text.length + " chars)");
+  if (/(Casting Time|Range|Components?|Duration):/.test(s.text)) {
+    spellProblems.push(s.name + ": a field label leaked into the description");
+  }
+}
+console.log("\nspells: " + spellData.spells.length + " parsed");
+if (spellProblems.length) {
+  console.log(spellProblems.length + " problems:");
+  for (const p of spellProblems.slice(0, 12)) console.log("  " + p);
+  process.exitCode = 1;
+} else {
+  console.log("all spells parsed cleanly");
+}
