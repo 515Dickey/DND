@@ -28,6 +28,8 @@ export interface SrdClassLevel {
 export interface SrdClass {
   traits: Record<string, string> | null;
   levels: SrdClassLevel[] | null;
+  /** The rules text for each feature, keyed by name. */
+  descriptions?: Record<string, string>;
 }
 
 export interface SrdSpeciesTrait {
@@ -185,6 +187,18 @@ const USES_COLUMN: Record<string, Record<string, number>> = {
   Monk: { "Monk's Focus": 1 },
 };
 
+/**
+ * The rules text for a feature. Some table entries carry a qualifier the prose
+ * heading doesn't — Warlock's "Mystic Arcanum (level 6 spell)" is described
+ * under plain "Mystic Arcanum" — so fall back to the unqualified name.
+ */
+function describeFeature(cls: SrdClass, name: string): string {
+  const byName = cls.descriptions ?? {};
+  if (byName[name]) return byName[name];
+  const withoutQualifier = name.replace(/\s*\([^)]*\)\s*$/, "").trim();
+  return byName[withoutQualifier] ?? "";
+}
+
 export interface ApplyResult {
   patch: Partial<Character>;
   summary: string[];
@@ -257,7 +271,7 @@ export function applyClass(
         id: newId(),
         name,
         note: `${className} ${row.level}`,
-        detail: "",
+        detail: describeFeature(cls, name),
         usesMax: uses,
         usesSpent: 0,
         recharge: RECHARGE_BY_FEATURE[name] ?? "none",

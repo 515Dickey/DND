@@ -154,6 +154,61 @@ function parseFeatureTable(className) {
 }
 
 /**
+ * The rules text for each class feature, keyed by feature name.
+ *
+ * The prose runs from "<Class> Class Features" to the first subclass heading,
+ * as "Level N: Name" followed by paragraphs. Two things sit in the way: the
+ * features *table* is printed in the middle of that prose, and page footers
+ * interrupt it. Both are skipped explicitly, since letting the table fall into
+ * a description would bury the actual rules under a wall of numbers.
+ */
+function parseFeatureDescriptions(className) {
+  const start = findLine(new RegExp("^" + className + " Class Features$"));
+  if (start < 0) return {};
+
+  let end = findLine(new RegExp("^" + className + " Subclass: "), start);
+  if (end < 0) end = findLine(/^Core [A-Z][a-z]+ Traits$/, start);
+  if (end < 0) end = Math.min(start + 400, lines.length);
+
+  // Locate the table so its rows and headings can be stepped over.
+  const tableStart = findLine(new RegExp("^" + className + " Features$"), start);
+  let tableEnd = -1;
+  if (tableStart > start && tableStart < end) {
+    for (let i = tableStart + 1; i < end; i++) {
+      if (/^\d{1,2} \+\d/.test(lines[i])) tableEnd = i;
+      else if (/^Level \d+:/.test(lines[i])) break;
+    }
+    // Trailing column-only lines belong to the last row.
+    while (tableEnd + 1 < end && /^[\s\d+\-—]*(?:\d|—|-)[\s\d+\-—]*$/.test(lines[tableEnd + 1])) {
+      tableEnd += 1;
+    }
+  }
+
+  const out = {};
+  let current = null;
+  for (let i = start + 1; i < end; i++) {
+    if (tableEnd > 0 && i >= tableStart && i <= tableEnd) continue;
+    const line = lines[i];
+    if (/^System Reference Document/.test(line)) continue;
+    if (/^\d{1,3}$/.test(line)) continue;
+
+    const head = line.match(/^Level (\d+): (.+)$/);
+    if (head) {
+      current = head[2].trim();
+      out[current] = "";
+      continue;
+    }
+    if (current && line.trim()) out[current] += " " + line.trim();
+  }
+
+  for (const key of Object.keys(out)) {
+    out[key] = dehyphenate(out[key]);
+    if (!out[key]) delete out[key];
+  }
+  return out;
+}
+
+/**
  * Species entries are laid out as a bare name line, then Creature Type / Size /
  * Speed, then one paragraph per special trait beginning "Trait Name. ".
  */
@@ -234,6 +289,7 @@ for (const name of CLASSES) {
   out.classes[name] = {
     traits: parseCoreTraits(name),
     levels: parseFeatureTable(name),
+    descriptions: parseFeatureDescriptions(name),
   };
 }
 
