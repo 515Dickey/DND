@@ -496,14 +496,14 @@ export function Modal({
   return (
     <div
       className="fixed inset-0 z-50 flex items-end justify-center p-3 sm:items-center"
-      style={{ background: "rgba(30, 20, 8, 0.55)" }}
+      style={{ background: "rgba(28, 18, 6, 0.72)" }}
       onClick={onClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={headingId}
-        className="panel max-h-[88dvh] w-full max-w-xl overflow-hidden"
+        className="panel modal-card max-h-[88dvh] w-full max-w-xl overflow-hidden"
         // Clicks inside must not reach the backdrop's close handler.
         onClick={(e) => e.stopPropagation()}
       >
