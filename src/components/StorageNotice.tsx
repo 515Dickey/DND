@@ -68,6 +68,20 @@ function getStandaloneOnServer(): boolean {
   return false;
 }
 
+/**
+ * True on iPhone and iPad, where every browser runs on WebKit and is therefore
+ * subject to the seven-day deletion. Everywhere else, storage is only evicted
+ * under real disk pressure, so the warning has to say something different or it
+ * frightens people about a rule that doesn't apply to them.
+ */
+function isAppleMobile(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  if (/iPad|iPhone|iPod/.test(ua)) return true;
+  // iPadOS 13+ reports itself as a Mac, so touch points break the tie.
+  return /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
+}
+
 export function StorageNotice({ hasCharacters }: { hasCharacters: boolean }) {
   const state = useStoragePersistence();
   const installed = useSyncExternalStore(
@@ -76,39 +90,60 @@ export function StorageNotice({ hasCharacters }: { hasCharacters: boolean }) {
     getStandaloneOnServer,
   );
   const [dismissed, setDismissed] = useState(false);
+  const apple = isAppleMobile();
 
   if (dismissed || state === "checking" || state === "persisted") return null;
   // Nothing to lose yet, and a warning on an empty roster is just noise.
   if (!hasCharacters) return null;
 
+  // Only Apple's seven-day rule justifies alarm; elsewhere this is a reminder.
+  const tone = apple ? "var(--bad)" : "var(--warn)";
+
   return (
-    <div
-      className="mb-4 rounded border px-3 py-2.5"
-      style={{ borderColor: "var(--warn)" }}
-    >
-      <p className="label mb-1" style={{ color: "var(--warn)" }}>
-        Your characters could be deleted
+    <div className="mb-4 rounded border px-3 py-2.5" style={{ borderColor: tone }}>
+      <p className="label mb-1" style={{ color: tone }}>
+        {apple ? "Your characters could be deleted" : "Worth keeping a backup"}
       </p>
-      <p className="text-sm">
-        This browser hasn&apos;t marked the sheet&apos;s data as permanent. On iPad
-        and iPhone, Safari erases a site&apos;s saved data after{" "}
-        <strong>seven days without a visit</strong> — which would take your
-        characters with it.
-      </p>
-      <p className="mt-1.5 text-sm">
-        {!installed ? (
-          <>
-            Fix it by adding this to your Home Screen — <em>Share → Add to Home
-            Screen</em> on iPad, or <em>Install app</em> in Chrome. Home-screen apps
-            are exempt from that deletion.
-          </>
-        ) : (
-          <>
-            Keep opening it from the Home Screen icon rather than a browser tab, and
-            export a backup you can re-import.
-          </>
-        )}
-      </p>
+
+      {apple ? (
+        <>
+          <p className="text-sm">
+            This browser hasn&apos;t marked the sheet&apos;s data as permanent, and
+            on iPhone and iPad Safari erases a site&apos;s saved data after{" "}
+            <strong>seven days without a visit</strong> — which would take your
+            characters with it.
+          </p>
+          <p className="mt-1.5 text-sm">
+            {installed ? (
+              <>
+                Keep opening it from the Home Screen icon rather than a browser tab,
+                and export a backup you can re-import.
+              </>
+            ) : (
+              <>
+                Fix it by adding this to your Home Screen — <em>Share → Add to Home
+                Screen</em>. Home-screen apps are exempt from that deletion.
+              </>
+            )}
+          </p>
+        </>
+      ) : (
+        <>
+          <p className="text-sm">
+            This browser hasn&apos;t marked the sheet&apos;s data as permanent yet.
+            Nothing gets deleted on a schedule here — that only happens if the
+            device runs genuinely low on storage — but clearing site data always
+            erases it.
+          </p>
+          <p className="mt-1.5 text-sm">
+            {installed
+              ? "Installed apps usually earn permanent storage after a little use, so this notice should clear on its own."
+              : "Installing it (Install app in Chrome) makes permanent storage far more likely."}{" "}
+            Either way, <strong>Back up all</strong> is the real safety net.
+          </p>
+        </>
+      )}
+
       <div className="mt-2 flex flex-wrap gap-2">
         <button className="btn btn-sm" onClick={() => setDismissed(true)}>
           Understood
