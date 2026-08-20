@@ -362,7 +362,14 @@ input[type="number"] {
   color: #f8efd8;
 }
 
+/*
+ * Must restate the background: [data-theme="candle"] .btn outranks the bare
+ * .btn-primary selector, so without this the primary button keeps the dark
+ * button fill and the dark ink below lands on top of it, unreadable.
+ */
 [data-theme="candle"] .btn-primary {
+  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+  border-color: var(--accent-deep);
   color: #241c14;
 }
 
