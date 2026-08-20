@@ -1,0 +1,359 @@
+// Reads the generated SRD 5.2 data and turns a class or species choice into
+// sheet entries.
+//
+// Two rules shape everything here:
+//   1. Applying is additive and repeatable. Entries record where they came
+//      from, so re-applying a class replaces only its own rows and never
+//      touches anything typed by hand.
+//   2. Nothing is locked. Every value written is an ordinary editable field
+//      afterwards, because homebrew has to keep working.
+
+import {
+  type AbilityKey,
+  type Character,
+  type FeatureEntry,
+  newId,
+  type Recharge,
+  type SkillKey,
+  SKILLS,
+} from "./types";
+
+export interface SrdClassLevel {
+  level: number;
+  proficiencyBonus: number;
+  features: string[];
+  columns: string[];
+}
+
+export interface SrdClass {
+  traits: Record<string, string> | null;
+  levels: SrdClassLevel[] | null;
+}
+
+export interface SrdSpeciesTrait {
+  name: string;
+  text: string;
+}
+
+export interface SrdSpecies {
+  creatureType: string;
+  size: string;
+  speed: string;
+  traits: SrdSpeciesTrait[];
+}
+
+export interface SrdData {
+  source: string;
+  license: string;
+  classes: Record<string, SrdClass>;
+  species: Record<string, SrdSpecies>;
+}
+
+/** The attribution CC-BY-4.0 requires us to show. */
+export const SRD_ATTRIBUTION =
+  'This work includes material from the System Reference Document 5.2 ("SRD 5.2") ' +
+  "by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The " +
+  "SRD 5.2 is licensed under the Creative Commons Attribution 4.0 International " +
+  "License, available at https://creativecommons.org/licenses/by/4.0/legalcode.";
+
+let cache: SrdData | null = null;
+
+/**
+ * Loads the data on demand. It's 80KB of JSON that most sessions never need,
+ * so it stays out of the main bundle.
+ */
+export async function loadSrd(): Promise<SrdData> {
+  if (cache) return cache;
+  const mod = await import("@/srd/classes.json");
+  cache = (mod.default ?? mod) as unknown as SrdData;
+  return cache;
+}
+
+export function classSource(className: string) {
+  return `srd:class:${className}`;
+}
+
+export function speciesSource(name: string) {
+  return `srd:species:${name}`;
+}
+
+/** "D10 per Fighter level" -> 10 */
+export function hitDieFromTrait(trait: string | undefined): number | null {
+  if (!trait) return null;
+  const m = trait.match(/[Dd](\d+)/);
+  if (!m) return null;
+  const die = Number(m[1]);
+  return [6, 8, 10, 12].includes(die) ? die : null;
+}
+
+/** "Strength and Constitution" -> ["str", "con"] */
+export function savesFromTrait(trait: string | undefined): AbilityKey[] {
+  if (!trait) return [];
+  const names: [string, AbilityKey][] = [
+    ["strength", "str"],
+    ["dexterity", "dex"],
+    ["constitution", "con"],
+    ["intelligence", "int"],
+    ["wisdom", "wis"],
+    ["charisma", "cha"],
+  ];
+  const lower = trait.toLowerCase();
+  return names.filter(([word]) => lower.includes(word)).map(([, key]) => key);
+}
+
+/** "Choose 2: Acrobatics, Animal Handling, ... or Survival" -> the skill keys. */
+export function skillChoicesFromTrait(trait: string | undefined): {
+  choose: number;
+  options: SkillKey[];
+} {
+  if (!trait) return { choose: 0, options: [] };
+  const countMatch = trait.match(/Choose\s+(\d+)/i);
+  const choose = countMatch ? Number(countMatch[1]) : 0;
+  // "Choose any 3 skills" (Bard, Rogue) means every skill is on the table.
+  if (/any\s+\d+\s+skills/i.test(trait)) {
+    return { choose, options: SKILLS.map((s) => s.key) };
+  }
+  const lower = trait.toLowerCase();
+  const options = SKILLS.filter((s) => lower.includes(s.name.toLowerCase())).map(
+    (s) => s.key,
+  );
+  return { choose, options };
+}
+
+/** "Action Surge (one use)" -> { name: "Action Surge", uses: 1 } */
+const WORD_NUMBERS: Record<string, number> = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+};
+
+export function splitUses(feature: string): { name: string; uses: number } {
+  const m = feature.match(/^(.*?)\s*\((one|two|three|four|five)\s+uses?\)$/i);
+  if (!m) return { name: feature, uses: 0 };
+  return { name: m[1].trim(), uses: WORD_NUMBERS[m[2].toLowerCase()] ?? 0 };
+}
+
+/**
+ * Features that recharge on a rest, keyed by name. The SRD states this in each
+ * feature's prose rather than its table, so this is a small curated map instead
+ * of a parse -- and anything absent simply defaults to no automatic reset,
+ * which the player can change on the entry itself.
+ */
+const RECHARGE_BY_FEATURE: Record<string, Recharge> = {
+  "Second Wind": "short",
+  "Action Surge": "short",
+  "Tactical Mind": "short",
+  Rage: "long",
+  "Bardic Inspiration": "short",
+  "Channel Divinity": "short",
+  "Wild Shape": "short",
+  "Lay On Hands": "long",
+  Indomitable: "long",
+  "Arcane Recovery": "long",
+  "Innate Sorcery": "long",
+  "Breath Weapon": "long",
+  "Relentless Endurance": "long",
+  "Adrenaline Rush": "short",
+  "Giant Ancestry": "long",
+  Luck: "long",
+  Trance: "long",
+};
+
+/** Names that describe a choice rather than a feature worth its own row. */
+const SKIP_FEATURES = [/^Ability Score Improvement$/i, /^Subclass feature$/i];
+
+/**
+ * Some features count their uses in a numbered column of the class table
+ * rather than in their own name, and the count grows with level -- Fighter's
+ * Second Wind is 2 uses at level 1 and 3 at level 4.
+ *
+ * Only columns that are genuinely a number of uses are listed. The others are
+ * deliberately absent: Fighter's Weapon Mastery column counts weapons, not
+ * uses, and Barbarian's Rage Damage is a damage bonus. Getting that wrong would
+ * draw use boxes for something that isn't spent.
+ *
+ * Column indexes verified against the SRD table headers:
+ *   Fighter   [Second Wind, Weapon Mastery]
+ *   Barbarian [Rages, Rage Damage, Weapon Mastery]
+ *   Monk      [Martial Arts, Focus Points, Unarmored Movement]
+ */
+const USES_COLUMN: Record<string, Record<string, number>> = {
+  Fighter: { "Second Wind": 0 },
+  Barbarian: { Rage: 0 },
+  Monk: { "Monk's Focus": 1 },
+};
+
+export interface ApplyResult {
+  patch: Partial<Character>;
+  summary: string[];
+}
+
+/**
+ * Works out what choosing this class at this level should write to the sheet.
+ * Returns a patch rather than mutating, so the caller stays in control.
+ */
+export function applyClass(
+  c: Character,
+  data: SrdData,
+  className: string,
+  level: number,
+): ApplyResult {
+  const cls = data.classes[className];
+  if (!cls?.traits || !cls.levels) return { patch: {}, summary: [] };
+
+  const summary: string[] = [];
+  const src = classSource(className);
+  const patch: Partial<Character> = {};
+
+  // Hit dice: one pool at this class's die, sized to the level. Pools for other
+  // dice survive so multiclassing isn't wiped, except an untouched starter pool
+  // -- otherwise every new character keeps a stray 1d8 next to its real dice.
+  const die = hitDieFromTrait(cls.traits["Hit Point Die"]);
+  if (die) {
+    const others = c.hitDice.filter(
+      (g) => g.die !== die && !(g.total <= 1 && g.used === 0),
+    );
+    patch.hitDice = [...others, { id: newId(), die, total: level, used: 0 }];
+    summary.push(`Hit dice ${level}d${die}`);
+  }
+
+  // Saving throws.
+  const saves = savesFromTrait(cls.traits["Saving Throw Proficiencies"]);
+  if (saves.length) {
+    const saveProf = { ...c.saveProf };
+    for (const key of saves) saveProf[key] = true;
+    patch.saveProf = saveProf;
+    summary.push(`Saves ${saves.map((s) => s.toUpperCase()).join(", ")}`);
+  }
+
+  // Proficiency rows, replacing only the ones this class owns.
+  const profRows = c.proficiencies.filter((p) => !p.label.startsWith(className + " "));
+  const addProf = (label: string, value: string) => {
+    if (!value) return;
+    profRows.push({ id: newId(), label: `${className} ${label}`, value });
+  };
+  addProf("weapons", cls.traits["Weapon Proficiencies"] ?? "");
+  addProf("armor", cls.traits["Armor Training"] ?? "");
+  addProf("tools", cls.traits["Tool Proficiencies"] ?? "");
+  patch.proficiencies = profRows;
+
+  // Features up to this level, replacing any previously generated for it.
+  const kept = c.features.filter((f) => f.source !== src);
+  const added: FeatureEntry[] = [];
+  for (const row of cls.levels.filter((l) => l.level <= level)) {
+    for (const raw of row.features) {
+      if (SKIP_FEATURES.some((re) => re.test(raw))) continue;
+      const { name, uses } = splitUses(raw);
+      // A later level restating a feature (Action Surge two uses) updates it.
+      const existing = added.find((f) => f.name === name);
+      if (existing) {
+        if (uses) existing.usesMax = uses;
+        existing.note = `${className} ${row.level}`;
+        continue;
+      }
+      added.push({
+        id: newId(),
+        name,
+        note: `${className} ${row.level}`,
+        detail: "",
+        usesMax: uses,
+        usesSpent: 0,
+        recharge: RECHARGE_BY_FEATURE[name] ?? "none",
+        group: name.endsWith("Subclass") ? "Subclass" : "Class",
+        source: src,
+      });
+    }
+  }
+  // Fill in uses that the table counts in a column, read at the actual level.
+  const columnMap = USES_COLUMN[className];
+  const rowAtLevel = cls.levels.find((l) => l.level === level);
+  if (columnMap && rowAtLevel) {
+    for (const entry of added) {
+      const idx = columnMap[entry.name];
+      if (idx === undefined) continue;
+      const raw = rowAtLevel.columns[idx];
+      const count = Number(raw);
+      if (Number.isFinite(count) && count > 0) entry.usesMax = count;
+    }
+  }
+
+  patch.features = [...kept, ...added];
+  if (added.length) summary.push(`${added.length} class features`);
+
+  // Features from other classes are deliberately left in place, so applying a
+  // second class multiclasses rather than wiping the first. That does mean the
+  // sheet can no longer describe the character in one line, so rather than
+  // overwrite "Class & level" with a half-truth it says so and leaves it alone.
+  const otherClasses = new Set(
+    c.features
+      .filter((f) => f.source.startsWith("srd:class:") && f.source !== src)
+      .map((f) => f.source.slice("srd:class:".length)),
+  );
+  if (otherClasses.size === 0) {
+    patch.classText = `${className} ${level}`;
+    patch.level = level;
+  } else {
+    summary.push(
+      `kept ${[...otherClasses].join(" and ")} — set Class & level yourself`,
+    );
+  }
+
+  return { patch, summary };
+}
+
+/** "30 feet" -> 30 */
+export function speedFromTrait(speed: string | undefined): number | null {
+  if (!speed) return null;
+  const m = speed.match(/(\d+)/);
+  return m ? Number(m[1]) : null;
+}
+
+/** "Medium (about 5-7 feet tall)" -> "Medium" */
+export function sizeFromTrait(size: string | undefined): string {
+  if (!size) return "";
+  const m = size.match(/^(Tiny|Small|Medium|Large|Huge|Gargantuan)/);
+  return m ? m[1] : "";
+}
+
+export function applySpecies(
+  c: Character,
+  data: SrdData,
+  name: string,
+): ApplyResult {
+  const sp = data.species[name];
+  if (!sp) return { patch: {}, summary: [] };
+
+  const summary: string[] = [];
+  const src = speciesSource(name);
+  const patch: Partial<Character> = { race: name };
+
+  const speed = speedFromTrait(sp.speed);
+  if (speed) {
+    patch.speed = speed;
+    summary.push(`Speed ${speed} ft`);
+  }
+  const size = sizeFromTrait(sp.size);
+  if (size) {
+    patch.size = size;
+    summary.push(`Size ${size}`);
+  }
+
+  const kept = c.features.filter((f) => f.source !== src);
+  const added: FeatureEntry[] = sp.traits.map((t) => ({
+    id: newId(),
+    name: t.name,
+    note: name,
+    detail: t.text,
+    usesMax: 0,
+    usesSpent: 0,
+    recharge: RECHARGE_BY_FEATURE[t.name] ?? "none",
+    group: "Species",
+    source: src,
+  }));
+  patch.features = [...kept, ...added];
+  if (added.length) summary.push(`${added.length} species traits`);
+
+  return { patch, summary };
+}

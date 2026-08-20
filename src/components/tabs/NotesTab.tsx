@@ -177,6 +177,7 @@ export function NotesTab({ c, set, mut }: SheetProps) {
                   usesSpent: 0,
                   recharge: "none",
                   group: "",
+                  source: "",
                 };
                 mut((d) => ({ ...d, features: [...d.features, entry] }));
                 // Open it straight away -- a blank row is no use on its own.

@@ -153,10 +153,81 @@ function parseFeatureTable(className) {
     });
 }
 
+/**
+ * Species entries are laid out as a bare name line, then Creature Type / Size /
+ * Speed, then one paragraph per special trait beginning "Trait Name. ".
+ */
+function parseSpecies() {
+  const marks = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (/^Creature Type: /.test(lines[i]) && /^[A-Z][a-z]+$/.test(lines[i - 1] || "")) {
+      marks.push({ name: lines[i - 1], at: i });
+    }
+  }
+  if (!marks.length) return {};
+
+  // The chapter ends at the Feats heading that follows the last species.
+  const endOfChapter = findLine(/^Feats$/, marks[marks.length - 1].at);
+
+  const species = {};
+  marks.forEach((mark, idx) => {
+    const stop = idx + 1 < marks.length ? marks[idx + 1].at - 1 : endOfChapter;
+    const block = lines.slice(mark.at, stop < 0 ? mark.at + 60 : stop);
+
+    // Values wrap: Human's Size runs onto a second line. Keep reading until the
+    // next labelled line or the sentence that introduces the traits.
+    const grab = (label) => {
+      const at = block.findIndex((l) => l.startsWith(label + ":"));
+      if (at < 0) return "";
+      let value = block[at].slice(label.length + 1).trim();
+      for (let i = at + 1; i < block.length; i++) {
+        const next = block[i];
+        if (/^(Creature Type|Size|Speed):/.test(next) || /^As an? /.test(next)) break;
+        if (!next.trim()) break;
+        value += " " + next.trim();
+      }
+      return dehyphenate(value);
+    };
+
+    // Traits start after the "As a <Species>, you have these special traits."
+    // sentence. A new trait begins on a line opening with a short Title Case
+    // phrase followed by a full stop.
+    const startTraits = block.findIndex((l) => /^As an? .*special traits\.$/.test(l));
+    const traits = [];
+    for (let i = startTraits < 0 ? 1 : startTraits + 1; i < block.length; i++) {
+      const line = block[i];
+      const head = line.match(/^([A-Z][A-Za-z']*(?: [A-Z][A-Za-z']*){0,3})\. (.*)$/);
+      if (head) {
+        traits.push({ name: head[1], text: head[2] });
+      } else if (traits.length) {
+        traits[traits.length - 1].text += " " + line.trim();
+      }
+    }
+
+    // A trait name can appear twice when a later paragraph opens by repeating
+    // it; keep the fullest description of each.
+    const byName = new Map();
+    for (const t of traits) {
+      const text = dehyphenate(t.text);
+      const existing = byName.get(t.name);
+      if (!existing || text.length > existing.length) byName.set(t.name, text);
+    }
+
+    species[mark.name] = {
+      creatureType: grab("Creature Type"),
+      size: grab("Size"),
+      speed: grab("Speed"),
+      traits: [...byName].map(([name, text]) => ({ name, text })),
+    };
+  });
+  return species;
+}
+
 const out = {
   source: "System Reference Document 5.2 (SRD 5.2), Wizards of the Coast LLC",
   license: "CC-BY-4.0",
   classes: {},
+  species: parseSpecies(),
 };
 
 for (const name of CLASSES) {

@@ -39,6 +39,7 @@ import {
   Select,
   Toggle,
 } from "@/components/ui";
+import { SrdPicker } from "@/components/SrdPicker";
 import type { SheetProps } from "./shared";
 
 /** A one-line derived stat that unfolds to show its math and a misc field. */
@@ -231,6 +232,8 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
             />
           </div>
         </Panel>
+
+        <SrdPicker c={c} mut={mut} />
 
         <Panel title="Description">
           <div className="flex gap-3">

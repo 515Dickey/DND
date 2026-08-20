@@ -54,6 +54,23 @@ saved before this change are converted automatically, one entry per line.
   weight for you — which still counts, as the rules intend
 - Spell save DC and spell attack bonus from your casting ability
 
+### Filling the sheet from the rules
+
+On the Abilities tab, **Fill from the rules** offers all twelve classes and nine
+species from the SRD 5.2. Choose Fighter at level 4 and the sheet writes in the
+d10 hit dice, Strength and Constitution saves, weapon and armour training, and
+the six class features — with Second Wind already set to 3 uses on a short rest
+and Action Surge to 1. Choose a species and you get its speed, size, and traits.
+
+Nothing is locked. Every value written is an ordinary editable field afterwards,
+so homebrew keeps working. Entries record where they came from, so applying
+again replaces only what a previous apply created and never touches anything you
+typed. Applying a second class multiclasses rather than overwriting — and when it
+can no longer describe you in one line, it says so instead of guessing.
+
+The sheet won't pick your skills for you. It tells you how many to choose and
+from which list, and leaves the ticking to you.
+
 There's deliberately **no dice roller** — you're rolling real dice at the table.
 Spend a hit die in the app, roll it in your hand, then type the healing in.
 

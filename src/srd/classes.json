@@ -10,7 +10,7 @@
         "Skill Proficiencies": "Choose 2: Animal Handling, Athletics, Intimidation, Nature, Perception, or Survival",
         "Weapon Proficiencies": "Simple and Martial weapons",
         "Armor Training": "Light and Medium armor and Shields",
-        "Starting Equipment": "Choose A or B: (A) Greataxe, 4 Handaxes, Explorer's Pack, and 15 GP; or (B) 75 GP"
+        "Starting Equipment": "Choose A or B: (A) Greataxe, 4 Handaxes, Explorer’s Pack, and 15 GP; or (B) 75 GP"
       },
       "levels": [
         {
@@ -266,11 +266,11 @@
         "Primary Ability": "Charisma",
         "Hit Point Die": "D8 per Bard level",
         "Saving Throw Proficiencies": "Dexterity and Charisma",
-        "Skill Proficiencies": "Choose any 3 skills (see \"Playing the Game\")",
+        "Skill Proficiencies": "Choose any 3 skills (see “Playing the Game”)",
         "Weapon Proficiencies": "Simple weapons",
-        "Tool Proficiencies": "Choose 3 Musical Instruments (see \"Equipment\")",
+        "Tool Proficiencies": "Choose 3 Musical Instruments (see “Equipment”)",
         "Armor Training": "Light armor",
-        "Starting Equipment": "Choose A or B: (A) Leather Armor, 2 Daggers, Musical Instrument of your choice, Entertainer's Pack, and 19 GP; or (B) 90 GP"
+        "Starting Equipment": "Choose A or B: (A) Leather Armor, 2 Daggers, Musical Instrument of your choice, Entertainer’s Pack, and 19 GP; or (B) 90 GP"
       },
       "levels": [
         {
@@ -285,14 +285,14 @@
             "2",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -307,14 +307,14 @@
             "2",
             "5",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -329,13 +329,13 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -350,13 +350,13 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -372,12 +372,12 @@
             "4",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -393,12 +393,12 @@
             "4",
             "3",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -415,11 +415,11 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -436,11 +436,11 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -458,10 +458,10 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -479,10 +479,10 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -490,7 +490,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "D10",
             "4",
             "16",
@@ -500,9 +500,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -521,9 +521,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -531,7 +531,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "D10",
             "4",
             "17",
@@ -542,8 +542,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -563,8 +563,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -572,7 +572,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "D12",
             "4",
             "18",
@@ -584,7 +584,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -605,7 +605,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -613,7 +613,7 @@
           "proficiencyBonus": 6,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "D12",
             "4",
             "19",
@@ -701,7 +701,7 @@
         "Skill Proficiencies": "Choose 2: History, Insight, Medicine, Persuasion, or Religion",
         "Weapon Proficiencies": "Simple weapons",
         "Armor Training": "Light and Medium armor and Shields",
-        "Starting Equipment": "Choose A or B: (A) Chain Shirt, Shield, Mace, Holy Symbol, Priest's Pack, and 7 GP; or (B) 110 GP"
+        "Starting Equipment": "Choose A or B: (A) Chain Shirt, Shield, Mace, Holy Symbol, Priest’s Pack, and 7 GP; or (B) 110 GP"
       },
       "levels": [
         {
@@ -712,18 +712,18 @@
             "Divine Order"
           ],
           "columns": [
-            "--",
+            "—",
             "3",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -737,14 +737,14 @@
             "3",
             "5",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -759,13 +759,13 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -780,13 +780,13 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -802,12 +802,12 @@
             "4",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -823,12 +823,12 @@
             "4",
             "3",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -845,11 +845,11 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -866,11 +866,11 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -878,7 +878,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "4",
             "14",
@@ -887,10 +887,10 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -908,10 +908,10 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -919,7 +919,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "5",
             "16",
@@ -929,9 +929,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -950,9 +950,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -960,7 +960,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "5",
             "17",
@@ -971,8 +971,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -992,8 +992,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -1001,7 +1001,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "5",
             "18",
@@ -1013,7 +1013,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -1034,7 +1034,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -1063,7 +1063,7 @@
           "proficiencyBonus": 6,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "4",
             "5",
             "20",
@@ -1131,7 +1131,7 @@
         "Weapon Proficiencies": "Simple weapons",
         "Tool Proficiencies": "Herbalism Kit",
         "Armor Training": "Light armor and Shields",
-        "Starting Equipment": "Choose A or B: (A) Leather Armor, Shield, Sickle, Druidic Focus (Quarterstaff), Explorer's Pack, Herbalism Kit, and 9 GP; or (B) 50 GP"
+        "Starting Equipment": "Choose A or B: (A) Leather Armor, Shield, Sickle, Druidic Focus (Quarterstaff), Explorer’s Pack, Herbalism Kit, and 9 GP; or (B) 50 GP"
       },
       "levels": [
         {
@@ -1143,18 +1143,18 @@
             "Primal Order"
           ],
           "columns": [
-            "--",
+            "—",
             "2",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1169,14 +1169,14 @@
             "2",
             "5",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1191,13 +1191,13 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1212,13 +1212,13 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1234,12 +1234,12 @@
             "4",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1255,12 +1255,12 @@
             "4",
             "3",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1277,11 +1277,11 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1298,11 +1298,11 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1310,7 +1310,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "3",
             "14",
@@ -1319,10 +1319,10 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1340,10 +1340,10 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1351,7 +1351,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "4",
             "16",
@@ -1361,9 +1361,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1382,9 +1382,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -1392,7 +1392,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "4",
             "17",
@@ -1403,8 +1403,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -1424,8 +1424,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -1446,7 +1446,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -1467,7 +1467,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -1475,7 +1475,7 @@
           "proficiencyBonus": 6,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "4",
             "4",
             "19",
@@ -1563,7 +1563,7 @@
         "Skill Proficiencies": "Choose 2: Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Persuasion, Perception, or Survival",
         "Weapon Proficiencies": "Simple and Martial weapons",
         "Armor Training": "Light, Medium, and Heavy armor and Shields",
-        "Starting Equipment": "Choose A, B, or C: (A) Chain Mail, Greatsword, Flail, 8 Javelins, Dungeoneer's Pack, and 4 GP; (B) Studded Leather Armor, Scimitar, Short sword, Longbow, 20 Arrows, Quiver, Dungeoneer's Pack, and 11 GP; or (C) 155 GP"
+        "Starting Equipment": "Choose A, B, or C: (A) Chain Mail, Greatsword, Flail, 8 Javelins, Dungeoneer’s Pack, and 4 GP; (B) Studded Leather Armor, Scimitar, Short­ sword, Longbow, 20 Arrows, Quiver, Dungeoneer’s Pack, and 11 GP; or (C) 155 GP"
       },
       "levels": [
         {
@@ -1802,9 +1802,9 @@
         "Saving Throw Proficiencies": "Strength and Dexterity",
         "Skill Proficiencies": "Choose 2: Acrobatics, Athletics, History, Insight, Religion, or Stealth",
         "Weapon Proficiencies": "Simple weapons and Martial weapons that have the Light property",
-        "Tool Proficiencies": "Choose one type of Artisan's Tools or Musical Instrument (see \"Equipment\")",
+        "Tool Proficiencies": "Choose one type of Artisan’s Tools or Musical Instrument (see “Equipment”)",
         "Armor Training": "None",
-        "Starting Equipment": "Choose A or B: (A) Spear, 5 Daggers, Artisan's Tools or Musical Instrument chosen for the tool proficiency above, Explorer's Pack, and 11 GP; or (B) 50 GP"
+        "Starting Equipment": "Choose A or B: (A) Spear, 5 Daggers, Artisan’s Tools or Musical Instrument chosen for the tool proficiency above, Explorer’s Pack, and 11 GP; or (B) 50 GP"
       },
       "levels": [
         {
@@ -1816,15 +1816,15 @@
           ],
           "columns": [
             "1d6",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
           "level": 2,
           "proficiencyBonus": 2,
           "features": [
-            "Monk's Focus",
+            "Monk’s Focus",
             "Unarmored Movement",
             "Uncanny Metabolism"
           ],
@@ -2065,7 +2065,7 @@
         "Skill Proficiencies": "Choose 2: Athletics, Insight, Intimidation, Medicine, Persuasion, or Religion",
         "Weapon Proficiencies": "Simple and Martial weapons",
         "Armor Training": "Light, Medium, and Heavy armor and Shields",
-        "Starting Equipment": "Choose A or B: (A) Chain Mail, Shield, Longsword, 6 Javelins, Holy Symbol, Priest's Pack, and 9 GP; or (B) 150 GP"
+        "Starting Equipment": "Choose A or B: (A) Chain Mail, Shield, Longsword, 6 Javelins, Holy Symbol, Priest’s Pack, and 9 GP; or (B) 150 GP"
       },
       "levels": [
         {
@@ -2077,13 +2077,13 @@
             "Weapon Mastery"
           ],
           "columns": [
-            "--",
+            "—",
             "2",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2091,16 +2091,16 @@
           "proficiencyBonus": 2,
           "features": [
             "Fighting Style",
-            "Paladin's Smite"
+            "Paladin’s Smite"
           ],
           "columns": [
-            "--",
+            "—",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2114,10 +2114,10 @@
             "2",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2130,10 +2130,10 @@
             "2",
             "5",
             "3",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2148,9 +2148,9 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2164,9 +2164,9 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2180,9 +2180,9 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2196,9 +2196,9 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2213,8 +2213,8 @@
             "4",
             "3",
             "2",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2229,8 +2229,8 @@
             "4",
             "3",
             "2",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2245,8 +2245,8 @@
             "4",
             "3",
             "3",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2261,8 +2261,8 @@
             "4",
             "3",
             "3",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2270,14 +2270,14 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "11",
             "4",
             "3",
             "3",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -2293,7 +2293,7 @@
             "3",
             "3",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -2309,7 +2309,7 @@
             "3",
             "3",
             "2",
-            "--"
+            "—"
           ]
         },
         {
@@ -2325,7 +2325,7 @@
             "3",
             "3",
             "2",
-            "--"
+            "—"
           ]
         },
         {
@@ -2333,7 +2333,7 @@
           "proficiencyBonus": 6,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "3",
             "14",
             "4",
@@ -2401,7 +2401,7 @@
         "Skill Proficiencies": "Choose 3: Animal Handling, Athletics, Insight, Investigation, Nature, Perception, Stealth, or Survival",
         "Weapon Proficiencies": "Simple and Martial weapons",
         "Armor Training": "Light and Medium armor and Shields",
-        "Starting Equipment": "Choose A or B: (A) Studded Leather Armor, Scimitar, Shortsword, Longbow, 20 Arrows, Quiver, Druidic Focus (sprig of mistletoe), Explorer's Pack, and 7 GP; or (B) 150 GP"
+        "Starting Equipment": "Choose A or B: (A) Studded Leather Armor, Scimitar, Shortsword, Longbow, 20 Arrows, Quiver, Druidic Focus (sprig of mistletoe), Explorer’s Pack, and 7 GP; or (B) 150 GP"
       },
       "levels": [
         {
@@ -2416,10 +2416,10 @@
             "2",
             "2",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2433,10 +2433,10 @@
             "2",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2449,10 +2449,10 @@
             "2",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2465,10 +2465,10 @@
             "2",
             "5",
             "3",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2482,9 +2482,9 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2498,9 +2498,9 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2514,9 +2514,9 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2530,9 +2530,9 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2547,8 +2547,8 @@
             "4",
             "3",
             "2",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2563,8 +2563,8 @@
             "4",
             "3",
             "2",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2579,8 +2579,8 @@
             "4",
             "3",
             "3",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2595,8 +2595,8 @@
             "4",
             "3",
             "3",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -2612,14 +2612,14 @@
             "3",
             "3",
             "1",
-            "--"
+            "—"
           ]
         },
         {
           "level": 14,
           "proficiencyBonus": 5,
           "features": [
-            "Nature's Veil"
+            "Nature’s Veil"
           ],
           "columns": [
             "5",
@@ -2628,7 +2628,7 @@
             "3",
             "3",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -2644,7 +2644,7 @@
             "3",
             "3",
             "2",
-            "--"
+            "—"
           ]
         },
         {
@@ -2660,7 +2660,7 @@
             "3",
             "3",
             "2",
-            "--"
+            "—"
           ]
         },
         {
@@ -2736,9 +2736,9 @@
         "Saving Throw Proficiencies": "Dexterity and Intelligence",
         "Skill Proficiencies": "Choose 4: Acrobatics, Athletics, Deception, Insight, Intimidation, Investigation, Perception, Persuasion, Sleight of Hand, or Stealth",
         "Weapon Proficiencies": "Simple weapons and Martial weapons that have the Finesse or Light property",
-        "Tool Proficiencies": "Thieves' Tools",
+        "Tool Proficiencies": "Thieves’ Tools",
         "Armor Training": "Light armor",
-        "Starting Equipment": "Choose A or B: (A) Leather Armor, 2 Daggers, Short sword, Shortbow, 20 Arrows, Quiver, Thieves' Tools, Burglar's Pack, and 8 GP; or (B) 100 GP"
+        "Starting Equipment": "Choose A or B: (A) Leather Armor, 2 Daggers, Short­ sword, Shortbow, 20 Arrows, Quiver, Thieves’ Tools, Burglar’s Pack, and 8 GP; or (B) 100 GP"
       },
       "levels": [
         {
@@ -2747,7 +2747,7 @@
           "features": [
             "Expertise",
             "Sneak Attack",
-            "Thieves' Cant",
+            "Thieves’ Cant",
             "Weapon Mastery"
           ],
           "columns": [
@@ -2957,7 +2957,7 @@
         "Skill Proficiencies": "Choose 2: Arcana, Deception, Insight, Intimidation, Persuasion, or Religion",
         "Weapon Proficiencies": "Simple weapons",
         "Armor Training": "None",
-        "Starting Equipment": "Choose A or B: (A) Spear, 2 Daggers, Arcane Focus (crystal), Dungeoneer's Pack, and 28 GP; or (B) 50 GP"
+        "Starting Equipment": "Choose A or B: (A) Spear, 2 Daggers, Arcane Focus (crystal), Dungeoneer’s Pack, and 28 GP; or (B) 50 GP"
       },
       "levels": [
         {
@@ -2968,18 +2968,18 @@
             "Innate Sorcery"
           ],
           "columns": [
-            "--",
+            "—",
             "4",
             "2",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -2994,14 +2994,14 @@
             "4",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3016,13 +3016,13 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3037,13 +3037,13 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3059,12 +3059,12 @@
             "4",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3080,12 +3080,12 @@
             "4",
             "3",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3102,11 +3102,11 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3123,11 +3123,11 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3135,7 +3135,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "9",
             "5",
             "14",
@@ -3144,10 +3144,10 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3165,10 +3165,10 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3176,7 +3176,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "11",
             "6",
             "16",
@@ -3186,9 +3186,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3207,9 +3207,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3217,7 +3217,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "13",
             "6",
             "17",
@@ -3228,8 +3228,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -3249,8 +3249,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -3258,7 +3258,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "15",
             "6",
             "18",
@@ -3270,7 +3270,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -3291,7 +3291,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -3388,7 +3388,7 @@
         "Skill Proficiencies": "Choose 2: Arcana, Deception, History, Intimidation, Investigation, Nature, or Religion",
         "Weapon Proficiencies": "Simple weapons",
         "Armor Training": "Light armor",
-        "Starting Equipment": "Choose A or B: (A) Leather Armor, Sickle, 2 Daggers, Arcane Focus (orb), Book (occult lore), Scholar's Pack, and 15 GP; or (B) 100 GP"
+        "Starting Equipment": "Choose A or B: (A) Leather Armor, Sickle, 2 Daggers, Arcane Focus (orb), Book (occult lore), Scholar’s Pack, and 15 GP; or (B) 100 GP"
       },
       "levels": [
         {
@@ -3453,7 +3453,7 @@
           "proficiencyBonus": 3,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "5",
             "3",
             "6",
@@ -3480,7 +3480,7 @@
           "proficiencyBonus": 3,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "6",
             "3",
             "8",
@@ -3633,7 +3633,7 @@
           "proficiencyBonus": 6,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "10",
             "4",
             "14",
@@ -3679,7 +3679,7 @@
         "Skill Proficiencies": "Choose 2: Arcana, History, Insight, Investigation, Medicine, Nature, or Religion",
         "Weapon Proficiencies": "Simple weapons",
         "Armor Training": "None",
-        "Starting Equipment": "Choose A or B: (A) 2 Daggers, Arcane Focus (Quarterstaff), Robe, Spellbook, Scholar's Pack, and 5 GP; or (B) 55 GP"
+        "Starting Equipment": "Choose A or B: (A) 2 Daggers, Arcane Focus (Quarterstaff), Robe, Spellbook, Scholar’s Pack, and 5 GP; or (B) 55 GP"
       },
       "levels": [
         {
@@ -3694,14 +3694,14 @@
             "3",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3714,14 +3714,14 @@
             "3",
             "5",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3735,13 +3735,13 @@
             "6",
             "4",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3755,13 +3755,13 @@
             "7",
             "4",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3776,12 +3776,12 @@
             "4",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3796,12 +3796,12 @@
             "4",
             "3",
             "3",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3809,18 +3809,18 @@
           "proficiencyBonus": 3,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "4",
             "11",
             "4",
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3836,11 +3836,11 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3848,7 +3848,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "4",
             "14",
             "4",
@@ -3856,10 +3856,10 @@
             "3",
             "3",
             "1",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3876,10 +3876,10 @@
             "3",
             "3",
             "2",
-            "--",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3887,7 +3887,7 @@
           "proficiencyBonus": 4,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "5",
             "16",
             "4",
@@ -3896,9 +3896,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3916,9 +3916,9 @@
             "3",
             "2",
             "1",
-            "--",
-            "--",
-            "--"
+            "—",
+            "—",
+            "—"
           ]
         },
         {
@@ -3926,7 +3926,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "5",
             "17",
             "4",
@@ -3936,8 +3936,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -3956,8 +3956,8 @@
             "2",
             "1",
             "1",
-            "--",
-            "--"
+            "—",
+            "—"
           ]
         },
         {
@@ -3965,7 +3965,7 @@
           "proficiencyBonus": 5,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "5",
             "19",
             "4",
@@ -3976,7 +3976,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -3996,7 +3996,7 @@
             "1",
             "1",
             "1",
-            "--"
+            "—"
           ]
         },
         {
@@ -4004,7 +4004,7 @@
           "proficiencyBonus": 6,
           "features": [],
           "columns": [
-            "--",
+            "—",
             "5",
             "22",
             "4",
@@ -4077,6 +4077,211 @@
             "1",
             "1"
           ]
+        }
+      ]
+    }
+  },
+  "species": {
+    "Dragonborn": {
+      "creatureType": "Humanoid",
+      "size": "Medium (about 5–7 feet tall)",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Draconic Ancestry",
+          "text": "Your lineage stems from a dragon progenitor. Choose the kind of dragon from the Draconic Ancestors table. Your choice affects your Breath Weapon and Damage Resistance traits as well as your appearance. Draconic Ancestors Dragon Damage Type Dragon Damage Type Black Acid Gold Fire Blue Lightning Green Poison Brass Fire Red Fire Bronze Lightning Silver Cold Copper Acid White Cold"
+        },
+        {
+          "name": "Breath Weapon",
+          "text": "When you take the Attack action on your turn, you can replace one of your attacks with an exhalation of magical energy in either a 15-foot Cone or a 30-foot Line that is 5 feet wide (choose the shape each time). Each creature in that area must make a Dexterity saving throw (DC 8 plus your Constitution modifier and Proficiency Bonus). On a failed save, a creature takes 1d10 damage of the type determined by your Draconic Ancestry trait. On a successful save, a creature takes half as much damage. This damage increases by 1d10 when you reach character levels 5 (2d10), 11 (3d10), and 17 (4d10). You can use this Breath Weapon a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest."
+        },
+        {
+          "name": "Damage Resistance",
+          "text": "You have Resistance to the damage type determined by your Draconic Ancestry trait."
+        },
+        {
+          "name": "Darkvision",
+          "text": "You have Darkvision with a range of 60 feet."
+        },
+        {
+          "name": "Draconic Flight",
+          "text": "When you reach character level 5, you can channel draconic magic to give yourself temporary flight. As a Bonus Action, you sprout spectral wings on your back that last for 10 minutes or until you retract the wings (no action required) or have the Incapacitated condition. During that time, you have a Fly Speed equal to your Speed. Your wings appear to be made of the same energy as your"
+        }
+      ]
+    },
+    "Dwarf": {
+      "creatureType": "Humanoid",
+      "size": "Medium (about 4–5 feet tall)",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Darkvision",
+          "text": "You have Darkvision with a range of 120 feet."
+        },
+        {
+          "name": "Dwarven Resilience",
+          "text": "You have Resistance to Poison damage. You also have Advantage on saving throws you make to avoid or end the Poisoned condition."
+        },
+        {
+          "name": "Dwarven Toughness",
+          "text": "Your Hit Point maximum increases by 1, and it increases by 1 again whenever you gain a level."
+        },
+        {
+          "name": "Stonecunning",
+          "text": "As a Bonus Action, you gain Tremorsense with a range of 60 feet for 10 minutes. You must be on a stone surface or touching a stone surface to use this Tremorsense. The stone can be natural or worked. You can use this Bonus Action a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest."
+        }
+      ]
+    },
+    "Elf": {
+      "creatureType": "Humanoid",
+      "size": "Medium (about 5–6 feet tall)",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Darkvision",
+          "text": "You have Darkvision with a range of 60 feet."
+        },
+        {
+          "name": "Elven Lineage",
+          "text": "You are part of a lineage that grants you supernatural abilities. Choose a lineage from the Elven Lineages table. You gain the level 1 benefit of that lineage. When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level. System Reference Document 5.2 85 Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage)."
+        },
+        {
+          "name": "Fey Ancestry",
+          "text": "You have Advantage on saving throws you make to avoid or end the Charmed condition."
+        },
+        {
+          "name": "Keen Senses",
+          "text": "You have proficiency in the Insight, Perception, or Survival skill."
+        },
+        {
+          "name": "Trance",
+          "text": "You don’t need to sleep, and magic can’t put you to sleep. You can finish a Long Rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness."
+        }
+      ]
+    },
+    "Gnome": {
+      "creatureType": "Humanoid",
+      "size": "Small (about 3–4 feet tall)",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Darkvision",
+          "text": "You have Darkvision with a range of 60 feet."
+        },
+        {
+          "name": "Gnomish Cunning",
+          "text": "You have Advantage on Intelligence, Wisdom, and Charisma saving throws."
+        },
+        {
+          "name": "Gnomish Lineage",
+          "text": "You are part of a lineage that grants you supernatural abilities. Choose one of the following options; whichever one you choose, Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the lineage):"
+        },
+        {
+          "name": "Forest Gnome",
+          "text": "You know the Minor Illusion cantrip. You also always have the Speak with Animals spell prepared. You can cast it without a spell slot a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest. You can also use any spell slots you have to cast the spell."
+        },
+        {
+          "name": "Rock Gnome",
+          "text": "You know the Mending and Prestidigitation cantrips. In addition, you can spend 10 minutes casting Prestidigitation to create a Tiny clockwork device (AC 5, 1 HP), such as a toy, fire starter, or music box. When you create the device, you determine its function by choosing one effect from Prestidigitation; the device produces that effect whenever you or another creature takes a Bonus Action to activate it with a touch. If the chosen effect has options within it, you choose one of those options for the device when you create it. For example, if you choose the spell’s ignite-extinguish effect, you determine whether the device ignites or extinguishes fire; the device doesn’t do both. You can have three such devices in existence at a time, and each falls apart 8 hours after its creation or when you dismantle it with a touch as a Utilize action."
+        }
+      ]
+    },
+    "Goliath": {
+      "creatureType": "Humanoid",
+      "size": "Medium (about 7–8 feet tall)",
+      "speed": "35 feet",
+      "traits": [
+        {
+          "name": "Giant Ancestry",
+          "text": "You are descended from Giants. Choose one of the following benefits—a supernatural boon from your ancestry; you can use the chosen benefit a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest: Cloud’s Jaunt (Cloud Giant). As a Bonus Action, you magically teleport up to 30 feet to an unoccupied space you can see. Fire’s Burn (Fire Giant). When you hit a target with an attack roll and deal damage to it, you can also deal 1d10 Fire damage to that target. Frost’s Chill (Frost Giant). When you hit a target with an attack roll and deal damage to it, you can also deal 1d6 Cold damage to that target and reduce its Speed by 10 feet until the start of your next turn. Hill’s Tumble (Hill Giant). When you hit a Large or smaller creature with an attack roll and deal damage to it, you can give that target the Prone condition. Stone’s Endurance (Stone Giant). When you take damage, you can take a Reaction to roll 1d12. Add your Constitution modifier to the number rolled and reduce the damage by that total. Elven Lineages Lineage Level 1 Level 3 Level 5 Drow The range of your Darkvision increases to 120 feet. ​ You also know the Dancing Lights cantrip. Faerie Fire Darkness High Elf You know the Prestidigitation cantrip. Whenever you finish a Long Rest, you can replace that cantrip with a different cantrip from the Wizard spell list. Detect Magic Misty Step Wood Elf Your Speed increases to 35 feet. You also know the Druidcraft cantrip. Longstrider Pass without Trace System Reference Document 5.2 86 Storm’s Thunder (Storm Giant). When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature."
+        },
+        {
+          "name": "Large Form",
+          "text": "Starting at character level 5, you can change your size to Large as a Bonus Action if you’re in a big enough space. This transformation lasts for 10 minutes or until you end it (no action required). For that duration, you have Advantage on Strength checks, and your Speed increases by 10 feet. Once you use this trait, you can’t use it again until you finish a Long Rest."
+        },
+        {
+          "name": "Powerful Build",
+          "text": "You have Advantage on any ability check you make to end the Grappled condition. You also count as one size larger when determining your carrying capacity."
+        }
+      ]
+    },
+    "Halfling": {
+      "creatureType": "Humanoid",
+      "size": "Small (about 2–3 feet tall)",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Brave",
+          "text": "You have Advantage on saving throws you make to avoid or end the Frightened condition."
+        },
+        {
+          "name": "Halfling Nimbleness",
+          "text": "You can move through the space of any creature that is a size larger than you, but you can’t stop in the same space."
+        },
+        {
+          "name": "Luck",
+          "text": "When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll."
+        },
+        {
+          "name": "Naturally Stealthy",
+          "text": "You can take the Hide action even when you are obscured only by a creature that is at least one size larger than you."
+        }
+      ]
+    },
+    "Human": {
+      "creatureType": "Humanoid",
+      "size": "Medium (about 4–7 feet tall) or Small (about 2–4 feet tall), chosen when you select this species",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Resourceful",
+          "text": "You gain Heroic Inspiration whenever you finish a Long Rest."
+        },
+        {
+          "name": "Skillful",
+          "text": "You gain proficiency in one skill of your choice."
+        },
+        {
+          "name": "Versatile",
+          "text": "You gain an Origin feat of your choice (see “Feats”). Skilled is recommended."
+        }
+      ]
+    },
+    "Orc": {
+      "creatureType": "Humanoid",
+      "size": "Medium (about 6–7 feet tall)",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Adrenaline Rush",
+          "text": "You can take the Dash action as a Bonus Action. When you do so, you gain a number of Temporary Hit Points equal to your Proficiency Bonus. You can use this trait a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Short or Long Rest."
+        },
+        {
+          "name": "Darkvision",
+          "text": "You have Darkvision with a range of 120 feet."
+        },
+        {
+          "name": "Relentless Endurance",
+          "text": "When you are reduced to 0 Hit Points but not killed outright, you can drop to 1 Hit Point instead. Once you use this trait, you can’t do so again until you finish a Long Rest."
+        }
+      ]
+    },
+    "Tiefling": {
+      "creatureType": "Humanoid",
+      "size": "Medium (about 4–7 feet tall) or Small (about 3–4 feet tall), chosen when you select this species",
+      "speed": "30 feet",
+      "traits": [
+        {
+          "name": "Darkvision",
+          "text": "You have Darkvision with a range of 60 feet."
+        },
+        {
+          "name": "Fiendish Legacy",
+          "text": "You are the recipient of a legacy that grants you supernatural abilities. Choose a legacy from the Fiendish Legacies table. You gain the level 1 benefit of the chosen legacy. When you reach character levels 3 and 5, you learn a higher-level spell, as shown on the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for the spells you cast with this trait (choose the ability when you select the legacy)."
+        },
+        {
+          "name": "Otherworldly Presence",
+          "text": "You know the Thaumaturgy cantrip. When you cast it with this trait, the spell uses the same spellcasting ability you use for your Fiendish Legacy trait. Fiendish Legacies Legacy Level 1 Level 3 Level 5 Abyssal You have Resistance to Poison damage. You also know the Poison Spray cantrip. Ray of Sickness Hold Person Chthonic You have Resistance to Necrotic damage. You also know the Chill Touch cantrip. False Life Ray of Enfeeblement Infernal You have Resistance to Fire damage. You also know the Fire Bolt cantrip. Hellish Rebuke Darkness System Reference Document 5.2 87"
         }
       ]
     }

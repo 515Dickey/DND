@@ -147,6 +147,12 @@ export interface FeatureEntry {
   recharge: Recharge;
   /** Section heading on the sheet, e.g. "Class", "Feats", "Traits". */
   group: string;
+  /**
+   * Where the entry came from, e.g. "srd:class:Fighter". Empty for anything
+   * typed by hand. Re-applying a class replaces only its own entries, so a
+   * player's own notes are never swept away.
+   */
+  source: string;
 }
 
 export const DEFAULT_FEATURE_GROUPS = ["Class", "Subclass", "Feats", "Traits"];
@@ -491,6 +497,7 @@ export function migrateCharacter(raw: unknown): Character {
     usesSpent: 0,
     recharge: "none" as Recharge,
     group: "",
+    source: "",
   };
   if (typeof legacyFeatures === "string") {
     merged.features = legacyFeatures
