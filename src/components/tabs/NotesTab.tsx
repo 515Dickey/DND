@@ -1,8 +1,16 @@
 "use client";
 
-import { newId } from "@/lib/types";
+import { useState } from "react";
+import { type FeatureEntry, newId } from "@/lib/types";
 import { exportCharacter } from "@/lib/storage";
-import { ConfirmButton, Empty, Field, Panel, TextArea } from "@/components/ui";
+import {
+  ConfirmButton,
+  Empty,
+  Field,
+  Modal,
+  Panel,
+  TextArea,
+} from "@/components/ui";
 import type { SheetProps } from "./shared";
 
 function todayISO(): string {
@@ -11,20 +19,76 @@ function todayISO(): string {
 
 export function NotesTab({ c, set, mut }: SheetProps) {
   const journal = [...c.journal].sort((a, b) => b.date.localeCompare(a.date));
+  const [openFeature, setOpenFeature] = useState<string | null>(null);
+  const active = c.features.find((f) => f.id === openFeature) ?? null;
+
+  const patchFeature = (id: string, patch: Partial<FeatureEntry>) =>
+    mut((d) => ({
+      ...d,
+      features: d.features.map((f) => (f.id === id ? { ...f, ...patch } : f)),
+    }));
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <div className="space-y-4">
-        <Panel title="Features & Traits">
-          <TextArea
-            value={c.features}
-            onChange={(v) => set({ features: v })}
-            rows={10}
-            placeholder={"Second Wind (1/short rest)\nAction Surge\nFighting Style: Defense (+1 AC in armor)"}
-          />
-          <p className="formula mt-1.5">
-            Class features, racial traits, feats — anything you need to remember
-            mid-fight.
+        <Panel
+          title="Features & Traits"
+          action={
+            <button
+              className="btn btn-sm"
+              onClick={() => {
+                const entry: FeatureEntry = {
+                  id: newId(),
+                  name: "",
+                  note: "",
+                  detail: "",
+                };
+                mut((d) => ({ ...d, features: [...d.features, entry] }));
+                // Open it straight away -- a blank row is no use on its own.
+                setOpenFeature(entry.id);
+              }}
+            >
+              + Add
+            </button>
+          }
+        >
+          {c.features.length === 0 ? (
+            <Empty>
+              Nothing yet. Add Second Wind, Darkvision, your Fighting Style —
+              anything you want to remember mid-fight.
+            </Empty>
+          ) : (
+            <div className="space-y-1.5">
+              {c.features.map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => setOpenFeature(f.id)}
+                  className="flex w-full items-center gap-2 rounded border px-2.5 py-2 text-left"
+                  style={{ borderColor: "var(--rule)" }}
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[0.95rem] leading-tight">
+                      {f.name || <em className="text-ink-faint">Untitled</em>}
+                    </span>
+                    {f.note && <span className="formula block truncate">{f.note}</span>}
+                  </span>
+                  {f.detail.trim() && (
+                    <span className="label shrink-0">details</span>
+                  )}
+                  <span
+                    className="shrink-0 text-xs"
+                    style={{ color: "var(--ink-faint)" }}
+                    aria-hidden="true"
+                  >
+                    ▶
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+          <p className="formula mt-2">
+            Tap any entry to read or edit its full text.
           </p>
         </Panel>
 
@@ -193,6 +257,55 @@ export function NotesTab({ c, set, mut }: SheetProps) {
           </p>
         </Panel>
       </div>
+
+      {active && (
+        <Modal
+          title={active.name || "New feature"}
+          onClose={() => setOpenFeature(null)}
+          footer={
+            <>
+              <button className="btn flex-1" onClick={() => setOpenFeature(null)}>
+                Done
+              </button>
+              <ConfirmButton
+                className="btn btn-danger"
+                onConfirm={() => {
+                  const id = active.id;
+                  setOpenFeature(null);
+                  mut((d) => ({
+                    ...d,
+                    features: d.features.filter((f) => f.id !== id),
+                  }));
+                }}
+              >
+                Delete
+              </ConfirmButton>
+            </>
+          }
+        >
+          <div className="space-y-2.5">
+            <Field
+              label="Name"
+              value={active.name}
+              placeholder="Action Surge"
+              onChange={(v) => patchFeature(active.id, { name: v })}
+            />
+            <Field
+              label="Short note (shown on the list)"
+              value={active.note}
+              placeholder="1/short rest · Fighter 2"
+              onChange={(v) => patchFeature(active.id, { note: v })}
+            />
+            <TextArea
+              label="Details"
+              value={active.detail}
+              rows={10}
+              placeholder="On your turn, you can take one additional action."
+              onChange={(v) => patchFeature(active.id, { detail: v })}
+            />
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

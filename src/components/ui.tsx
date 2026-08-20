@@ -459,3 +459,72 @@ export function Toggle({
     </label>
   );
 }
+
+/* --- Modal --------------------------------------------------------------- */
+
+/**
+ * A centered panel over the sheet, for detail that would otherwise clutter it.
+ * Closes on Escape, on a backdrop tap, and via the X. Body scroll is locked
+ * while it's open so the page behind doesn't drift on a tablet.
+ */
+export function Modal({
+  title,
+  onClose,
+  children,
+  footer,
+}: {
+  title: string;
+  onClose: () => void;
+  children: React.ReactNode;
+  footer?: React.ReactNode;
+}) {
+  const headingId = `modal-${title.replace(/\W+/g, "-").toLowerCase()}`;
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center p-3 sm:items-center"
+      style={{ background: "rgba(30, 20, 8, 0.55)" }}
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={headingId}
+        className="panel max-h-[88dvh] w-full max-w-xl overflow-hidden"
+        // Clicks inside must not reach the backdrop's close handler.
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="panel-body flex max-h-[88dvh] flex-col">
+          <div className="mb-2 flex items-start gap-2">
+            <h2 id={headingId} className="panel-title mb-0 flex-1">
+              {title}
+            </h2>
+            <button
+              type="button"
+              className="btn btn-icon shrink-0"
+              onClick={onClose}
+              aria-label="Close"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto pr-0.5">{children}</div>
+          {footer && <div className="mt-3 flex flex-wrap gap-2">{footer}</div>}
+        </div>
+      </div>
+    </div>
+  );
+}

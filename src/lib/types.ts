@@ -109,6 +109,17 @@ export interface JournalEntry {
   body: string;
 }
 
+/**
+ * One class feature, racial trait, or feat. The name and a short note show on
+ * the collapsed row; the long rules text lives in `detail` behind a tap.
+ */
+export interface FeatureEntry {
+  id: string;
+  name: string;
+  note: string;
+  detail: string;
+}
+
 /** A "Armor: light, medium" style line in the proficiencies panel. */
 export interface ProficiencyGroup {
   id: string;
@@ -221,7 +232,7 @@ export interface Character {
   carryMisc: number; // e.g. Powerful Build doubles capacity -- add the difference
 
   // Text blocks
-  features: string;
+  features: FeatureEntry[];
   proficiencies: ProficiencyGroup[];
   personality: string;
   ideals: string;
@@ -334,7 +345,7 @@ export function createCharacter(name = "New Character"): Character {
     treasure: "",
     carryMisc: 0,
 
-    features: "",
+    features: [],
     proficiencies: DEFAULT_PROFICIENCY_LABELS.map((label) => ({
       id: newId(),
       label,
@@ -387,6 +398,19 @@ export function migrateCharacter(raw: unknown): Character {
       ? input.proficiencies
       : base.proficiencies,
   };
+
+  // The features field used to be one textarea. Each non-empty line becomes its
+  // own entry so nothing is lost and the text stays where the player put it.
+  const legacyFeatures = (raw as { features?: unknown }).features;
+  if (typeof legacyFeatures === "string") {
+    merged.features = legacyFeatures
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => ({ id: newId(), name: line, note: "", detail: "" }));
+  } else if (!Array.isArray(input.features)) {
+    merged.features = [];
+  }
 
   // Sheets saved before proficiencies became rows kept one free-text blob.
   const legacyText = (raw as { proficienciesText?: unknown }).proficienciesText;

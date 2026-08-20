@@ -28,6 +28,11 @@ know the sheet isn't driving them.
 | **Gear** | Inventory with weights, carrying capacity and encumbrance, coins |
 | **Notes** | Features and traits, personality, backstory, scratch pad, session journal |
 
+**Features and traits are a list, not a wall of text.** Each one shows its name
+and a short note on the Notes tab; tap it to open a card holding the full rules
+text. Keeps the sheet readable when a character has a dozen features. Sheets
+saved before this change are converted automatically, one entry per line.
+
 ### Rules it applies for you
 
 - Ability modifiers, proficiency bonus by total level
