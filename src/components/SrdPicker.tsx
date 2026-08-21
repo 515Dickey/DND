@@ -33,7 +33,11 @@ export function SrdPicker({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [className, setClassName] = useState("");
-  const [classLevel, setClassLevel] = useState(c.level || 1);
+  // Kept per class name, because "Level" here means the level in the class
+  // being applied -- not the character's total, which is now worked out from
+  // all of them. Sharing one number would apply a multiclassed character's
+  // whole total to whichever class was picked.
+  const [levelByClass, setLevelByClass] = useState<Record<string, number>>({});
   const [speciesName, setSpeciesName] = useState("");
   const [backgroundName, setBackgroundName] = useState("");
   const [note, setNote] = useState<string | null>(null);
@@ -154,8 +158,16 @@ export function SrdPicker({
     ),
   ];
   const otherClasses = appliedClasses.filter((n) => n !== shownClass);
+  const trackedLevels = c.classLevels ?? {};
+  const knownLevel = levelByClass[shownClass] ?? trackedLevels[shownClass];
+  // With nothing recorded for this class, a sheet that has no classes yet is
+  // most likely being caught up to its typed total. A sheet that already has
+  // one is not: a class being added to it starts at 1.
+  const classLevel =
+    knownLevel ?? (appliedClasses.length > 0 ? 1 : c.level || 1);
+  const setClassLevel = (n: number) =>
+    setLevelByClass((prev) => ({ ...prev, [shownClass]: n }));
   const asMulticlass = multiclassChoice ?? otherClasses.length > 0;
-
 
   return (
     <Panel
@@ -203,6 +215,19 @@ export function SrdPicker({
               Apply
             </button>
           </div>
+
+          {/*
+            "Level" is ambiguous the moment a sheet has two classes, and getting
+            it wrong applies the whole total to one of them.
+          */}
+          {Object.keys(trackedLevels).length > 0 && (
+            <p className="formula">
+              Levels so far: {describeLevels(trackedLevels)} — total{" "}
+              {Object.values(trackedLevels).reduce((sum, n) => sum + n, 0)}. The
+              box above is the level in {shownClass || "the chosen class"}, not
+              the total.
+            </p>
+          )}
 
           {/*
             Only shown once there's another class on the sheet, because that's
@@ -412,4 +437,11 @@ export function SrdPicker({
       )}
     </Panel>
   );
+}
+
+/** {Fighter: 3, Barbarian: 3} -> "Fighter 3 / Barbarian 3" */
+function describeLevels(levels: Record<string, number>): string {
+  return Object.entries(levels)
+    .map(([name, lvl]) => `${name} ${lvl}`)
+    .join(" / ");
 }

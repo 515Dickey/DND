@@ -219,6 +219,13 @@ export interface Character {
   name: string;
   playerName: string;
   classText: string; // free text, e.g. "Fighter 3 / Rogue 2"
+  /**
+   * Levels per class, for classes taken from the rules. The total level is the
+   * sum of these, so a second class actually counts -- which a single "level"
+   * field cannot express. Empty for a sheet filled in by hand, and then the
+   * total is left exactly as it was typed.
+   */
+  classLevels: Record<string, number>;
   subclass: string;
   level: number;
   /** Labelled "Species" in the UI, following the 2024 rules. */
@@ -357,6 +364,7 @@ export function createCharacter(name = "New Character"): Character {
     name,
     playerName: "",
     classText: "",
+    classLevels: {},
     subclass: "",
     level: 1,
     race: "",
@@ -492,6 +500,7 @@ export function migrateCharacter(raw: unknown): Character {
     pactSlots: { ...base.pactSlots, ...(input.pactSlots || {}) },
     currency: { ...base.currency, ...(input.currency || {}) },
     overrides: { ...(input.overrides || {}) },
+    classLevels: { ...(input.classLevels || {}) },
     hitDice: Array.isArray(input.hitDice) && input.hitDice.length
       ? input.hitDice
       : base.hitDice,

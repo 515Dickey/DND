@@ -706,24 +706,49 @@ export function applyClass(
   if (added.length) summary.push(`${added.length} class features`);
 
   // Features from other classes are deliberately left in place, so applying a
-  // second class multiclasses rather than wiping the first. That does mean the
-  // sheet can no longer describe the character in one line, so rather than
-  // overwrite "Class & level" with a half-truth it says so and leaves it alone.
-  const otherClasses = new Set(
-    c.features
-      .filter((f) => f.source.startsWith("srd:class:") && f.source !== src)
-      .map((f) => f.source.slice("srd:class:".length)),
-  );
-  if (otherClasses.size === 0) {
-    patch.classText = `${className} ${level}`;
-    patch.level = level;
-  } else {
-    summary.push(
-      `kept ${[...otherClasses].join(" and ")} — set Class & level yourself`,
-    );
+  // second class multiclasses rather than wiping the first. Levels are tracked
+  // per class, because a character's total level is the sum of them and a
+  // single number can't say where it came from.
+  const levels = { ...classLevels(c), [className]: level };
+  patch.classLevels = levels;
+  const total = Object.values(levels).reduce((sum, n) => sum + n, 0);
+  patch.level = total;
+  patch.classText = describeClassLevels(levels);
+  if (Object.keys(levels).length > 1) {
+    summary.push(`level ${total} total (${patch.classText})`);
   }
 
   return { patch, summary };
+}
+
+/**
+ * The levels per class this sheet carries.
+ *
+ * Sheets built before levels were tracked have nothing recorded, so those are
+ * recovered from the features themselves, each of which is noted with the class
+ * level that granted it. That's a floor rather than the exact figure -- some
+ * levels grant no feature, so a Wizard 6 whose last feature came at 5 reads as
+ * 5 -- but recovering a slightly low number beats resetting a multiclassed
+ * character's total to the level of whichever class was applied last.
+ */
+function classLevels(c: Character): Record<string, number> {
+  if (Object.keys(c.classLevels ?? {}).length) return { ...c.classLevels };
+  const recovered: Record<string, number> = {};
+  for (const f of c.features) {
+    if (!f.source.startsWith("srd:class:")) continue;
+    const name = f.source.slice("srd:class:".length);
+    const at = /\s(\d{1,2})$/.exec(f.note);
+    const lvl = at ? Number(at[1]) : 1;
+    recovered[name] = Math.max(recovered[name] ?? 0, lvl);
+  }
+  return recovered;
+}
+
+/** {Fighter: 3, Barbarian: 3} -> "Fighter 3 / Barbarian 3" */
+function describeClassLevels(levels: Record<string, number>): string {
+  return Object.entries(levels)
+    .map(([name, lvl]) => `${name} ${lvl}`)
+    .join(" / ");
 }
 
 export function subclassSource(name: string) {
@@ -772,7 +797,25 @@ export function applySubclass(
     if (next) summary.push(`next at level ${next.level}`);
   }
 
-  return { patch: { features: [...kept, ...added], subclass: sub.name }, summary };
+  // A multiclassed character has a subclass per class, so this reads as a list
+  // rather than a single value. Overwriting it loses the first one: a Fighter
+  // Champion who takes Barbarian is not thereby a Berserker instead.
+  const already = c.subclass.trim();
+  const names = already
+    .split("/")
+    .map((n) => n.trim())
+    .filter(Boolean);
+  const subclassText = names.some((n) => n.toLowerCase() === sub.name.toLowerCase())
+    ? already
+    : [...names, sub.name].join(" / ");
+  if (subclassText !== already && names.length) {
+    summary.push(`kept ${names.join(" / ")}`);
+  }
+
+  return {
+    patch: { features: [...kept, ...added], subclass: subclassText },
+    summary,
+  };
 }
 
 /** "30 feet" -> 30 */
