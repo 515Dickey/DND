@@ -141,10 +141,16 @@ const written = [
   // App icons. The night disc is the only one that belongs here: a home screen
   // is the one place the dark opaque disc is right rather than a compromise,
   // since it never sits on the app's own parchment.
-  await seal(night, 192, 0.9, "icon-192.png"),
-  await seal(night, 512, 0.9, "icon-512.png"),
+  //
+  // The filenames name the artwork, and that is load-bearing. A browser decides
+  // whether to re-download an installed app's icons by diffing the manifest,
+  // not the image bytes, so overwriting an icon in place changes nothing for
+  // anyone who already installed: the manifest still reads the same and the
+  // service worker keeps serving what it cached. New art needs a new name.
+  await seal(night, 192, 0.9, "icon-seal-192.png"),
+  await seal(night, 512, 0.9, "icon-seal-512.png"),
   await seal(night, 180, 0.88, "apple-touch-icon.png"),
-  await seal(night, 512, 0.78, "icon-maskable-512.png"),
+  await seal(night, 512, 0.78, "icon-seal-maskable-512.png"),
 
   // Title-page marks, at 3x the size they are drawn at so they stay crisp on a
   // tablet.

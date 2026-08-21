@@ -2,7 +2,11 @@
 // forever (they're immutable), pages always try the network first so a new
 // deploy is picked up straight away, and the cache is only a fallback.
 
-const VERSION = "parchment-v1";
+// Bump this whenever a file already in the wild changes without changing its
+// URL. Activation deletes every cache from an older version, which is the only
+// way an existing install stops being served the bytes it cached. (v2: the
+// Deneir icons.)
+const VERSION = "parchment-v2";
 const SHELL = `${VERSION}-shell`;
 const ASSETS = `${VERSION}-assets`;
 

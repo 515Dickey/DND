@@ -30,10 +30,16 @@ CC-BY attribution the rules text carries.
 
 | Output | From | Notes |
 | --- | --- | --- |
-| `icon-192/512.png`, `apple-touch-icon.png` | night | Disc set on parchment, like a wax seal. Opaque -- iOS paints transparency black. |
-| `icon-maskable-512.png` | night | Art held inside the centred 80% safe circle so Android's mask can't crop the ring. |
+| `icon-seal-192/512.png`, `apple-touch-icon.png` | night | Disc set on parchment, like a wax seal. Opaque -- iOS paints transparency black. |
+| `icon-seal-maskable-512.png` | night | Art held inside the centred 80% safe circle so Android's mask can't crop the ring. |
 | `deneir-day/night.png` | day, night | 312px, alpha kept, square canvas so the theme swap moves nothing. |
 | `deneir-line.svg` | line | viewBox cropped to the ink, measured at export time. Used as a CSS mask. |
 
 The source discs are ovals, 10% taller than wide. They are placed as drawn --
 stretching them to fit a square would distort the candle and the eye.
+
+Icon filenames name the artwork on purpose. A browser re-downloads an installed
+app's icons when the **manifest** changes, not when the bytes behind an
+unchanged URL do -- so replacing an icon in place leaves every existing install
+showing the old one forever. New art gets a new name, and `public/sw.js` gets a
+version bump so the old bytes are evicted from the offline cache.

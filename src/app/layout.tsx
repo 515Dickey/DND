@@ -31,13 +31,16 @@ export const metadata: Metadata = {
   },
   // iPadOS ignores the web manifest's icons for "Add to Home Screen" and looks
   // for apple-touch-icon; without it the home screen gets a screenshot.
+  // Icon filenames carry the artwork's name rather than being overwritten in
+  // place: browsers re-download an installed app's icons when the manifest
+  // changes, not when the bytes behind an unchanged URL do.
   icons: {
     icon: [
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icon-seal-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-seal-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: ["/icon-192.png"],
+    shortcut: ["/icon-seal-192.png"],
   },
 };
 
