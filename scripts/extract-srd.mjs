@@ -4,8 +4,12 @@
 // line; -layout drifts the columns apart and silently corrupts them, which is
 // far worse than failing outright for game data players will trust.
 //
-//   pdftotext -raw SRD_CC_v5.2.pdf srd-raw.txt
-//   node scripts/extract-srd.mjs srd-raw.txt src/srd/classes.json
+// `-enc UTF-8` is not optional. Without it weights come out as Latin-1, so
+// "58 1/2 lb." arrives as a byte this script cannot read and seventeen pieces of
+// gear vanish -- and bullets arrive as U+FFFD instead of U+2022.
+//
+//   pdftotext -raw -enc UTF-8 SRD_CC_v5.2.pdf srd-utf8.txt
+//   node scripts/extract-srd.mjs srd-utf8.txt src/srd/classes.json
 
 import fs from "node:fs";
 
@@ -83,6 +87,62 @@ function parseCoreTraits(className) {
     traits[label] = dehyphenate(blob.slice(at + label.length, end));
   }
   return traits;
+}
+
+/**
+ * What a class grants when it is *not* your first class.
+ *
+ * This is the whole point of extracting it: a second class gives you only some
+ * of its starting proficiencies, and in every one of the twelve that never
+ * includes saving throws. Reading the core traits table for an additional class
+ * hands out save proficiencies nobody is entitled to.
+ *
+ * The section reads as two bullets; only the first lists traits, the second
+ * just says "gain the level 1 features", which the feature table already
+ * covers.
+ */
+function parseMulticlass(className) {
+  const chapter = findLine(new RegExp("^Core " + className + " Traits$"));
+  if (chapter < 0) return null;
+  const start = findLine(/^As a Multiclass Character$/, chapter);
+  if (start < 0) return null;
+  const stop = findLine(
+    new RegExp("^(" + className + " Class Features|Core [A-Z][a-z]+ Traits)$"),
+    start,
+  );
+  const body = lines.slice(start + 1, stop < 0 ? start + 20 : stop);
+
+  // Bullets arrive as a replacement character; split on it and keep the first.
+  const bullets = body
+    .join(" ")
+    // Bullets survive the PDF as U+FFFD, not as a bullet glyph.
+    .split(/[\u2022\u25aa\u25cf\ufffd]/)
+    .map((b) => dehyphenate(b).trim())
+    .filter(Boolean);
+  const first = bullets.find((b) => /^Gain /.test(b));
+  if (!first) return null;
+
+  const text = first.replace(/\s+/g, " ").trim();
+
+  // "training with Light and Medium armor and Shields" -> the armour granted.
+  const armorPhrase = text.match(
+    /training with ([^.]*?(?:armor|Shields))(?=[.,]|\s+and\s+(?:proficiency|the)\b|$)/i,
+  );
+  const armor = armorPhrase
+    ? [...armorPhrase[1].matchAll(/\b(Light|Medium|Heavy|Shields)\b/gi)].map(
+        (m) => m[1][0].toUpperCase() + m[1].slice(1).toLowerCase(),
+      )
+    : [];
+
+  const weapons = [...text.matchAll(/\b(Simple|Martial)\b(?=[^.]*?weapons)/gi)].map(
+    (m) => m[1][0].toUpperCase() + m[1].slice(1).toLowerCase(),
+  );
+
+  return {
+    text,
+    armor: [...new Set(armor)],
+    weapons: [...new Set(weapons)],
+  };
 }
 
 function parseFeatureTable(className) {
@@ -778,6 +838,7 @@ for (const name of CLASSES) {
     levels: parseFeatureTable(name),
     descriptions: parseFeatureDescriptions(name),
     subclass: parseSubclass(name),
+    multiclass: parseMulticlass(name),
   };
 }
 
@@ -812,7 +873,19 @@ for (const name of CLASSES) {
     // A feature far longer than any real one means the parse ran past the end
     // of the subclass and started eating the next chapter.
     sub.features.some((f) => f.text.length > 4000);
-  const okay = levels === 20 && traits >= 6 && strayDice === 0 && !subBad;
+  // Every class publishes an "As a Multiclass Character" list, and not one of
+  // them grants saving throws. If a parse ever produces one, an additional
+  // class would hand out save proficiencies the character has not earned --
+  // which is exactly the bug this data exists to prevent.
+  const mc = c.multiclass;
+  const mcBad =
+    !mc ||
+    !mc.text ||
+    !/^Gain /.test(mc.text) ||
+    /Saving Throw/i.test(mc.text) ||
+    mc.text.length > 400;
+  const okay =
+    levels === 20 && traits >= 6 && strayDice === 0 && !subBad && !mcBad;
   if (!okay) problems++;
   console.log(
     (okay ? "ok    " : "CHECK ") +
@@ -821,7 +894,14 @@ for (const name of CLASSES) {
       " levels:" + levels +
       (emptyFeatures ? " (" + emptyFeatures + " levels grant no feature)" : "") +
       (strayDice ? " strayDice:" + strayDice : "") +
-      (subBad ? " SUBCLASS BAD" : " sub:" + sub.name),
+      (subBad ? " SUBCLASS BAD" : " sub:" + sub.name) +
+      (mcBad
+        ? " MULTICLASS BAD"
+        : " mc:[" +
+          (mc.armor.join("/") || "-") +
+          " | " +
+          (mc.weapons.join("/") || "-") +
+          "]"),
   );
 }
 console.log(problems === 0 ? "\nall classes parsed cleanly" : "\n" + problems + " need checking");

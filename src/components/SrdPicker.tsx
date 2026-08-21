@@ -19,7 +19,7 @@ import {
   type SrdData,
 } from "@/lib/srd";
 import { SKILLS } from "@/lib/types";
-import { ConfirmButton, NumField, Panel, Select } from "@/components/ui";
+import { ConfirmButton, NumField, Panel, Select, Toggle } from "@/components/ui";
 
 export function SrdPicker({
   c,
@@ -35,6 +35,9 @@ export function SrdPicker({
   const [classLevel, setClassLevel] = useState(c.level || 1);
   const [speciesName, setSpeciesName] = useState("");
   const [note, setNote] = useState<string | null>(null);
+  // null means "follow the sheet": the toggle only pins a choice once the
+  // player disagrees with what was worked out from the classes already on it.
+  const [multiclassChoice, setMulticlassChoice] = useState<boolean | null>(null);
 
   const ensureData = useCallback(async () => {
     if (data) return data;
@@ -71,12 +74,23 @@ export function SrdPicker({
     };
   }, [alreadyUsed]);
 
+  // Classes this sheet already carries, read back off the feature sources.
+  const appliedClasses = [
+    ...new Set(
+      c.features
+        .map((f) => /^srd:class:(.+)$/.exec(f.source)?.[1])
+        .filter((n): n is string => Boolean(n)),
+    ),
+  ];
+  const otherClasses = appliedClasses.filter((n) => n !== shownClass);
+  const asMulticlass = multiclassChoice ?? otherClasses.length > 0;
+
   const doApplyClass = async () => {
     const d = await ensureData();
     if (!d || !shownClass) return;
     let summary: string[] = [];
     mut((draft) => {
-      const result = applyClass(draft, d, shownClass, classLevel);
+      const result = applyClass(draft, d, shownClass, classLevel, asMulticlass);
       summary = result.summary;
       return { ...draft, ...result.patch };
     });
@@ -169,6 +183,31 @@ export function SrdPicker({
               Apply
             </button>
           </div>
+
+          {/*
+            Only shown once there's another class on the sheet, because that's
+            the only time the question exists. Defaulted on, since getting it
+            wrong hands out saving throws the character never earned.
+          */}
+          {shownClass && otherClasses.length > 0 && (
+            <div className="mt-1">
+              <Toggle
+                label="Additional class (multiclassing)"
+                checked={asMulticlass}
+                onChange={setMulticlassChoice}
+                hint={
+                  asMulticlass
+                    ? `${otherClasses.join(" and ")} already on this sheet. No saving throws — only a first class grants those — and only some proficiencies.`
+                    : `Treated as a first class: full saves and proficiencies. Turn on if ${shownClass} is being added alongside ${otherClasses.join(" and ")}.`
+                }
+              />
+              {asMulticlass && data?.classes[shownClass]?.multiclass?.text && (
+                <p className="formula mt-0.5">
+                  {data.classes[shownClass]!.multiclass!.text}
+                </p>
+              )}
+            </div>
+          )}
 
           {shownClass && skillInfo.choose > 0 && (
             <p className="formula">

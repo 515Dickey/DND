@@ -309,6 +309,15 @@
             "text": "As a Bonus Action, you can strike terror into others with your menacing presence and primal power. When you do so, each creature of your choice in a 30-foot Emanation originating from you must make a Wisdom saving throw (DC 8 plus your Strength modifier and Proficiency Bonus). On a failed save, a creature has the Frightened condition for 1 minute. At the end of each of the Frightened creature’s turns, the creature repeats the save, ending the effect on itself on a success. Once you use this feature, you can’t use it again until you finish a Long Rest unless you expend a use of your Rage (no action required) to restore your use of it. Bard"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Barbarian Traits table: Hit Point Die, proficiency with Martial weapons, and training with Shields.",
+        "armor": [
+          "Shields"
+        ],
+        "weapons": [
+          "Martial"
+        ]
       }
     },
     "Bard": {
@@ -784,6 +793,13 @@
             "text": "When you make an ability check or attack roll and fail, you can expend one use of Bardic Inspiration; roll the Bardic Inspiration die, and add the number rolled to the d20, potentially turning a failure into a success. On a failure, the Bardic Inspiration isn’t expended. Cleric"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Bard Traits table: Hit Point Die, proficiency in one skill of your choice, proficiency with one Musical Instrument of your choice, and training with Light armor.",
+        "armor": [
+          "Light"
+        ],
+        "weapons": []
       }
     },
     "Cleric": {
@@ -1256,6 +1272,15 @@
             "text": "When you would normally roll one or more dice to restore Hit Points to a creature with a spell or Channel Divinity, don’t roll those dice for the healing; instead use the highest number possible for each die. For example, instead of restoring 2d6 Hit Points to a creature with a spell, you restore 12. Druid"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Cleric Traits table: Hit Point Die and training with Light and Medium armor and Shields.",
+        "armor": [
+          "Light",
+          "Medium",
+          "Shields"
+        ],
+        "weapons": []
       }
     },
     "Druid": {
@@ -1739,6 +1764,14 @@
             "text": "As a Magic action, you can expend a use of your Wild Shape and cause spectral trees and vines to appear in a 15-foot Cube on the ground within 120 feet of yourself. They last there for 1 minute or until you have the Incapacitated condition or die. You and your allies have Half Cover while in that area, and your allies gain the current Resistance of your Nature’s Ward while there. As a Bonus Action, you can move the Cube up to 60 feet to ground within 120 feet of yourself. Fighter"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Druid Traits table: Hit Point Die and training with Light armor and Shields.",
+        "armor": [
+          "Light",
+          "Shields"
+        ],
+        "weapons": []
       }
     },
     "Fighter": {
@@ -2030,6 +2063,17 @@
             "name": "Survivor",
             "text": "You attain the pinnacle of resilience in battle, giving you these benefits. Defy Death. You have Advantage on Death Saving Throws. Moreover, when you roll 18–20 on a Death Saving Throw, you gain the benefit of rolling a 20 on it. Heroic Rally. At the start of each of your turns, you regain Hit Points equal to 5 plus your Constitution modifier if you are Bloodied and have at least 1 Hit Point. Monk"
           }
+        ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Fighter Traits table: Hit Point Die, proficiency with Martial weapons, and training with Light and Medium armor and Shields.",
+        "armor": [
+          "Light",
+          "Medium",
+          "Shields"
+        ],
+        "weapons": [
+          "Martial"
         ]
       }
     },
@@ -2342,6 +2386,11 @@
             "text": "You gain the ability to set up lethal vibrations in someone’s body. When you hit a creature with an Unarmed Strike, you can expend 4 Focus Points to start these imperceptible vibrations, which last for a number of days equal to your Monk level. The vibrations are harmless unless you take an action to end them. Alternatively, when you take the Attack action on your turn, you can forgo one of the attacks to end the vibrations. To end them, you and the target must be on the same plane of existence. When you end them, the target must make a Constitution saving throw, taking 10d12 Force damage on a failed save or half as much damage on a successful one. You can have only one creature under the effect of this feature at a time. You can end the vibrations harmlessly (no action required). Paladin"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the Hit Point Die trait from the Core Monk Traits table.",
+        "armor": [],
+        "weapons": []
       }
     },
     "Paladin": {
@@ -2726,6 +2775,17 @@
             "name": "Holy Nimbus",
             "text": "As a Bonus Action, you can imbue your Aura of Protection with holy power, granting the benefits below for 10 minutes or until you end them (no action required). Once you use this feature, you can’t use it again until you finish a Long Rest. You can also restore your use of it by expending a level 5 spell slot (no action required). Holy Ward. You have Advantage on any saving throw you are forced to make by a Fiend or an Undead. Radiant Damage. Whenever an enemy starts its turn in the aura, that creature takes Radiant damage equal to your Charisma modifier plus your Proficiency Bonus. Sunlight. The aura is filled with Bright Light that is sunlight. Ranger"
           }
+        ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Paladin Traits table: Hit Point Die, proficiency with Martial weapons, and training with Light and Medium armor and Shields.",
+        "armor": [
+          "Light",
+          "Medium",
+          "Shields"
+        ],
+        "weapons": [
+          "Martial"
         ]
       }
     },
@@ -3112,6 +3172,17 @@
             "text": "When you take damage, you can take a Reaction to give yourself Resistance to that damage and any other damage of the same type until the end of the current turn. Rogue"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Ranger Traits table: Hit Point Die, proficiency with Martial weapons, proficiency in one skill of your choice from the Ranger’s skill list, and training with Light and Medium armor and Shields.",
+        "armor": [
+          "Light",
+          "Medium",
+          "Shields"
+        ],
+        "weapons": [
+          "Martial"
+        ]
       }
     },
     "Rogue": {
@@ -3382,6 +3453,13 @@
             "text": "You are adept at laying ambushes and quickly escaping danger. You can take two turns during the first round of any combat. You take your first turn at your normal Initiative and your second turn at your Initiative minus 10. Sorcerer"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Rogue Traits table: Hit Point Die, proficiency in one skill of your choice from the Rogue’s skill list, proficiency with Thieves’ Tools, and training with Light armor.",
+        "armor": [
+          "Light"
+        ],
+        "weapons": []
       }
     },
     "Sorcerer": {
@@ -3855,6 +3933,11 @@
             "text": "You can cast Summon Dragon without a Material component. You can also cast it once without a spell slot, and you regain the ability to cast it in this way when you finish a Long Rest. Whenever you start casting the spell, you can modify it so that it doesn’t require Concentration. If you do so, the spell’s duration becomes 1 minute for that casting. Warlock"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the Hit Point Die from the Core Sorcerer Traits table.",
+        "armor": [],
+        "weapons": []
       }
     },
     "Warlock": {
@@ -4187,6 +4270,13 @@
             "text": "Once per turn when you hit a creature with an attack roll, you can try to instantly transport the target through the Lower Planes. The target must succeed on a Charisma saving throw against your spell save DC, or the target disappears and hurtles through a nightmare landscape. The target takes 8d10 Psychic damage if it isn’t a Fiend, and it has the Incapacitated condition until the end of your next turn, when it returns to the space it previously occupied or the nearest unoccupied space. Once you use this feature, you can’t use it again until you finish a Long Rest unless you expend a Pact Magic spell slot (no action required) to restore your use of it. Wizard"
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the following traits from the Core Warlock Traits table: Hit Point Die and training with Light armor.",
+        "armor": [
+          "Light"
+        ],
+        "weapons": []
       }
     },
     "Wizard": {
@@ -4638,6 +4728,11 @@
             "text": "You can increase the power of your spells. When you cast a Wizard spell with a spell slot of levels 1–5 that deals damage, you can deal maximum damage with that spell on the turn you cast it. The first time you do so, you suffer no adverse effect. If you use this feature again before you finish a Long Rest, you take 2d12 Necrotic damage for each level of the spell slot immediately after you cast it. This damage ignores Resistance and Immunity. Each time you use this feature again before finishing a Long Rest, the Necrotic damage per spell level increases by 1d12."
           }
         ]
+      },
+      "multiclass": {
+        "text": "Gain the Hit Point Die from the Core Wizard Traits table.",
+        "armor": [],
+        "weapons": []
       }
     }
   },

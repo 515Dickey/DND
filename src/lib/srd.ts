@@ -44,6 +44,18 @@ export interface SrdClass {
   descriptions?: Record<string, string>;
   /** The single subclass the SRD publishes for this class. */
   subclass?: SrdSubclass | null;
+  /**
+   * What this class grants when it isn't your first, from its own "As a
+   * Multiclass Character" entry. Notably absent from all twelve: saving throws.
+   */
+  multiclass?: SrdMulticlass | null;
+}
+
+export interface SrdMulticlass {
+  /** The rules text, verbatim, so a player can see what they actually get. */
+  text: string;
+  armor: string[];
+  weapons: string[];
 }
 
 export interface SrdSpeciesTrait {
@@ -455,14 +467,35 @@ function describeFeature(cls: SrdClass, name: string): string {
 }
 
 /**
- * The categories each proficiency row can hold as a bare list. Anything the
- * rules qualify in prose -- the Monk's "Martial weapons that have the Light
- * property" -- is deliberately absent, and left exactly as the book puts it.
+ * The categories each proficiency row can hold as a bare list, in the order the
+ * rules print them. Anything the rules qualify in prose -- the Monk's "Martial
+ * weapons that have the Light property" -- is deliberately absent, and left
+ * exactly as the book puts it.
  */
-const PROF_CATEGORIES: Record<string, RegExp> = {
-  Weapons: /^(Simple|Martial)$/i,
-  Armor: /^(Light|Medium|Heavy|Shields|None)$/i,
+const PROF_ORDER: Record<string, string[]> = {
+  Weapons: ["Simple", "Martial"],
+  Armor: ["Light", "Medium", "Heavy", "Shields", "None"],
 };
+
+/**
+ * Reads a row's value as a set of known categories, in canonical order, or
+ * returns null if it is prose that shouldn't be taken apart.
+ */
+function asCategories(value: string, label: string): string[] | null {
+  const order = PROF_ORDER[label];
+  if (!order) return null;
+  const parts = value
+    .replace(/\b(weapons?|armor|armour)\b/gi, "")
+    .split(/,|\band\b/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  if (!parts.length) return null;
+  const canon = parts.map((part) =>
+    order.find((known) => known.toLowerCase() === part.toLowerCase()),
+  );
+  if (canon.some((x) => !x)) return null;
+  return order.filter((known) => canon.includes(known));
+}
 
 /**
  * "Light, Medium, and Heavy armor and Shields" belongs in the Armor row as
@@ -472,15 +505,42 @@ const PROF_CATEGORIES: Record<string, RegExp> = {
  */
 function tidyProficiency(raw: string, label: string): string {
   const value = raw.trim();
-  const known = PROF_CATEGORIES[label];
-  if (!value || !known) return value;
-  const parts = value
-    .replace(/\b(weapons?|armor|armour)\b/gi, "")
-    .split(/,|\band\b/i)
-    .map((part) => part.trim())
-    .filter(Boolean);
-  if (!parts.length || !parts.every((part) => known.test(part))) return value;
-  return parts.join(", ");
+  const cats = asCategories(value, label);
+  return cats ? cats.join(", ") : value;
+}
+
+/**
+ * Merges a grant into a row without ever taking away what's already there.
+ *
+ * Replacing is right for a first class and wrong for every one after it: a
+ * Fighter who picks up a level of Rogue keeps Martial weapons, and overwriting
+ * the row with the Rogue's narrower list would quietly disarm them.
+ */
+function addProficiency(existing: string, addition: string, label: string): string {
+  const have = existing.trim();
+  const gain = addition.trim();
+  if (!gain) return have;
+  if (!have) return tidyProficiency(gain, label);
+
+  const a = asCategories(have, label);
+  const b = asCategories(gain, label);
+  if (a && b) {
+    const order = PROF_ORDER[label];
+    // "None" is the absence of a proficiency, so anything real displaces it.
+    const merged = order.filter(
+      (known) => known !== "None" && (a.includes(known) || b.includes(known)),
+    );
+    return merged.length ? merged.join(", ") : "None";
+  }
+
+  // Prose on either side: keep both rather than guess which one wins.
+  //
+  // Deliberately not a substring test. The Rogue's "Martial weapons that have
+  // the Finesse or Light property" contains the word "Martial" while granting
+  // far less than it, so asking whether the addition already appears would drop
+  // a genuine grant of full Martial weapons on the floor.
+  const tidy = tidyProficiency(gain, label);
+  return have === tidy ? have : `${have}; ${tidy}`;
 }
 
 export interface ApplyResult {
@@ -497,6 +557,12 @@ export function applyClass(
   data: SrdData,
   className: string,
   level: number,
+  /**
+   * True when this is not the character's first class. An additional class
+   * grants markedly less: no saving throws at all, and only the handful of
+   * proficiencies its own "As a Multiclass Character" entry lists.
+   */
+  multiclass = false,
 ): ApplyResult {
   const cls = data.classes[className];
   if (!cls?.traits || !cls.levels) return { patch: {}, summary: [] };
@@ -517,13 +583,18 @@ export function applyClass(
     summary.push(`Hit dice ${level}d${die}`);
   }
 
-  // Saving throws.
-  const saves = savesFromTrait(cls.traits["Saving Throw Proficiencies"]);
-  if (saves.length) {
-    const saveProf = { ...c.saveProf };
-    for (const key of saves) saveProf[key] = true;
-    patch.saveProf = saveProf;
-    summary.push(`Saves ${saves.map((s) => s.toUpperCase()).join(", ")}`);
+  // Saving throws come from your first class and no other. Every one of the
+  // twelve says so: not one "As a Multiclass Character" entry grants a save.
+  if (multiclass) {
+    summary.push("No saves (only a first class grants them)");
+  } else {
+    const saves = savesFromTrait(cls.traits["Saving Throw Proficiencies"]);
+    if (saves.length) {
+      const saveProf = { ...c.saveProf };
+      for (const key of saves) saveProf[key] = true;
+      patch.saveProf = saveProf;
+      summary.push(`Saves ${saves.map((s) => s.toUpperCase()).join(", ")}`);
+    }
   }
 
   // Proficiencies go into the rows the sheet already has -- Armor, Weapons,
@@ -533,22 +604,33 @@ export function applyClass(
     (p) => !p.label.toLowerCase().startsWith(className.toLowerCase() + " "),
   );
   const filled: string[] = [];
-  const setProf = (label: string, raw: string) => {
-    const value = tidyProficiency(raw, label);
-    if (!value) return;
+  const putProf = (label: string, raw: string) => {
+    if (!raw.trim()) return;
     // Tolerate a label the player has punctuated themselves, e.g. "Armor:".
     const key = (s: string) => s.trim().replace(/:$/, "").toLowerCase();
     const idx = profRows.findIndex((p) => key(p.label) === key(label));
-    if (idx >= 0) {
-      profRows[idx] = { ...profRows[idx], value };
-    } else {
-      profRows.push({ id: newId(), label, value });
-    }
+    const before = idx >= 0 ? profRows[idx].value : "";
+    // A first class sets the row; every class after it can only add to it.
+    const value = multiclass
+      ? addProficiency(before, raw, label)
+      : tidyProficiency(raw, label);
+    if (!value || value === before) return;
+    if (idx >= 0) profRows[idx] = { ...profRows[idx], value };
+    else profRows.push({ id: newId(), label, value });
     filled.push(label);
   };
-  setProf("Weapons", cls.traits["Weapon Proficiencies"] ?? "");
-  setProf("Armor", cls.traits["Armor Training"] ?? "");
-  setProf("Tools", cls.traits["Tool Proficiencies"] ?? "");
+
+  if (multiclass) {
+    // Only what the multiclass entry grants, which is a good deal less than the
+    // core traits table. Its skills and tools are "one of your choice", so they
+    // stay in the note for the player to pick rather than being filled in.
+    putProf("Weapons", (cls.multiclass?.weapons ?? []).join(", "));
+    putProf("Armor", (cls.multiclass?.armor ?? []).join(", "));
+  } else {
+    putProf("Weapons", cls.traits["Weapon Proficiencies"] ?? "");
+    putProf("Armor", cls.traits["Armor Training"] ?? "");
+    putProf("Tools", cls.traits["Tool Proficiencies"] ?? "");
+  }
   if (filled.length) summary.push(`${filled.join(", ")} proficiencies`);
   patch.proficiencies = profRows;
 
