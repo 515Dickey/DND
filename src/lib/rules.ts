@@ -308,12 +308,26 @@ export const COINS_PER_POUND = 50;
  * Magic containers whose contents weigh nothing, with the container's own
  * weight in pounds. Matched on name so the sheet can tick the flag for you.
  */
-export const MAGIC_CONTAINERS: { match: string; weight: number }[] = [
-  { match: "bag of holding", weight: 15 },
-  { match: "handy haversack", weight: 5 },
-  { match: "heward's handy haversack", weight: 5 },
-  { match: "portable hole", weight: 0 },
-  { match: "efficient quiver", weight: 2 },
+/**
+ * `match` is the lowercase needle looked for in an item's name; `label` is how
+ * the item is actually written, which no amount of capitalising `match` gets
+ * right -- "Bag of Holding" keeps its lowercase "of", and Heward keeps his
+ * apostrophe out of the middle of a word.
+ */
+export const MAGIC_CONTAINERS: {
+  match: string;
+  label: string;
+  weight: number;
+}[] = [
+  { match: "bag of holding", label: "Bag of Holding", weight: 15 },
+  { match: "handy haversack", label: "Handy Haversack", weight: 5 },
+  {
+    match: "heward's handy haversack",
+    label: "Heward's Handy Haversack",
+    weight: 5,
+  },
+  { match: "portable hole", label: "Portable Hole", weight: 0 },
+  { match: "efficient quiver", label: "Efficient Quiver", weight: 2 },
 ];
 
 /** Finds the known container an item's name refers to, if any. */

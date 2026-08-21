@@ -454,6 +454,35 @@ function describeFeature(cls: SrdClass, name: string): string {
   return byName[withoutQualifier] ?? "";
 }
 
+/**
+ * The categories each proficiency row can hold as a bare list. Anything the
+ * rules qualify in prose -- the Monk's "Martial weapons that have the Light
+ * property" -- is deliberately absent, and left exactly as the book puts it.
+ */
+const PROF_CATEGORIES: Record<string, RegExp> = {
+  Weapons: /^(Simple|Martial)$/i,
+  Armor: /^(Light|Medium|Heavy|Shields|None)$/i,
+};
+
+/**
+ * "Light, Medium, and Heavy armor and Shields" belongs in the Armor row as
+ * "Light, Medium, Heavy, Shields" -- the row already says what it holds, so
+ * repeating the noun and spelling out the conjunction only costs space.
+ * Anything that isn't a plain list of categories comes back untouched.
+ */
+function tidyProficiency(raw: string, label: string): string {
+  const value = raw.trim();
+  const known = PROF_CATEGORIES[label];
+  if (!value || !known) return value;
+  const parts = value
+    .replace(/\b(weapons?|armor|armour)\b/gi, "")
+    .split(/,|\band\b/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  if (!parts.length || !parts.every((part) => known.test(part))) return value;
+  return parts.join(", ");
+}
+
 export interface ApplyResult {
   patch: Partial<Character>;
   summary: string[];
@@ -497,15 +526,30 @@ export function applyClass(
     summary.push(`Saves ${saves.map((s) => s.toUpperCase()).join(", ")}`);
   }
 
-  // Proficiency rows, replacing only the ones this class owns.
-  const profRows = c.proficiencies.filter((p) => !p.label.startsWith(className + " "));
-  const addProf = (label: string, value: string) => {
+  // Proficiencies go into the rows the sheet already has -- Armor, Weapons,
+  // Tools -- rather than adding class-prefixed rows beside them. Legacy rows
+  // from when it did that are dropped on the way through.
+  const profRows = c.proficiencies.filter(
+    (p) => !p.label.toLowerCase().startsWith(className.toLowerCase() + " "),
+  );
+  const filled: string[] = [];
+  const setProf = (label: string, raw: string) => {
+    const value = tidyProficiency(raw, label);
     if (!value) return;
-    profRows.push({ id: newId(), label: `${className} ${label}`, value });
+    // Tolerate a label the player has punctuated themselves, e.g. "Armor:".
+    const key = (s: string) => s.trim().replace(/:$/, "").toLowerCase();
+    const idx = profRows.findIndex((p) => key(p.label) === key(label));
+    if (idx >= 0) {
+      profRows[idx] = { ...profRows[idx], value };
+    } else {
+      profRows.push({ id: newId(), label, value });
+    }
+    filled.push(label);
   };
-  addProf("weapons", cls.traits["Weapon Proficiencies"] ?? "");
-  addProf("armor", cls.traits["Armor Training"] ?? "");
-  addProf("tools", cls.traits["Tool Proficiencies"] ?? "");
+  setProf("Weapons", cls.traits["Weapon Proficiencies"] ?? "");
+  setProf("Armor", cls.traits["Armor Training"] ?? "");
+  setProf("Tools", cls.traits["Tool Proficiencies"] ?? "");
+  if (filled.length) summary.push(`${filled.join(", ")} proficiencies`);
   patch.proficiencies = profRows;
 
   // Features up to this level, replacing any previously generated for it.

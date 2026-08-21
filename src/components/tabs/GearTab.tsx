@@ -475,7 +475,7 @@ export function GearTab({ c, set, mut }: SheetProps) {
           {MAGIC_CONTAINERS.map((cont) => (
             <option
               key={cont.match}
-              value={cont.match.replace(/w/g, (ch) => ch.toUpperCase())}
+              value={cont.label}
             />
           ))}
         </datalist>
