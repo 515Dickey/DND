@@ -65,12 +65,73 @@ export interface SrdFeat {
   text: string;
 }
 
+export interface SrdCost {
+  amount: number;
+  coin: string;
+}
+
+export interface SrdWeapon {
+  name: string;
+  category: string;
+  damage: string;
+  properties: string;
+  mastery: string;
+  weight: number | null;
+  cost: SrdCost | null;
+}
+
+export interface SrdArmor {
+  name: string;
+  category: string;
+  armorClass: string;
+  strength: string;
+  stealth: string;
+  weight: number | null;
+  cost: SrdCost | null;
+}
+
+export interface SrdGear {
+  name: string;
+  weight: number | null;
+  cost: SrdCost | null;
+}
+
+export interface SrdEquipment {
+  weapons: SrdWeapon[];
+  armor: SrdArmor[];
+  gear: SrdGear[];
+}
+
 export interface SrdData {
   source: string;
   license: string;
   classes: Record<string, SrdClass>;
   species: Record<string, SrdSpecies>;
   feats: SrdFeat[];
+  equipment: SrdEquipment;
+}
+
+/**
+ * "14 + Dex modifier (max 2)" -> { base: 14, maxDex: 2 }
+ * "18" -> { base: 18, maxDex: 0 }        (heavy armour allows no Dex)
+ * "11 + Dex modifier" -> { base: 11, maxDex: null }   (null = uncapped)
+ * "+2" -> null, because a shield is a bonus rather than a base AC.
+ */
+export function parseArmorClass(
+  ac: string,
+): { base: number; maxDex: number | null } | null {
+  if (/^\+/.test(ac.trim())) return null;
+  const base = ac.match(/^(\d+)/);
+  if (!base) return null;
+  if (!/Dex/i.test(ac)) return { base: Number(base[1]), maxDex: 0 };
+  const cap = ac.match(/max\s*(\d+)/i);
+  return { base: Number(base[1]), maxDex: cap ? Number(cap[1]) : null };
+}
+
+/** A shield's bonus, e.g. "+2" -> 2. */
+export function parseShieldBonus(ac: string): number | null {
+  const m = ac.trim().match(/^\+(\d+)$/);
+  return m ? Number(m[1]) : null;
 }
 
 export function featSource(name: string) {

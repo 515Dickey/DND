@@ -11,7 +11,8 @@ Vellum is compatible with fifth edition.
 
 - `src/srd/classes.json` — class core traits, the features gained at each
   level, the rules text for each feature, and the nine species with their
-  traits, the one subclass per class, and the seventeen feats.
+  traits, the one subclass per class, the seventeen feats, and the weapon,
+  armour and adventuring gear tables.
 - `src/srd/spells.json` — all 339 spells with their stat blocks and full text.
 
 Both are generated from the SRD PDF by `scripts/extract-srd.mjs`.

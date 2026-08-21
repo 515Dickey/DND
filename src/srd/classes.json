@@ -4949,5 +4949,1257 @@
       "prerequisite": "Level 19+",
       "text": "You gain the following benefits. Ability Score Increase. Increase one ability score of your choice by 1, to a maximum of 30. Truesight. You have Truesight with a range of 60 feet. Selling Equipment Equipment fetches half its cost when sold. In contrast, trade goods and valuables—like gems and art objects—retain their full value in the marketplace. “Magic Items” has prices for magic items."
     }
-  ]
+  ],
+  "equipment": {
+    "weapons": [
+      {
+        "name": "Club",
+        "category": "Simple Melee Weapons",
+        "damage": "1d4 Bludgeoning",
+        "properties": "Light",
+        "mastery": "Slow",
+        "weight": 2,
+        "cost": {
+          "amount": 1,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Dagger",
+        "category": "Simple Melee Weapons",
+        "damage": "1d4 Piercing",
+        "properties": "Finesse, Light, Thrown (Range 20/60)",
+        "mastery": "Nick",
+        "weight": 1,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Greatclub",
+        "category": "Simple Melee Weapons",
+        "damage": "1d8 Bludgeoning",
+        "properties": "Two-Handed",
+        "mastery": "Push",
+        "weight": 10,
+        "cost": {
+          "amount": 2,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Handaxe",
+        "category": "Simple Melee Weapons",
+        "damage": "1d6 Slashing",
+        "properties": "Light, Thrown (Range 20/60)",
+        "mastery": "Vex",
+        "weight": 2,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Javelin",
+        "category": "Simple Melee Weapons",
+        "damage": "1d6 Piercing",
+        "properties": "Thrown (Range 30/120)",
+        "mastery": "Slow",
+        "weight": 2,
+        "cost": {
+          "amount": 5,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Light Hammer",
+        "category": "Simple Melee Weapons",
+        "damage": "1d4 Bludgeoning",
+        "properties": "Light, Thrown (Range 20/60)",
+        "mastery": "Nick",
+        "weight": 2,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Mace",
+        "category": "Simple Melee Weapons",
+        "damage": "1d6 Bludgeoning",
+        "properties": "",
+        "mastery": "Sap",
+        "weight": 4,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Quarterstaff",
+        "category": "Simple Melee Weapons",
+        "damage": "1d6 Bludgeoning",
+        "properties": "Versatile (1d8)",
+        "mastery": "Topple",
+        "weight": 4,
+        "cost": {
+          "amount": 2,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Sickle",
+        "category": "Simple Melee Weapons",
+        "damage": "1d4 Slashing",
+        "properties": "Light",
+        "mastery": "Nick",
+        "weight": 2,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Spear",
+        "category": "Simple Melee Weapons",
+        "damage": "1d6 Piercing",
+        "properties": "Thrown (Range 20/60), Versatile (1d8)",
+        "mastery": "Sap",
+        "weight": 3,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Dart",
+        "category": "Simple Ranged Weapons",
+        "damage": "1d4 Piercing",
+        "properties": "Finesse, Thrown (Range 20/60)",
+        "mastery": "Vex",
+        "weight": 0.25,
+        "cost": {
+          "amount": 5,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Light Crossbow",
+        "category": "Simple Ranged Weapons",
+        "damage": "1d8 Piercing",
+        "properties": "Ammunition (Range 80/320; Bolt), Loading, Two-Handed",
+        "mastery": "Slow",
+        "weight": 5,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Shortbow",
+        "category": "Simple Ranged Weapons",
+        "damage": "1d6 Piercing",
+        "properties": "Ammunition (Range 80/320; Arrow), Two-Handed",
+        "mastery": "Vex",
+        "weight": 2,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Sling",
+        "category": "Simple Ranged Weapons",
+        "damage": "1d4 Bludgeoning",
+        "properties": "Ammunition (Range 30/120; Bullet)",
+        "mastery": "Slow",
+        "weight": 0,
+        "cost": {
+          "amount": 1,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Battleaxe",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Slashing",
+        "properties": "Versatile (1d10)",
+        "mastery": "Topple",
+        "weight": 4,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Flail",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Bludgeoning",
+        "properties": "",
+        "mastery": "Sap",
+        "weight": 2,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Glaive",
+        "category": "Martial Melee Weapons",
+        "damage": "1d10 Slashing",
+        "properties": "Heavy, Reach, Two-Handed",
+        "mastery": "Graze",
+        "weight": 6,
+        "cost": {
+          "amount": 20,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Greataxe",
+        "category": "Martial Melee Weapons",
+        "damage": "1d12 Slashing",
+        "properties": "Heavy, Two-Handed",
+        "mastery": "Cleave",
+        "weight": 7,
+        "cost": {
+          "amount": 30,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Greatsword",
+        "category": "Martial Melee Weapons",
+        "damage": "2d6 Slashing",
+        "properties": "Heavy, Two-Handed",
+        "mastery": "Graze",
+        "weight": 6,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Halberd",
+        "category": "Martial Melee Weapons",
+        "damage": "1d10 Slashing",
+        "properties": "Heavy, Reach, Two-Handed",
+        "mastery": "Cleave",
+        "weight": 6,
+        "cost": {
+          "amount": 20,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Lance",
+        "category": "Martial Melee Weapons",
+        "damage": "1d10 Piercing",
+        "properties": "Heavy, Reach, Two-Handed (unless mounted)",
+        "mastery": "Topple",
+        "weight": 6,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Longsword",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Slashing",
+        "properties": "Versatile (1d10)",
+        "mastery": "Sap",
+        "weight": 3,
+        "cost": {
+          "amount": 15,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Maul",
+        "category": "Martial Melee Weapons",
+        "damage": "2d6 Bludgeoning",
+        "properties": "Heavy, Two-Handed",
+        "mastery": "Topple",
+        "weight": 10,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Morningstar",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Piercing",
+        "properties": "",
+        "mastery": "Sap",
+        "weight": 4,
+        "cost": {
+          "amount": 15,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Pike",
+        "category": "Martial Melee Weapons",
+        "damage": "1d10 Piercing",
+        "properties": "Heavy, Reach, Two-Handed",
+        "mastery": "Push",
+        "weight": 18,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Rapier",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Piercing",
+        "properties": "Finesse",
+        "mastery": "Vex",
+        "weight": 2,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Scimitar",
+        "category": "Martial Melee Weapons",
+        "damage": "1d6 Slashing",
+        "properties": "Finesse, Light",
+        "mastery": "Nick",
+        "weight": 3,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Shortsword",
+        "category": "Martial Melee Weapons",
+        "damage": "1d6 Piercing",
+        "properties": "Finesse, Light",
+        "mastery": "Vex",
+        "weight": 2,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Trident",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Piercing",
+        "properties": "Thrown (Range 20/60), Versatile (1d10)",
+        "mastery": "Topple",
+        "weight": 4,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Warhammer",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Bludgeoning",
+        "properties": "Versatile (1d10)",
+        "mastery": "Push",
+        "weight": 5,
+        "cost": {
+          "amount": 15,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "War Pick",
+        "category": "Martial Melee Weapons",
+        "damage": "1d8 Piercing",
+        "properties": "Versatile (1d10)",
+        "mastery": "Sap",
+        "weight": 2,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Whip",
+        "category": "Martial Melee Weapons",
+        "damage": "1d4 Slashing",
+        "properties": "Finesse, Reach",
+        "mastery": "Slow",
+        "weight": 3,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Hand Crossbow",
+        "category": "Martial Ranged Weapons",
+        "damage": "1d6 Piercing",
+        "properties": "Ammunition (Range 30/120; Bolt), Light, Loading",
+        "mastery": "Vex",
+        "weight": 3,
+        "cost": {
+          "amount": 75,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Heavy Crossbow",
+        "category": "Martial Ranged Weapons",
+        "damage": "1d10 Piercing",
+        "properties": "Ammunition (Range 100/400; Bolt), Heavy, Loading, Two-Handed",
+        "mastery": "Push",
+        "weight": 18,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Longbow",
+        "category": "Martial Ranged Weapons",
+        "damage": "1d8 Piercing",
+        "properties": "Ammunition (Range 150/600; Arrow), Heavy, Two-Handed",
+        "mastery": "Slow",
+        "weight": 2,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Musket",
+        "category": "Martial Ranged Weapons",
+        "damage": "1d12 Piercing",
+        "properties": "Ammunition (Range 40/120; Bullet), Loading, Two-Handed",
+        "mastery": "Slow",
+        "weight": 10,
+        "cost": {
+          "amount": 500,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Pistol",
+        "category": "Martial Ranged Weapons",
+        "damage": "1d10 Piercing",
+        "properties": "Ammunition (Range 30/90; Bullet), Loading",
+        "mastery": "Vex",
+        "weight": 3,
+        "cost": {
+          "amount": 250,
+          "coin": "GP"
+        }
+      }
+    ],
+    "armor": [
+      {
+        "name": "Padded Armor",
+        "category": "Light Armor",
+        "armorClass": "11 + Dex modifier",
+        "strength": "",
+        "stealth": "Disadvantage",
+        "weight": 8,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Leather Armor",
+        "category": "Light Armor",
+        "armorClass": "11 + Dex modifier",
+        "strength": "",
+        "stealth": "",
+        "weight": 10,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Studded Leather Armor",
+        "category": "Light Armor",
+        "armorClass": "12 + Dex modifier",
+        "strength": "",
+        "stealth": "",
+        "weight": 13,
+        "cost": {
+          "amount": 45,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Hide Armor",
+        "category": "Medium Armor",
+        "armorClass": "12 + Dex modifier (max 2)",
+        "strength": "",
+        "stealth": "",
+        "weight": 12,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Chain Shirt",
+        "category": "Medium Armor",
+        "armorClass": "13 + Dex modifier (max 2)",
+        "strength": "",
+        "stealth": "",
+        "weight": 20,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Scale Mail",
+        "category": "Medium Armor",
+        "armorClass": "14 + Dex modifier (max 2)",
+        "strength": "",
+        "stealth": "Disadvantage",
+        "weight": 45,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Breastplate",
+        "category": "Medium Armor",
+        "armorClass": "14 + Dex modifier (max 2)",
+        "strength": "",
+        "stealth": "",
+        "weight": 20,
+        "cost": {
+          "amount": 400,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Half Plate Armor",
+        "category": "Medium Armor",
+        "armorClass": "15 + Dex modifier (max 2)",
+        "strength": "",
+        "stealth": "Disadvantage",
+        "weight": 40,
+        "cost": {
+          "amount": 750,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Ring Mail",
+        "category": "Heavy Armor",
+        "armorClass": "14",
+        "strength": "",
+        "stealth": "Disadvantage",
+        "weight": 40,
+        "cost": {
+          "amount": 30,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Chain Mail",
+        "category": "Heavy Armor",
+        "armorClass": "16",
+        "strength": "Str 13",
+        "stealth": "Disadvantage",
+        "weight": 55,
+        "cost": {
+          "amount": 75,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Splint Armor",
+        "category": "Heavy Armor",
+        "armorClass": "17",
+        "strength": "Str 15",
+        "stealth": "Disadvantage",
+        "weight": 60,
+        "cost": {
+          "amount": 200,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Plate Armor",
+        "category": "Heavy Armor",
+        "armorClass": "18",
+        "strength": "Str 15",
+        "stealth": "Disadvantage",
+        "weight": 65,
+        "cost": {
+          "amount": 1500,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Shield",
+        "category": "Shield",
+        "armorClass": "+2",
+        "strength": "",
+        "stealth": "",
+        "weight": 6,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      }
+    ],
+    "gear": [
+      {
+        "name": "Acid",
+        "weight": 1,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Alchemist’s Fire",
+        "weight": 1,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Ammunition",
+        "weight": null,
+        "cost": null
+      },
+      {
+        "name": "Antitoxin",
+        "weight": 0,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Arcane Focus",
+        "weight": null,
+        "cost": null
+      },
+      {
+        "name": "Backpack",
+        "weight": 5,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Ball Bearings",
+        "weight": 2,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Barrel",
+        "weight": 70,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Basket",
+        "weight": 2,
+        "cost": {
+          "amount": 4,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Bedroll",
+        "weight": 7,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Bell",
+        "weight": 0,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Blanket",
+        "weight": 3,
+        "cost": {
+          "amount": 5,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Block and Tackle",
+        "weight": 5,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Book",
+        "weight": 5,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Bottle, Glass",
+        "weight": 2,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Bucket",
+        "weight": 2,
+        "cost": {
+          "amount": 5,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Burglar’s Pack",
+        "weight": 42,
+        "cost": {
+          "amount": 16,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Caltrops",
+        "weight": 2,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Candle",
+        "weight": 0,
+        "cost": {
+          "amount": 1,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Case, Crossbow Bolt",
+        "weight": 1,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Case, Map or Scroll",
+        "weight": 1,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Chain",
+        "weight": 10,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Chest",
+        "weight": 25,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Climber’s Kit",
+        "weight": 12,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Clothes, Fine",
+        "weight": 6,
+        "cost": {
+          "amount": 15,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Clothes, Traveler’s",
+        "weight": 4,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Component Pouch",
+        "weight": 2,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Costume",
+        "weight": 4,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Crowbar",
+        "weight": 5,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Diplomat’s Pack",
+        "weight": 39,
+        "cost": {
+          "amount": 39,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Druidic Focus",
+        "weight": null,
+        "cost": null
+      },
+      {
+        "name": "Dungeoneer’s Pack",
+        "weight": 55,
+        "cost": {
+          "amount": 12,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Entertainer’s Pack",
+        "weight": 58.5,
+        "cost": {
+          "amount": 40,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Explorer’s Pack",
+        "weight": 55,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Flask",
+        "weight": 1,
+        "cost": {
+          "amount": 2,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Grappling Hook",
+        "weight": 4,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Healer’s Kit",
+        "weight": 3,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Holy Symbol",
+        "weight": null,
+        "cost": null
+      },
+      {
+        "name": "Holy Water",
+        "weight": 1,
+        "cost": {
+          "amount": 25,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Hunting Trap",
+        "weight": 25,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Ink",
+        "weight": 0,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Item Weight Cost Ink Pen",
+        "weight": 0,
+        "cost": {
+          "amount": 2,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Jug",
+        "weight": 4,
+        "cost": {
+          "amount": 2,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Ladder",
+        "weight": 25,
+        "cost": {
+          "amount": 1,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Lamp",
+        "weight": 1,
+        "cost": {
+          "amount": 5,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Lantern, Bullseye",
+        "weight": 2,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Lantern, Hooded",
+        "weight": 2,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Lock",
+        "weight": 1,
+        "cost": {
+          "amount": 10,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Magnifying Glass",
+        "weight": 0,
+        "cost": {
+          "amount": 100,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Manacles",
+        "weight": 6,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Map",
+        "weight": 0,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Mirror",
+        "weight": 0.5,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Net",
+        "weight": 3,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Oil",
+        "weight": 1,
+        "cost": {
+          "amount": 1,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Paper",
+        "weight": 0,
+        "cost": {
+          "amount": 2,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Parchment",
+        "weight": 0,
+        "cost": {
+          "amount": 1,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Perfume",
+        "weight": 0,
+        "cost": {
+          "amount": 5,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Poison, Basic",
+        "weight": 0,
+        "cost": {
+          "amount": 100,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Pole",
+        "weight": 7,
+        "cost": {
+          "amount": 5,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Pot, Iron",
+        "weight": 10,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Potion of Healing",
+        "weight": 0.5,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Pouch",
+        "weight": 1,
+        "cost": {
+          "amount": 5,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Priest’s Pack",
+        "weight": 29,
+        "cost": {
+          "amount": 33,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Quiver",
+        "weight": 1,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Ram, Portable",
+        "weight": 35,
+        "cost": {
+          "amount": 4,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Rations",
+        "weight": 2,
+        "cost": {
+          "amount": 5,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Robe",
+        "weight": 4,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Rope",
+        "weight": 5,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Sack",
+        "weight": 0.5,
+        "cost": {
+          "amount": 1,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Scholar’s Pack",
+        "weight": 22,
+        "cost": {
+          "amount": 40,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Shovel",
+        "weight": 5,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Signal Whistle",
+        "weight": 0,
+        "cost": {
+          "amount": 5,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Spell Scroll (Cantrip)",
+        "weight": 0,
+        "cost": {
+          "amount": 30,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Spell Scroll (Level 1)",
+        "weight": 0,
+        "cost": {
+          "amount": 50,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Spikes, Iron",
+        "weight": 5,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Spyglass",
+        "weight": 1,
+        "cost": {
+          "amount": 1000,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "String",
+        "weight": 0,
+        "cost": {
+          "amount": 1,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Tent",
+        "weight": 20,
+        "cost": {
+          "amount": 2,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Tinderbox",
+        "weight": 1,
+        "cost": {
+          "amount": 5,
+          "coin": "SP"
+        }
+      },
+      {
+        "name": "Torch",
+        "weight": 1,
+        "cost": {
+          "amount": 1,
+          "coin": "CP"
+        }
+      },
+      {
+        "name": "Vial",
+        "weight": 0,
+        "cost": {
+          "amount": 1,
+          "coin": "GP"
+        }
+      },
+      {
+        "name": "Waterskin",
+        "weight": 5,
+        "cost": {
+          "amount": 2,
+          "coin": "SP"
+        }
+      }
+    ]
+  }
 }

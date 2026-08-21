@@ -83,6 +83,12 @@ On the Notes tab, **Feats** lists the SRD's seventeen feats by category with
 their prerequisites and full text. Added feats land in a Feats section of your
 features list.
 
+On the Gear tab, **From the rules** browses the weapons, armour, and adventuring
+gear tables. Adding an item fills in its weight and cost, so carrying capacity
+updates itself. A weapon also becomes an attack, with its damage and ability
+worked out. Wearing armour sets how your AC is calculated — Chain Mail gives
+base 16 with no Dexterity, a Shield adds its +2 as a bonus instead.
+
 The sheet won't pick your skills for you. It tells you how many to choose and
 from which list, and leaves the ticking to you.
 

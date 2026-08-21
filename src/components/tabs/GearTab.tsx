@@ -23,6 +23,7 @@ import {
   TextArea,
   Toggle,
 } from "@/components/ui";
+import { GearBrowser } from "@/components/GearBrowser";
 import type { SheetProps } from "./shared";
 
 const COINS = [
@@ -74,6 +75,7 @@ function StateChip({
 
 export function GearTab({ c, set, mut }: SheetProps) {
   const [filter, setFilter] = useState("");
+  const [browsing, setBrowsing] = useState(false);
   const carry = carryInfo(c);
   const stowed = stowedWeight(c);
   const contained = containedWeight(c);
@@ -254,9 +256,14 @@ export function GearTab({ c, set, mut }: SheetProps) {
       <Panel
         title="Equipment"
         action={
-          <button className="btn btn-sm" onClick={addItem}>
-            + Add
-          </button>
+          <span className="flex gap-1.5">
+            <button className="btn btn-sm" onClick={() => setBrowsing(true)}>
+              From the rules
+            </button>
+            <button className="btn btn-sm" onClick={addItem}>
+              + Add
+            </button>
+          </span>
         }
       >
         {c.inventory.length > 3 && (
@@ -484,6 +491,10 @@ export function GearTab({ c, set, mut }: SheetProps) {
           ))}
         </datalist>
       </Panel>
+
+      {browsing && (
+        <GearBrowser mut={mut} onClose={() => setBrowsing(false)} />
+      )}
 
       <Panel title="Treasure & Notes">
         <TextArea

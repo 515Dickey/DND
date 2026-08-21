@@ -355,6 +355,232 @@ function isPageFurniture(line) {
 }
 
 /**
+ * "2 lb." -> 2, "1/4 lb." -> 0.25, "58½ lb." -> 58.5, "—" -> 0, "Varies" -> null.
+ * The document uses vulgar fraction characters as well as slashes.
+ */
+const VULGAR = { "¼": 0.25, "½": 0.5, "¾": 0.75, "⅓": 1 / 3, "⅔": 2 / 3, "⅛": 0.125 };
+
+function parseWeight(raw) {
+  // A trailing qualifier like "(full)" comes off first, then the unit.
+  let s = raw
+    .trim()
+    .replace(/\s*\((?:full|empty)\)\s*$/i, "")
+    .replace(/\s*lb\.?$/, "")
+    .trim();
+  if (/^(—|-|–)$/.test(s)) return 0;
+  if (/^Varies$/i.test(s)) return null;
+
+  // A trailing vulgar fraction, with or without a whole number before it.
+  const vulgarMatch = s.match(/^([\d,]*)\s*([¼½¾⅓⅔⅛])$/);
+  if (vulgarMatch) {
+    const whole = vulgarMatch[1] ? Number(vulgarMatch[1].replace(/,/g, "")) : 0;
+    return whole + VULGAR[vulgarMatch[2]];
+  }
+
+  const frac = s.match(/^(\d+)\s*\/\s*(\d+)$/);
+  if (frac) return Number(frac[1]) / Number(frac[2]);
+
+  const plain = s.match(/^([\d,]+(?:\.\d+)?)$/);
+  return plain ? Number(plain[1].replace(/,/g, "")) : null;
+}
+
+/** "1 SP" -> { amount: 1, coin: "SP" }. "Varies" -> null. */
+function parseCost(raw) {
+  const s = raw.trim();
+  if (/^(Varies|—|-)$/i.test(s)) return null;
+  const m = s.match(/^([\d,]+)\s*(CP|SP|EP|GP|PP)$/i);
+  if (!m) return null;
+  return { amount: Number(m[1].replace(/,/g, "")), coin: m[2].toUpperCase() };
+}
+
+const MASTERY_PROPERTIES = [
+  "Cleave",
+  "Graze",
+  "Nick",
+  "Push",
+  "Sap",
+  "Slow",
+  "Topple",
+  "Vex",
+];
+
+/** Trailing "<weight> <cost>" is common to all three tables. */
+const TAIL =
+  /\s(Varies|—|-|[\d,./¼½¾⅓⅔⅛]+\s*lb\.(?:\s*\((?:full|empty)\))?)\s+(Varies|[\d,]+\s*(?:CP|SP|EP|GP|PP))$/i;
+
+/**
+ * The equipment tables: weapons, armour, and adventuring gear. Each is one row
+ * per line, ending in weight then cost, which is the anchor everything else is
+ * measured back from. Rows wrap when a properties list is long, so lines are
+ * joined until one ends in a cost.
+ */
+function parseEquipment() {
+  const chapterAt = (() => {
+    // The last bare "Equipment" heading is the chapter; earlier ones are the
+    // table of contents and cross-references.
+    let found = -1;
+    for (let i = 0; i < lines.length; i++) if (lines[i] === "Equipment") found = i;
+    return found;
+  })();
+  if (chapterAt < 0) return { weapons: [], armor: [], gear: [] };
+
+  /** Joins wrapped rows: a row is complete only when it ends in a cost. */
+  const rowsIn = (from, to) => {
+    const out = [];
+    let buffer = "";
+    for (let i = from; i < to && i < lines.length; i++) {
+      const line = lines[i];
+      if (isPageFurniture(line) || !line.trim()) continue;
+      buffer = buffer ? buffer + " " + line.trim() : line.trim();
+      if (TAIL.test(buffer)) {
+        out.push(dehyphenate(buffer));
+        buffer = "";
+      } else if (buffer.length > 400) {
+        buffer = "";
+      }
+    }
+    return out;
+  };
+
+  const findFrom = (re, from) => findLine(re, from);
+
+  // --- Weapons ---
+  const weaponHeader = findFrom(/^Name Damage Properties Mastery Weight Cost$/, chapterAt);
+  const weaponEnd = findFrom(/^Armor Armor Class \(AC\)/, weaponHeader);
+  const weapons = [];
+  let category = "";
+  for (let i = weaponHeader + 1; i > 0 && i < weaponEnd; i++) {
+    const line = lines[i];
+    if (isPageFurniture(line) || !line.trim()) continue;
+    if (/^(Simple|Martial) (Melee|Ranged) Weapons$/.test(line)) {
+      category = line;
+      continue;
+    }
+    // Collect the (possibly wrapped) row.
+    let row = line.trim();
+    while (!TAIL.test(row) && i + 1 < weaponEnd) {
+      i += 1;
+      if (isPageFurniture(lines[i])) continue;
+      row += " " + lines[i].trim();
+    }
+    if (!TAIL.test(row)) continue;
+
+    const tail = row.match(TAIL);
+    const head = row.slice(0, tail.index).trim();
+    const dmg = head.match(/^(.+?)\s(\d+d\d+)\s+(\w+)\s*(.*)$/);
+    if (!dmg) continue;
+    let rest = dmg[4].trim();
+    let mastery = "";
+    for (const m of MASTERY_PROPERTIES) {
+      if (rest === m || rest.endsWith(" " + m)) {
+        mastery = m;
+        rest = rest.slice(0, rest.length - m.length).trim();
+        break;
+      }
+    }
+    weapons.push({
+      name: dmg[1].trim(),
+      category,
+      damage: dmg[2] + " " + dmg[3],
+      properties: rest.replace(/^—$/, ""),
+      mastery,
+      weight: parseWeight(tail[1]),
+      cost: parseCost(tail[2]),
+    });
+  }
+
+  // --- Armour ---
+  const armorHeader = findFrom(/^Armor Armor Class \(AC\) Strength Stealth Weight Cost$/, chapterAt);
+  const armorEnd = findFrom(/^Tools$/, armorHeader);
+  const armor = [];
+  let armorCategory = "";
+  // Category headings must be recognised *before* rows are joined. Buffering
+  // them swallows the first row of each category -- which is what silently lost
+  // Padded Armor, Hide Armor, Ring Mail and Shield.
+  const armorRows = [];
+  let buffer = "";
+  for (let i = armorHeader + 1; i > 0 && i < armorEnd; i++) {
+    const line = lines[i];
+    if (isPageFurniture(line) || !line.trim()) continue;
+    const cat = line.match(/^(Light Armor|Medium Armor|Heavy Armor|Shield)\s*\(/);
+    if (cat) {
+      buffer = "";
+      armorRows.push({ category: cat[1] });
+      continue;
+    }
+    buffer = buffer ? buffer + " " + line.trim() : line.trim();
+    if (TAIL.test(buffer)) {
+      armorRows.push({ row: dehyphenate(buffer) });
+      buffer = "";
+    }
+  }
+
+  for (const entry of armorRows) {
+    if (entry.category) {
+      armorCategory = entry.category;
+      continue;
+    }
+    const row = entry.row;
+    const tail = row.match(TAIL);
+    if (!tail) continue;
+    let head = row.slice(0, tail.index).trim();
+
+    // Stealth and Strength sit just before the weight.
+    let stealth = "";
+    if (/\bDisadvantage$/.test(head)) {
+      stealth = "Disadvantage";
+      head = head.replace(/\s*Disadvantage$/, "").trim();
+    } else if (/(—|-)$/.test(head)) {
+      head = head.replace(/\s*(—|-)$/, "").trim();
+    }
+    let strength = "";
+    const str = head.match(/\s(Str\s*\d+)$/);
+    if (str) {
+      strength = str[1].replace(/\s+/, " ");
+      head = head.slice(0, str.index).trim();
+    } else if (/(—|-)$/.test(head)) {
+      head = head.replace(/\s*(—|-)$/, "").trim();
+    }
+
+    // What remains is "<name> <armour class>"; the AC always starts with a
+    // digit or a plus, which is the only reliable split.
+    const split = head.match(/^(.+?)\s((?:\+)?\d.*)$/);
+    if (!split) continue;
+    armor.push({
+      name: split[1].trim(),
+      category: armorCategory,
+      armorClass: split[2].trim(),
+      strength,
+      stealth,
+      weight: parseWeight(tail[1]),
+      cost: parseCost(tail[2]),
+    });
+  }
+
+  // --- Adventuring gear ---
+  const gearHeader = findFrom(/^Item Weight Cost$/, chapterAt);
+  // The gear table is followed by an Ammunition table with different columns
+  // ("Type Amount Storage Weight Cost"), so stop there rather than at the later
+  // Arcane Focuses heading -- otherwise rows merge across the boundary.
+  let gearEnd = findFrom(/^Ammunition$/, gearHeader);
+  if (gearEnd < 0) gearEnd = findFrom(/^Arcane Focuses$/, gearHeader);
+  const gear = [];
+  for (const row of rowsIn(gearHeader + 1, gearEnd)) {
+    const tail = row.match(TAIL);
+    if (!tail) continue;
+    const name = row.slice(0, tail.index).trim();
+    if (!name || /^Item$/.test(name)) continue;
+    gear.push({
+      name,
+      weight: parseWeight(tail[1]),
+      cost: parseCost(tail[2]),
+    });
+  }
+
+  return { weapons, armor, gear };
+}
+
+/**
  * Feats read:
  *   <Name>
  *   Origin Feat                              (category only)
@@ -537,6 +763,7 @@ const out = {
   classes: {},
   species: parseSpecies(),
   feats: parseFeats(),
+  equipment: parseEquipment(),
 };
 
 const spellData = {
@@ -619,6 +846,43 @@ for (const s of spellData.spells) {
     spellProblems.push(s.name + ": a field label leaked into the description");
   }
 }
+// --- Equipment checks -----------------------------------------------------
+const eq = out.equipment;
+const eqProblems = [];
+if (!eq.weapons.length || !eq.armor.length || !eq.gear.length) {
+  eqProblems.push("a table came back empty");
+}
+for (const w of eq.weapons) {
+  if (!w.name || !w.category) eqProblems.push("weapon without a name or category: " + w.name);
+  // A damage die left in the name means the split landed in the wrong place.
+  if (/\d+d\d+/.test(w.name)) eqProblems.push("damage bled into weapon name: " + w.name);
+  if (!/^\d+d\d+ \w+$/.test(w.damage)) eqProblems.push("odd damage on " + w.name + ": " + w.damage);
+}
+for (const a of eq.armor) {
+  if (!a.name || !a.category) eqProblems.push("armour without a name or category: " + a.name);
+  if (/\d/.test(a.name)) eqProblems.push("armour class bled into name: " + a.name);
+  if (!a.armorClass) eqProblems.push("armour with no AC: " + a.name);
+}
+for (const g of eq.gear) {
+  if (!g.name) eqProblems.push("gear row without a name");
+  if (/\blb\b/.test(g.name)) eqProblems.push("weight bled into gear name: " + g.name);
+}
+// Every armour category should be represented; losing one means rows were eaten.
+for (const cat of ["Light Armor", "Medium Armor", "Heavy Armor", "Shield"]) {
+  if (!eq.armor.some((a) => a.category === cat)) eqProblems.push("no armour in " + cat);
+}
+console.log(
+  "\nequipment: " + eq.weapons.length + " weapons, " + eq.armor.length +
+    " armour, " + eq.gear.length + " gear",
+);
+if (eqProblems.length) {
+  console.log(eqProblems.length + " problems:");
+  for (const p of eqProblems.slice(0, 10)) console.log("  " + p);
+  process.exitCode = 1;
+} else {
+  console.log("all equipment parsed cleanly");
+}
+
 console.log("\nspells: " + spellData.spells.length + " parsed");
 if (spellProblems.length) {
   console.log(spellProblems.length + " problems:");
