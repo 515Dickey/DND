@@ -114,12 +114,25 @@ export interface SrdEquipment {
   gear: SrdGear[];
 }
 
+export interface SrdBackground {
+  name: string;
+  /** Three abilities, one of which takes +2 and another +1 (or +1 each).  */
+  abilityScores: string;
+  /** May carry a qualifier the feat list doesn't, e.g. "Magic Initiate (Cleric)". */
+  feat: string;
+  /** Exactly two, named rather than chosen -- so the sheet can tick them. */
+  skills: string;
+  tool: string;
+  equipment: string;
+}
+
 export interface SrdData {
   source: string;
   license: string;
   classes: Record<string, SrdClass>;
   species: Record<string, SrdSpecies>;
   feats: SrdFeat[];
+  backgrounds: SrdBackground[];
   equipment: SrdEquipment;
 }
 
@@ -577,7 +590,13 @@ export function applyClass(
   const die = hitDieFromTrait(cls.traits["Hit Point Die"]);
   if (die) {
     const others = c.hitDice.filter(
-      (g) => g.die !== die && !(g.total <= 1 && g.used === 0),
+      (g) =>
+        g.die !== die &&
+        // Discarding an untouched single die clears the starter pool a new
+        // character begins with -- but only for a first class. Once another
+        // class is on the sheet every pool is one somebody earned, including a
+        // level 1 Fighter's lone d10, and dropping it steals a hit die.
+        (multiclass || !(g.total <= 1 && g.used === 0)),
     );
     patch.hitDice = [...others, { id: newId(), die, total: level, used: 0 }];
     summary.push(`Hit dice ${level}d${die}`);
@@ -757,6 +776,96 @@ export function applySubclass(
 }
 
 /** "30 feet" -> 30 */
+export function backgroundSource(name: string) {
+  return `srd:background:${name}`;
+}
+
+/**
+ * A background's two skills are *named*, not chosen from a list, so unlike a
+ * class's skills these can be ticked outright. Everything the rules leave as a
+ * choice -- which ability gets the +2, which equipment package -- is reported
+ * instead, for the player to settle.
+ */
+export function applyBackground(
+  c: Character,
+  data: SrdData,
+  name: string,
+): ApplyResult {
+  const bg = data.backgrounds?.find((b) => b.name === name);
+  if (!bg) return { patch: {}, summary: [] };
+
+  const summary: string[] = [];
+  const src = backgroundSource(name);
+  const patch: Partial<Character> = { background: name };
+
+  // "Sleight of Hand and Stealth" -> the two skill keys.
+  const named = bg.skills
+    .split(/\band\b|,/i)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const keys = named
+    .map((n) => SKILLS.find((s) => s.name.toLowerCase() === n.toLowerCase())?.key)
+    .filter((k): k is SkillKey => Boolean(k));
+  if (keys.length) {
+    const skillProf = { ...c.skillProf };
+    for (const key of keys) {
+      // Never demote: expertise from elsewhere outranks a background's
+      // proficiency, and re-applying must not undo it.
+      if (skillProf[key] !== "expertise") skillProf[key] = "prof";
+    }
+    patch.skillProf = skillProf;
+    summary.push(`${named.join(", ")} proficient`);
+  }
+  if (keys.length !== named.length) {
+    summary.push(`couldn't match ${named.length - keys.length} skill name`);
+  }
+
+  // The tool is named too, so it goes in the Tools row alongside anything a
+  // class put there.
+  if (bg.tool) {
+    const rows = [...c.proficiencies];
+    const idx = rows.findIndex(
+      (p) => p.label.trim().replace(/:$/, "").toLowerCase() === "tools",
+    );
+    const value = idx >= 0 ? addProficiency(rows[idx].value, bg.tool, "Tools") : bg.tool;
+    if (idx >= 0) rows[idx] = { ...rows[idx], value };
+    else rows.push({ id: newId(), label: "Tools", value });
+    patch.proficiencies = rows;
+  }
+
+  // The origin feat. Its full name may carry a qualifier the feat list doesn't
+  // ("Magic Initiate (Cleric)"), so match on the base name and keep the
+  // qualifier in the note where the player can see which one they took.
+  const base = bg.feat.replace(/\s*\([^)]*\)\s*$/, "").trim();
+  const feat = data.feats.find((f) => f.name === base);
+  const kept = c.features.filter((f) => f.source !== src);
+  if (feat) {
+    kept.push({
+      ...toFeatEntry(feat),
+      name: bg.feat,
+      note: `${name} background`,
+      source: src,
+    });
+    summary.push(bg.feat);
+  } else if (bg.feat) {
+    kept.push({
+      id: newId(),
+      name: bg.feat,
+      note: `${name} background`,
+      detail: "",
+      usesMax: 0,
+      usesSpent: 0,
+      recharge: "none",
+      group: "Feats",
+      source: src,
+    });
+    summary.push(`${bg.feat} (no rules text in the SRD)`);
+  }
+  patch.features = kept;
+
+  return { patch, summary };
+}
+
 export function speedFromTrait(speed: string | undefined): number | null {
   if (!speed) return null;
   const m = speed.match(/(\d+)/);

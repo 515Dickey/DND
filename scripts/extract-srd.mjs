@@ -650,6 +650,81 @@ function parseEquipment() {
  * The prerequisite wraps often enough that the category line has to be joined
  * until its bracket closes.
  */
+const BACKGROUND_LABELS = [
+  "Ability Scores",
+  "Feat",
+  "Skill Proficiencies",
+  "Tool Proficiency",
+  "Equipment",
+];
+
+/**
+ * The backgrounds, from "Background Descriptions" to the species chapter.
+ *
+ * The SRD publishes four of the sixteen in the full rules, so this is a short
+ * list by design rather than a truncated parse -- which is why the count is
+ * asserted rather than merely reported.
+ *
+ * Every entry is a bare name on its own line followed by five labelled fields,
+ * so a name is recognised by what comes after it rather than by its shape.
+ */
+function parseBackgrounds() {
+  const start = findLine(/^Background Descriptions$/);
+  if (start < 0) return [];
+  const end = findLine(/^Character Species$/, start);
+  const region = lines.slice(start + 1, end > start ? end : start + 200);
+
+  const found = [];
+  for (let i = 0; i < region.length; i++) {
+    const name = region[i].trim();
+    if (!/^[A-Z][A-Za-z' -]+$/.test(name)) continue;
+    if (!/^Ability Scores:/.test((region[i + 1] || "").trim())) continue;
+
+    // Everything up to the next name, so wrapped fields stay with their label.
+    let stop = region.length;
+    for (let j = i + 2; j < region.length; j++) {
+      if (
+        /^[A-Z][A-Za-z' -]+$/.test(region[j].trim()) &&
+        /^Ability Scores:/.test((region[j + 1] || "").trim())
+      ) {
+        stop = j;
+        break;
+      }
+    }
+
+    const blob = region
+      .slice(i + 1, stop)
+      .filter((l) => !isPageFurniture(l))
+      .join(" ");
+    const at = BACKGROUND_LABELS.map((label) => ({
+      label,
+      at: blob.indexOf(label + ":"),
+    }))
+      .filter((x) => x.at >= 0)
+      .sort((a, b) => a.at - b.at);
+
+    const fields = {};
+    for (let k = 0; k < at.length; k++) {
+      const { label, at: from } = at[k];
+      const to = k + 1 < at.length ? at[k + 1].at : blob.length;
+      fields[label] = dehyphenate(blob.slice(from + label.length + 1, to));
+    }
+
+    found.push({
+      name,
+      abilityScores: fields["Ability Scores"] ?? "",
+      // "Magic Initiate (Cleric) (see "Feats")" -- drop the cross-reference,
+      // keep the qualifier, since which Magic Initiate matters.
+      feat: (fields.Feat ?? "").replace(/\s*\(see [^)]*\)\s*$/i, "").trim(),
+      skills: fields["Skill Proficiencies"] ?? "",
+      tool: fields["Tool Proficiency"] ?? "",
+      equipment: fields.Equipment ?? "",
+    });
+    i = stop - 1;
+  }
+  return found;
+}
+
 function parseFeats() {
   const descAt = findLine(/^Feat Descriptions$/);
   if (descAt < 0) return [];
@@ -823,6 +898,7 @@ const out = {
   classes: {},
   species: parseSpecies(),
   feats: parseFeats(),
+  backgrounds: parseBackgrounds(),
   equipment: parseEquipment(),
 };
 
@@ -905,6 +981,42 @@ for (const name of CLASSES) {
   );
 }
 console.log(problems === 0 ? "\nall classes parsed cleanly" : "\n" + problems + " need checking");
+
+// Backgrounds. The SRD publishes exactly four of the sixteen in the full
+// rules; a different number means the region moved, not that the rules did.
+const bgProblems = [];
+if (out.backgrounds.length !== 4) {
+  bgProblems.push("expected 4 backgrounds, got " + out.backgrounds.length);
+}
+for (const b of out.backgrounds) {
+  const missing = ["abilityScores", "feat", "skills", "tool", "equipment"].filter(
+    (k) => !b[k],
+  );
+  if (missing.length) bgProblems.push(b.name + ": missing " + missing.join(", "));
+  // A label leaking into a neighbouring field means the split went wrong.
+  for (const [k, v] of Object.entries(b)) {
+    if (k === "name") continue;
+    if (/(Ability Scores|Skill Proficiencies|Tool Proficiency|Equipment):/.test(v)) {
+      bgProblems.push(b.name + ": field label inside " + k);
+    }
+  }
+  // Every background names exactly two skills.
+  const named = b.skills.split(" and ").flatMap((x) => x.split(","))
+    .map((x) => x.trim()).filter(Boolean);
+  if (named.length !== 2) bgProblems.push(b.name + ": " + named.length + " skills, expected 2");
+  if (b.feat.length > 60) bgProblems.push(b.name + ": feat looks like prose");
+}
+console.log("");
+console.log(
+  "backgrounds: " +
+    out.backgrounds.map((b) => b.name + " (" + b.skills + ")").join(", "),
+);
+if (bgProblems.length) {
+  for (const m of bgProblems) console.log("  " + m);
+  process.exitCode = 1;
+} else {
+  console.log("all backgrounds parsed cleanly");
+}
 // Set the code rather than exiting: the spell checks below still have to run,
 // and a spell problem must be able to fail the script too.
 if (problems > 0) process.exitCode = 1;

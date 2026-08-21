@@ -5045,6 +5045,40 @@
       "text": "You gain the following benefits. Ability Score Increase. Increase one ability score of your choice by 1, to a maximum of 30. Truesight. You have Truesight with a range of 60 feet. Selling Equipment Equipment fetches half its cost when sold. In contrast, trade goods and valuables—like gems and art objects—retain their full value in the marketplace. “Magic Items” has prices for magic items."
     }
   ],
+  "backgrounds": [
+    {
+      "name": "Acolyte",
+      "abilityScores": "Intelligence, Wisdom, Charisma",
+      "feat": "Magic Initiate (Cleric)",
+      "skills": "Insight and Religion",
+      "tool": "Calligrapher’s Supplies",
+      "equipment": "Choose A or B: (A) Calligrapher’s Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe, 8 GP; or (B) 50 GP"
+    },
+    {
+      "name": "Criminal",
+      "abilityScores": "Dexterity, Constitution, Intelligence",
+      "feat": "Alert",
+      "skills": "Sleight of Hand and Stealth",
+      "tool": "Thieves’ Tools",
+      "equipment": "Choose A or B: (A) 2 Daggers, Thieves’ Tools, Crowbar, 2 Pouches, Traveler’s Clothes, 16 GP; or (B) 50 GP"
+    },
+    {
+      "name": "Sage",
+      "abilityScores": "Constitution, Intelligence, Wisdom",
+      "feat": "Magic Initiate (Wizard)",
+      "skills": "Arcana and History",
+      "tool": "Calligrapher’s Supplies",
+      "equipment": "Choose A or B: (A) Quarterstaff, Calligrapher’s Supplies, Book (history), Parchment (8 sheets), Robe, 8 GP; or (B) 50 GP"
+    },
+    {
+      "name": "Soldier",
+      "abilityScores": "Strength, Dexterity, Constitution",
+      "feat": "Savage Attacker",
+      "skills": "Athletics and Intimidation",
+      "tool": "Choose one kind of Gaming Set (see “Equipment”)",
+      "equipment": "Choose A or B: (A) Spear, Shortbow, 20 Arrows, Gaming Set (same as above), Healer’s Kit, Quiver, Traveler’s Clothes, 14 GP; or (B) 50 GP"
+    }
+  ],
   "equipment": {
     "weapons": [
       {

@@ -182,3 +182,12 @@ attribution and for how to regenerate the data from the source PDF.
 Feats and equipment aren't in yet. Everything remains free text underneath, so
 homebrew and anything outside the SRD works exactly as it always did — the rules
 data fills fields in, it never restricts them.
+
+### Backgrounds
+
+The SRD publishes four of the sixteen backgrounds in the full rules: Acolyte,
+Criminal, Sage, and Soldier. Applying one ticks its two skills — those are named
+by the rules rather than chosen, so the sheet can fill them in — adds its origin
+feat with the rules text, and puts its tool alongside any a class granted. The
+ability scores and the equipment package are choices, so they are shown and left
+to the player. The picker says the list is short because the SRD is.

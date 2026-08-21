@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Character } from "@/lib/types";
 import {
+  applyBackground,
   applyClass,
   applySpecies,
   applySubclass,
@@ -34,6 +35,7 @@ export function SrdPicker({
   const [className, setClassName] = useState("");
   const [classLevel, setClassLevel] = useState(c.level || 1);
   const [speciesName, setSpeciesName] = useState("");
+  const [backgroundName, setBackgroundName] = useState("");
   const [note, setNote] = useState<string | null>(null);
   // null means "follow the sheet": the toggle only pins a choice once the
   // player disagrees with what was worked out from the classes already on it.
@@ -74,17 +76,6 @@ export function SrdPicker({
     };
   }, [alreadyUsed]);
 
-  // Classes this sheet already carries, read back off the feature sources.
-  const appliedClasses = [
-    ...new Set(
-      c.features
-        .map((f) => /^srd:class:(.+)$/.exec(f.source)?.[1])
-        .filter((n): n is string => Boolean(n)),
-    ),
-  ];
-  const otherClasses = appliedClasses.filter((n) => n !== shownClass);
-  const asMulticlass = multiclassChoice ?? otherClasses.length > 0;
-
   const doApplyClass = async () => {
     const d = await ensureData();
     if (!d || !shownClass) return;
@@ -121,8 +112,21 @@ export function SrdPicker({
     setNote(`${shownSpecies}: ${summary.join(" · ")}`);
   };
 
+  const doApplyBackground = async () => {
+    const d = await ensureData();
+    if (!d || !shownBackground) return;
+    let summary: string[] = [];
+    mut((draft) => {
+      const result = applyBackground(draft, d, shownBackground);
+      summary = result.summary;
+      return { ...draft, ...result.patch };
+    });
+    setNote(`${shownBackground}: ${summary.join(" · ")}`);
+  };
+
   const classNames = data ? Object.keys(data.classes) : [];
   const speciesNames = data ? Object.keys(data.species) : [];
+  const backgroundNames = data ? (data.backgrounds ?? []).map((b) => b.name) : [];
 
   // Derive the shown selection rather than syncing state: fall back to what the
   // sheet already says, so returning to this tab doesn't blank the pickers.
@@ -130,12 +134,28 @@ export function SrdPicker({
   const shownClass =
     className || (data && data.classes[firstWordOfClass] ? firstWordOfClass : "");
   const shownSpecies = speciesName || (data && data.species[c.race] ? c.race : "");
+  const shownBackground =
+    backgroundName ||
+    (data?.backgrounds?.some((b) => b.name === c.background) ? c.background : "");
+  const background = data?.backgrounds?.find((b) => b.name === shownBackground);
   const missingText = countMissingText(c);
   const subclass = data && shownClass ? data.classes[shownClass]?.subclass : null;
 
   // The skills this class may choose from, so the sheet can point them out.
   const chosen = data && shownClass ? data.classes[shownClass]?.traits : null;
   const skillInfo = skillChoicesFromTrait(chosen?.["Skill Proficiencies"]);
+
+  // Classes this sheet already carries, read back off the feature sources.
+  const appliedClasses = [
+    ...new Set(
+      c.features
+        .map((f) => /^srd:class:(.+)$/.exec(f.source)?.[1])
+        .filter((n): n is string => Boolean(n)),
+    ),
+  ];
+  const otherClasses = appliedClasses.filter((n) => n !== shownClass);
+  const asMulticlass = multiclassChoice ?? otherClasses.length > 0;
+
 
   return (
     <Panel
@@ -264,6 +284,54 @@ export function SrdPicker({
               Apply
             </button>
           </div>
+
+          <div className="flex flex-wrap items-end gap-2">
+            <Select
+              label="Background"
+              className="min-w-36 flex-1"
+              value={shownBackground}
+              options={[
+                { value: "", label: "Choose a background…" },
+                ...backgroundNames.map((n) => ({ value: n, label: n })),
+              ]}
+              onChange={setBackgroundName}
+            />
+            <button
+              className="btn btn-primary"
+              disabled={!shownBackground}
+              onClick={doApplyBackground}
+            >
+              Apply
+            </button>
+          </div>
+
+          {background && (
+            <div className="formula space-y-0.5">
+              {/*
+                A background's two skills are named outright, so applying it
+                ticks them. The ability scores and the equipment package are
+                choices, so they're shown and left alone.
+              */}
+              <p>
+                Skills {background.skills} · {background.feat} · {background.tool}
+              </p>
+              <p>
+                Your choice: {background.abilityScores} (+2 to one, +1 to another,
+                or +1 to each of the three).
+              </p>
+              <p>{background.equipment}</p>
+            </div>
+          )}
+
+          {/*
+            Worth saying plainly: a player looking for Noble or Entertainer
+            should know the list is short because the SRD is, not because the
+            sheet is missing them.
+          */}
+          <p className="formula">
+            The SRD publishes {backgroundNames.length} of the sixteen backgrounds
+            in the full rules. Any other is still yours to type in by hand.
+          </p>
 
           {note && (
             <p className="text-sm" style={{ color: "var(--good)" }}>
