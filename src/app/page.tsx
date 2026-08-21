@@ -49,7 +49,13 @@ export default function RosterPage() {
   return (
     <main className="mx-auto max-w-5xl px-4 pb-16 pt-8">
       <header className="mb-8 flex items-start justify-between gap-4">
-        <div>
+        <div className="flex items-start gap-3 sm:gap-4">
+          {/* Decorative, and the theme swaps it in CSS -- see .deneir-seal. */}
+          <div
+            className="deneir-seal mt-1 size-14 shrink-0 sm:size-16"
+            aria-hidden="true"
+          />
+          <div>
           <h1 className="display text-3xl text-accent sm:text-4xl">Vellum</h1>
           {/* A dictionary gloss, with the turn at the end doing the work. */}
           <p className="mt-1.5 max-w-md text-sm italic leading-snug text-ink-soft">
@@ -58,6 +64,7 @@ export default function RosterPage() {
             fine parchment, made to outlast its scribe. Yours only has to outlast
             the campaign.
           </p>
+          </div>
         </div>
         <ThemeToggle />
       </header>

@@ -7,7 +7,7 @@ import { useCharacter } from "@/lib/store";
 import { armorClass, healthState, maxHp } from "@/lib/rules";
 import type { Character } from "@/lib/types";
 import { ThemeToggle } from "@/components/Theme";
-import { Empty, Panel } from "@/components/ui";
+import { Panel } from "@/components/ui";
 import { MainTab } from "@/components/tabs/MainTab";
 import { CombatTab } from "@/components/tabs/CombatTab";
 import { SpellsTab } from "@/components/tabs/SpellsTab";
@@ -24,16 +24,33 @@ const TABS = [
 
 type TabKey = (typeof TABS)[number]["key"];
 
+/**
+ * What the page prerenders to, and what shows while the character is read back
+ * out of storage. It is on screen for a moment at most, which is exactly why
+ * the mark belongs here: room to be seen at a size where it reads, and no
+ * competition with anything the player actually needs.
+ */
+function OpeningLedger() {
+  return (
+    <main className="mx-auto max-w-5xl px-4 pt-16">
+      <div className="flex flex-col items-center gap-3 text-ink-faint">
+        {/* The emblem is taller than it is wide; the box matches so the mask
+            fills it rather than shrinking to fit a square. */}
+        <div
+          className="deneir-mark h-20 opacity-60"
+          style={{ aspectRatio: "649 / 956" }}
+          aria-hidden="true"
+        />
+        <p className="text-sm italic">Opening the ledger…</p>
+      </div>
+    </main>
+  );
+}
+
 export default function SheetPage() {
   // useSearchParams needs a Suspense boundary for this page to prerender.
   return (
-    <Suspense
-      fallback={
-        <main className="mx-auto max-w-5xl px-4 pt-10">
-          <Empty>Opening the ledger…</Empty>
-        </main>
-      }
-    >
+    <Suspense fallback={<OpeningLedger />}>
       <Sheet />
     </Suspense>
   );
@@ -57,13 +74,7 @@ function Sheet() {
     [mut],
   );
 
-  if (!ready) {
-    return (
-      <main className="mx-auto max-w-5xl px-4 pt-10">
-        <Empty>Opening the ledger…</Empty>
-      </main>
-    );
-  }
+  if (!ready) return <OpeningLedger />;
 
   if (!character) {
     return (

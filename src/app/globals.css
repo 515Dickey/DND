@@ -543,3 +543,32 @@ input[type="number"] {
 .safe-bottom {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
+
+/* --- The mark of Deneir --------------------------------------------------
+ * A candle above an open eye: the god of writing, scribes and literacy, which
+ * is about as close to a patron as a character sheet is going to get.
+ *
+ * Two paintings of the same disc, swapped by theme in CSS rather than in React.
+ * That means no JavaScript, no flash of the wrong one during hydration, and
+ * only the disc actually in use is ever fetched.
+ */
+.deneir-seal {
+  background-image: url("/deneir-day.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+[data-theme="candle"] .deneir-seal {
+  background-image: url("/deneir-night.png");
+}
+
+/* The traced line art, used as a mask so it takes the current ink colour
+ * instead of carrying its own. Only its alpha is read, so it belongs in both
+ * palettes. It needs roughly 48px of height to stay legible -- below that the
+ * rays collapse into fuzz -- so it is used at 80px and never as an icon. */
+.deneir-mark {
+  background-color: currentColor;
+  -webkit-mask: url("/deneir-line.svg") center / contain no-repeat;
+  mask: url("/deneir-line.svg") center / contain no-repeat;
+}

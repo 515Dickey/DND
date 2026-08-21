@@ -35,3 +35,10 @@ alignment and silently corrupts them, which for game data players rely on is
 worse than failing outright. The generator refuses to finish quietly: it checks
 every class for a complete 20-level table and for table columns bleeding into
 feature names, and exits non-zero if anything looks wrong.
+
+## Artwork
+
+The Deneir holy symbols in `art/` (a candle above an open eye) are AI-generated
+images made for this project. They are not SRD content and are not covered by
+the Creative Commons licence above. Deneir is a deity of the Forgotten Realms
+setting; the name is used here as a nod, not a claim.
