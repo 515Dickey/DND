@@ -222,7 +222,19 @@ export function GearTab({ c, set, mut }: SheetProps) {
         />
       </Panel>
 
-      <Panel title="Money">
+      {/*
+        Waukeen, goddess of trade and coin, minding the purse. Small and at full
+        strength rather than a watermark -- this one is meant to be seen.
+      */}
+      <Panel
+        title="Money"
+        action={
+          <span
+            className="deity deity-waukeen block size-6 opacity-40"
+            aria-hidden="true"
+          />
+        }
+      >
         <div className="grid grid-cols-5 gap-1.5">
           {COINS.map((coin) => (
             <label key={coin.key} className="block">

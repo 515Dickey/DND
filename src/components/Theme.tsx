@@ -69,7 +69,17 @@ export function ThemeToggle() {
       title={next === "candle" ? "Dim for night play" : "Back to daylight"}
       aria-label={next === "candle" ? "Switch to candlelight" : "Switch to daylight"}
     >
-      {theme === "day" ? "☾" : "☀"}
+      {/*
+        Selune's crescent to go dark, Lathander's dawn to come back -- the moon
+        and the sun, so the button still says what it does to anyone who has
+        never heard of either. 32px, not the 20px an icon button usually gets:
+        both symbols carry a ring around their motif, and three levels of detail
+        will not fit in twenty pixels. Tested; at 20px they are grey smudges.
+      */}
+      <span
+        className={`deity ${theme === "day" ? "deity-selune" : "deity-lathander"} block size-8`}
+        aria-hidden="true"
+      />
     </button>
   );
 }

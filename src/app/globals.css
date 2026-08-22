@@ -572,3 +572,81 @@ input[type="number"] {
   -webkit-mask: url("/deneir-line.svg") center / contain no-repeat;
   mask: url("/deneir-line.svg") center / contain no-repeat;
 }
+
+/* --- Holy symbols ---------------------------------------------------------
+ * Forgotten Realms deities, sprinkled where they mean something: Selune and
+ * Lathander on the theme toggle, Waukeen beside the coins, and one faint
+ * watermark per tab. All are masks rather than images, so they take the
+ * current ink colour and belong in both palettes from a single file.
+ */
+.deity {
+  background-color: currentColor;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.deity-lathander {
+  -webkit-mask-image: url("/deity-lathander.png");
+  mask-image: url("/deity-lathander.png");
+}
+.deity-selune {
+  -webkit-mask-image: url("/deity-selune.png");
+  mask-image: url("/deity-selune.png");
+}
+.deity-waukeen {
+  -webkit-mask-image: url("/deity-waukeen.svg");
+  mask-image: url("/deity-waukeen.svg");
+}
+.deity-gond {
+  -webkit-mask-image: url("/deity-gond.svg");
+  mask-image: url("/deity-gond.svg");
+}
+.deity-mystra {
+  -webkit-mask-image: url("/deity-mystra.svg");
+  mask-image: url("/deity-mystra.svg");
+}
+.deity-helm {
+  -webkit-mask-image: url("/deity-helm.svg");
+  mask-image: url("/deity-helm.svg");
+}
+.deity-ilmater {
+  -webkit-mask-image: url("/deity-ilmater.svg");
+  mask-image: url("/deity-ilmater.svg");
+}
+
+/* The tab watermarks.
+ *
+ * `z-index: -1` inside a stacking context, rather than a positive value: a
+ * positioned element paints above ordinary block content, so anything else
+ * would put the watermark on top of the sheet instead of behind it. The
+ * `isolation` on the container keeps that negative layer from falling behind
+ * the page background entirely.
+ *
+ * Faint on purpose. These should be noticed on the second or third session,
+ * never fought with while reading a number mid-combat -- so they are also
+ * inert to the touch. */
+.tab-body {
+  position: relative;
+  isolation: isolate;
+}
+
+.deity-watermark {
+  position: absolute;
+  z-index: -1;
+  top: 0.5rem;
+  right: 0.25rem;
+  width: clamp(9rem, 34vw, 17rem);
+  aspect-ratio: 1;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* Candlelight ink is a pale wash on dark paper, where the same opacity reads
+ * considerably louder than dark ink on parchment. */
+[data-theme="candle"] .deity-watermark {
+  opacity: 0.038;
+}

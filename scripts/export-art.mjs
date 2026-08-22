@@ -68,6 +68,35 @@ async function mark(src, size, dest) {
 }
 
 /**
+ * A deity symbol that arrived as black-on-white rather than black-on-
+ * transparent, keyed to alpha and trimmed to its ink.
+ *
+ * Keying is exact rather than a guess: the art is pure black on pure white with
+ * nothing between but antialiasing, so the alpha channel is simply the inverse
+ * of the luminance, and the soft edges survive instead of being thresholded
+ * into jaggies. Trimming matters more than it sounds -- these arrive with about
+ * 15% margin, and at 32px that margin is the difference between a legible
+ * crescent and a grey smudge.
+ */
+async function keyedMark(src, size, dest) {
+  const grey = await sharp(src).greyscale().raw().toBuffer({ resolveWithObject: true });
+  const { width: W, height: H, channels } = grey.info;
+  const rgba = Buffer.alloc(W * H * 4);
+  for (let i = 0; i < W * H; i++) {
+    rgba[i * 4 + 3] = 255 - grey.data[i * channels];
+  }
+  const keyed = sharp(rgba, { raw: { width: W, height: H, channels: 4 } });
+  await keyed
+    .trim({ threshold: 1 })
+    // Height, not a square: the box that shows these uses `contain`, so sizing
+    // by the long edge is what makes the ink as large as the box allows.
+    .resize({ height: size, fit: "inside" })
+    .png({ compressionLevel: 9 })
+    .toFile(path.join(OUT, dest));
+  return dest;
+}
+
+/**
  * The traced line art is used as a CSS mask so it can take the current ink
  * colour, which means only its alpha is read and its own fill never shows.
  *
@@ -130,7 +159,20 @@ const night = path.join(ART, "deneir-night.png");
 const day = path.join(ART, "deneir-day.png");
 const line = path.join(ART, "deneir-line.svg");
 
-for (const f of [night, day, line]) {
+for (const f of [
+  night,
+  day,
+  line,
+  ...[
+    "lathander-line-preview.png",
+    "selune-line-preview.png",
+    "waukeen-line.svg",
+    "gond-line.svg",
+    "mystra-line.svg",
+    "helm-line.svg",
+    "ilmater-line.svg",
+  ].map((n) => path.join(ART, n)),
+]) {
   if (!existsSync(f)) {
     console.error(`Missing source art: ${f}\nSee art/README.md for the specs.`);
     process.exit(1);
@@ -159,6 +201,17 @@ const written = [
 
   // The themeable mark, used at a size where its detail survives.
   await lineMark(line, "deneir-line.svg"),
+
+  // Holy symbols. Two ride the theme toggle; the rest are pane watermarks, so
+  // they stay SVG -- shown large and faint, where a trace's slight wobble is
+  // invisible and scaling matters more than bytes.
+  await keyedMark(path.join(ART, "lathander-line-preview.png"), 160, "deity-lathander.png"),
+  await keyedMark(path.join(ART, "selune-line-preview.png"), 160, "deity-selune.png"),
+  await lineMark(path.join(ART, "waukeen-line.svg"), "deity-waukeen.svg"),
+  await lineMark(path.join(ART, "gond-line.svg"), "deity-gond.svg"),
+  await lineMark(path.join(ART, "mystra-line.svg"), "deity-mystra.svg"),
+  await lineMark(path.join(ART, "helm-line.svg"), "deity-helm.svg"),
+  await lineMark(path.join(ART, "ilmater-line.svg"), "deity-ilmater.svg"),
 ];
 
 console.log("Wrote:");
