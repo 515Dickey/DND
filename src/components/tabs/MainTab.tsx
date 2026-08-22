@@ -367,9 +367,9 @@ export function MainTab({ c, set, mut, setOverride }: SheetProps) {
         <Panel
           title="Skills"
           action={<span className="label">tap ● to train</span>}
-          /* Left of centre: the skill rows put names on one side and numbers
-             on the other, and the gap between them is the only quiet space. */
-          mark={<DeityMark name="helm" size="15rem" x="38%" />}
+          /* Centred: the skill rows put names on the left and bonuses hard
+             right, so the middle is the one genuinely empty column. */
+          mark={<DeityMark name="helm" size="15rem" x="50%" />}
         >
           <div>
             {SKILLS.map((s) => (
