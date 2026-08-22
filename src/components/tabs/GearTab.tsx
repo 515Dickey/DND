@@ -16,6 +16,7 @@ import {
 } from "@/lib/rules";
 import {
   ConfirmButton,
+  DeityMark,
   Empty,
   NumberInput,
   NumField,
@@ -116,7 +117,12 @@ export function GearTab({ c, set, mut }: SheetProps) {
 
   return (
     <div className="space-y-4">
-      <Panel title="Carrying Capacity">
+      <Panel
+        title="Carrying Capacity"
+        /* Low and to the right, under the Status box: the four stat boxes fill
+           the top of this panel and the bar beneath them leaves room. */
+        mark={<DeityMark name="gond" size="13rem" x="85%" y="50%" />}
+      >
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           <div className="stat-box">
             <div className="label">Carried</div>

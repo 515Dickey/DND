@@ -5,6 +5,7 @@ import { ABILITIES, type AbilityKey, newId, type SpellEntry } from "@/lib/types"
 import { spellAttackBonus, spellSaveDc } from "@/lib/rules";
 import {
   ConfirmButton,
+  DeityMark,
   DerivedStat,
   Empty,
   Field,
@@ -195,7 +196,7 @@ export function SpellsTab({ c, set, mut, setOverride }: SheetProps) {
       </Panel>
 
       <Panel
-        title="Spell Slots"
+        title="Spell Slots" mark={<DeityMark name="mystra" size="14rem" />}
         action={
           <button className="btn btn-sm" onClick={() => setEditSlots((e) => !e)}>
             {editSlots ? "Done" : "Set totals"}

@@ -11,15 +11,19 @@ export function Panel({
   children,
   className = "",
   action,
+  mark,
 }: {
   title?: string;
   children: React.ReactNode;
   className?: string;
   action?: React.ReactNode;
+  /** A holy symbol to sit faintly behind this panel's contents. */
+  mark?: React.ReactNode;
 }) {
   return (
     <section className={`panel ${className}`}>
-      <div className="panel-body">
+      <div className={`panel-body ${mark ? "mark-host" : ""}`}>
+        {mark}
         {title && (
           <h2 className="panel-title">
             <span>{title}</span>
@@ -526,5 +530,39 @@ export function Modal({
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * A holy symbol behind a block of the sheet.
+ *
+ * Placed inside whatever it belongs to -- the Hit Points block, the spell
+ * slots -- so it tracks that content instead of floating at a fixed offset.
+ * The host needs the `mark-host` class; `Panel` adds it for you when given a
+ * `mark`. `x` and `y` nudge it off centre for hosts whose empty space isn't in
+ * the middle.
+ */
+export function DeityMark({
+  name,
+  size = "16rem",
+  x = "50%",
+  y = "50%",
+}: {
+  name: string;
+  size?: string;
+  x?: string;
+  y?: string;
+}) {
+  // Clamped so the mark can never cross its host's edge. The offsets are picked
+  // against a tablet, where these panels are wide; the same percentage on a
+  // phone would hang the mark out over the page.
+  const half = `calc(${size} / 2)`;
+  const inside = (v: string) => `clamp(${half}, ${v}, calc(100% - ${half}))`;
+  return (
+    <span
+      className={`deity deity-watermark deity-${name}`}
+      style={{ width: size, left: inside(x), top: inside(y) }}
+      aria-hidden="true"
+    />
   );
 }

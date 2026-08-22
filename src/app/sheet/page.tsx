@@ -25,26 +25,6 @@ const TABS = [
 type TabKey = (typeof TABS)[number]["key"];
 
 /**
- * A holy symbol behind each tab, faint enough to be found rather than noticed.
- *
- * Chosen for what the page is actually for. Ilmater, who bears suffering, keeps
- * the page with hit points, conditions and death on it. Helm the Watcher takes
- * saves and skills. Mystra is the Weave every spell runs on, and Gond is the
- * god of craft and invention rather than Moradin, whose forge is specifically
- * dwarven and sits oddly behind an elf's backpack.
- *
- * Notes is deliberately bare: writing belongs to Deneir, who is already the
- * mark on the title page, and one page without a god is what keeps the rest
- * from reading as wallpaper.
- */
-const WATERMARK: Partial<Record<TabKey, string>> = {
-  main: "deity-helm",
-  combat: "deity-ilmater",
-  spells: "deity-mystra",
-  gear: "deity-gond",
-};
-
-/**
  * What the page prerenders to, and what shows while the character is read back
  * out of storage. It is on screen for a moment at most, which is exactly why
  * the mark belongs here: room to be seen at a size where it reads, and no
@@ -182,10 +162,7 @@ function Sheet() {
         </nav>
       </header>
 
-      <main className="tab-body safe-bottom mx-auto max-w-5xl px-3 py-4">
-        {WATERMARK[tab] && (
-          <div className={`deity deity-watermark ${WATERMARK[tab]}`} aria-hidden="true" />
-        )}
+      <main className="safe-bottom mx-auto max-w-5xl px-3 py-4">
         {tab === "main" && <MainTab {...props} />}
         {tab === "combat" && <CombatTab {...props} />}
         {tab === "spells" && <SpellsTab {...props} />}

@@ -23,6 +23,7 @@ import {
 } from "@/lib/rules";
 import {
   ConfirmButton,
+  DeityMark,
   DerivedStat,
   Empty,
   Field,
@@ -164,7 +165,10 @@ export function CombatTab({ c, set, mut, setOverride }: SheetProps) {
             </div>
           </div>
 
-          <div className="space-y-2.5">
+          <div className="mark-host space-y-2.5">
+            {/* Centred on the damage/healing column rather than the panel, so
+                it lines up with the stepper instead of the big HP figure. */}
+            <DeityMark name="ilmater" size="13rem" y="46%" />
             <div>
               <span className="label mb-1 block">Damage or healing</span>
               <Stepper value={delta} onChange={setDelta} min={0} label="amount" />

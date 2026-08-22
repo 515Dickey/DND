@@ -618,18 +618,20 @@ input[type="number"] {
   mask-image: url("/deity-ilmater.svg");
 }
 
-/* The tab watermarks.
+/* Watermarks.
  *
- * `z-index: -1` inside a stacking context, rather than a positive value: a
- * positioned element paints above ordinary block content, so anything else
- * would put the watermark on top of the sheet instead of behind it. The
- * `isolation` on the container keeps that negative layer from falling behind
- * the page background entirely.
+ * Centred on whatever hosts them rather than parked in a corner: a mark tied to
+ * the Hit Points block or the spell slots stays put when the content reflows,
+ * and lands where someone reading that panel will eventually notice it.
  *
- * Faint on purpose. These should be noticed on the second or third session,
- * never fought with while reading a number mid-combat -- so they are also
- * inert to the touch. */
-.tab-body {
+ * `z-index: -1` inside an isolated host, rather than a positive value: a
+ * positioned element paints above ordinary block content, so anything else puts
+ * the mark on top of the sheet instead of behind it. Negative keeps it above
+ * the host's own background but under its text.
+ *
+ * Faint on purpose, and inert to the touch -- nothing here may get in the way
+ * of reading a number mid-combat. */
+.mark-host {
   position: relative;
   isolation: isolate;
 }
@@ -637,16 +639,20 @@ input[type="number"] {
 .deity-watermark {
   position: absolute;
   z-index: -1;
-  top: 0.5rem;
-  right: 0.25rem;
-  width: clamp(9rem, 34vw, 17rem);
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
   aspect-ratio: 1;
-  opacity: 0.05;
+  /* Never larger than the block it sits behind: these hosts are half the width
+     on a phone, and a mark sized for a tablet would swamp them. */
+  max-width: 88%;
+  max-height: 88%;
+  opacity: 0.06;
   pointer-events: none;
 }
 
 /* Candlelight ink is a pale wash on dark paper, where the same opacity reads
- * considerably louder than dark ink on parchment. */
+ * considerably louder than dark ink does on parchment. */
 [data-theme="candle"] .deity-watermark {
-  opacity: 0.038;
+  opacity: 0.045;
 }
